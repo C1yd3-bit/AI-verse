@@ -1,0 +1,1207 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-25T00:39:09.026Z",
+  "title": "Design System: AIVerse",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Night ground",
+        "canonical": "#0c0d10",
+        "tonalRamp": [
+          "oklch(15% 0.00656 270.98)",
+          "oklch(26% 0.00656 270.98)",
+          "oklch(38% 0.00656 270.98)",
+          "oklch(49% 0.00656 270.98)",
+          "oklch(61% 0.00656 270.98)",
+          "oklch(72% 0.00656 270.98)",
+          "oklch(84% 0.00656 270.98)",
+          "oklch(95% 0.00656 270.98)"
+        ],
+        "cssCustomProperty": "--ground",
+        "theme": "dark"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Projection surface",
+        "canonical": "#14151d",
+        "tonalRamp": [
+          "oklch(15% 0.01610 279.24)",
+          "oklch(26% 0.01610 279.24)",
+          "oklch(38% 0.01610 279.24)",
+          "oklch(49% 0.01610 279.24)",
+          "oklch(61% 0.01610 279.24)",
+          "oklch(72% 0.01610 279.24)",
+          "oklch(84% 0.01610 279.24)",
+          "oklch(95% 0.01610 279.24)"
+        ],
+        "cssCustomProperty": "--surface",
+        "theme": "dark"
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Field depth",
+        "canonical": "#1b1c27",
+        "tonalRamp": [
+          "oklch(15% 0.02127 280.53)",
+          "oklch(26% 0.02127 280.53)",
+          "oklch(38% 0.02127 280.53)",
+          "oklch(49% 0.02127 280.53)",
+          "oklch(61% 0.02127 280.53)",
+          "oklch(72% 0.02127 280.53)",
+          "oklch(84% 0.02127 280.53)",
+          "oklch(95% 0.02127 280.53)"
+        ],
+        "cssCustomProperty": "--input",
+        "theme": "dark"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Quiet divider",
+        "canonical": "#333542",
+        "tonalRamp": [
+          "oklch(15% 0.02305 278.20)",
+          "oklch(26% 0.02305 278.20)",
+          "oklch(38% 0.02305 278.20)",
+          "oklch(49% 0.02305 278.20)",
+          "oklch(61% 0.02305 278.20)",
+          "oklch(72% 0.02305 278.20)",
+          "oklch(84% 0.02305 278.20)",
+          "oklch(95% 0.02305 278.20)"
+        ],
+        "cssCustomProperty": "--line",
+        "theme": "dark"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Screen text",
+        "canonical": "#f5f3fa",
+        "tonalRamp": [
+          "oklch(15% 0.00950 299.24)",
+          "oklch(26% 0.00950 299.24)",
+          "oklch(38% 0.00950 299.24)",
+          "oklch(49% 0.00950 299.24)",
+          "oklch(61% 0.00950 299.24)",
+          "oklch(72% 0.00950 299.24)",
+          "oklch(84% 0.00950 299.24)",
+          "oklch(95% 0.00950 299.24)"
+        ],
+        "cssCustomProperty": "--text",
+        "theme": "dark"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Caption gray",
+        "canonical": "#b5b7ca",
+        "tonalRamp": [
+          "oklch(15% 0.02690 280.98)",
+          "oklch(26% 0.02690 280.98)",
+          "oklch(38% 0.02690 280.98)",
+          "oklch(49% 0.02690 280.98)",
+          "oklch(61% 0.02690 280.98)",
+          "oklch(72% 0.02690 280.98)",
+          "oklch(84% 0.02690 280.98)",
+          "oklch(95% 0.02690 280.98)"
+        ],
+        "cssCustomProperty": "--muted",
+        "theme": "dark"
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Screening violet",
+        "canonical": "#bda9ff",
+        "tonalRamp": [
+          "oklch(15% 0.12179 294.09)",
+          "oklch(26% 0.12179 294.09)",
+          "oklch(38% 0.12179 294.09)",
+          "oklch(49% 0.12179 294.09)",
+          "oklch(61% 0.12179 294.09)",
+          "oklch(72% 0.12179 294.09)",
+          "oklch(84% 0.12179 294.09)",
+          "oklch(95% 0.12179 294.09)"
+        ],
+        "cssCustomProperty": "--accent",
+        "theme": "dark"
+      },
+      "accent-ink": {
+        "role": "neutral",
+        "displayName": "Violet ink",
+        "canonical": "#211630",
+        "tonalRamp": [
+          "oklch(15% 0.05064 302.07)",
+          "oklch(26% 0.05064 302.07)",
+          "oklch(38% 0.05064 302.07)",
+          "oklch(49% 0.05064 302.07)",
+          "oklch(61% 0.05064 302.07)",
+          "oklch(72% 0.05064 302.07)",
+          "oklch(84% 0.05064 302.07)",
+          "oklch(95% 0.05064 302.07)"
+        ],
+        "cssCustomProperty": "--accent-ink",
+        "theme": "dark"
+      },
+      "error": {
+        "role": "neutral",
+        "displayName": "Error",
+        "canonical": "#ffb0b5",
+        "tonalRamp": [
+          "oklch(15% 0.09279 15.09)",
+          "oklch(26% 0.09279 15.09)",
+          "oklch(38% 0.09279 15.09)",
+          "oklch(49% 0.09279 15.09)",
+          "oklch(61% 0.09279 15.09)",
+          "oklch(72% 0.09279 15.09)",
+          "oklch(84% 0.09279 15.09)",
+          "oklch(95% 0.09279 15.09)"
+        ],
+        "cssCustomProperty": "--error",
+        "theme": "dark"
+      },
+      "success": {
+        "role": "neutral",
+        "displayName": "Success",
+        "canonical": "#b8e5cd",
+        "tonalRamp": [
+          "oklch(15% 0.05715 161.69)",
+          "oklch(26% 0.05715 161.69)",
+          "oklch(38% 0.05715 161.69)",
+          "oklch(49% 0.05715 161.69)",
+          "oklch(61% 0.05715 161.69)",
+          "oklch(72% 0.05715 161.69)",
+          "oklch(84% 0.05715 161.69)",
+          "oklch(95% 0.05715 161.69)"
+        ],
+        "cssCustomProperty": "--success",
+        "theme": "dark"
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Primary hover",
+        "canonical": "#d0c1ff",
+        "tonalRamp": [
+          "oklch(15% 0.08676 295.58)",
+          "oklch(26% 0.08676 295.58)",
+          "oklch(38% 0.08676 295.58)",
+          "oklch(49% 0.08676 295.58)",
+          "oklch(61% 0.08676 295.58)",
+          "oklch(72% 0.08676 295.58)",
+          "oklch(84% 0.08676 295.58)",
+          "oklch(95% 0.08676 295.58)"
+        ],
+        "cssCustomProperty": "--primary-hover",
+        "theme": "dark"
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Secondary action",
+        "canonical": "#242432",
+        "tonalRamp": [
+          "oklch(15% 0.02595 284.50)",
+          "oklch(26% 0.02595 284.50)",
+          "oklch(38% 0.02595 284.50)",
+          "oklch(49% 0.02595 284.50)",
+          "oklch(61% 0.02595 284.50)",
+          "oklch(72% 0.02595 284.50)",
+          "oklch(84% 0.02595 284.50)",
+          "oklch(95% 0.02595 284.50)"
+        ],
+        "cssCustomProperty": "--secondary",
+        "theme": "dark"
+      },
+      "secondary-hover": {
+        "role": "neutral",
+        "displayName": "Secondary hover",
+        "canonical": "#313143",
+        "tonalRamp": [
+          "oklch(15% 0.03185 284.46)",
+          "oklch(26% 0.03185 284.46)",
+          "oklch(38% 0.03185 284.46)",
+          "oklch(49% 0.03185 284.46)",
+          "oklch(61% 0.03185 284.46)",
+          "oklch(72% 0.03185 284.46)",
+          "oklch(84% 0.03185 284.46)",
+          "oklch(95% 0.03185 284.46)"
+        ],
+        "cssCustomProperty": "--secondary-hover",
+        "theme": "dark"
+      },
+      "rail-ground": {
+        "role": "neutral",
+        "displayName": "Dark rail ground",
+        "canonical": "#0b0c10",
+        "cssCustomProperty": "--rail-ground",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.00869 274.28)",
+          "oklch(26% 0.00869 274.28)",
+          "oklch(38% 0.00869 274.28)",
+          "oklch(49% 0.00869 274.28)",
+          "oklch(61% 0.00869 274.28)",
+          "oklch(72% 0.00869 274.28)",
+          "oklch(84% 0.00869 274.28)",
+          "oklch(95% 0.00869 274.28)"
+        ]
+      },
+      "rail-line": {
+        "role": "neutral",
+        "displayName": "Dark rail line",
+        "canonical": "#2b2c35",
+        "cssCustomProperty": "--rail-line",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.01632 280.34)",
+          "oklch(26% 0.01632 280.34)",
+          "oklch(38% 0.01632 280.34)",
+          "oklch(49% 0.01632 280.34)",
+          "oklch(61% 0.01632 280.34)",
+          "oklch(72% 0.01632 280.34)",
+          "oklch(84% 0.01632 280.34)",
+          "oklch(95% 0.01632 280.34)"
+        ]
+      },
+      "navigation-hover": {
+        "role": "neutral",
+        "displayName": "Dark navigation hover",
+        "canonical": "#1b1b27",
+        "cssCustomProperty": "--navigation-hover",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.02314 284.42)",
+          "oklch(26% 0.02314 284.42)",
+          "oklch(38% 0.02314 284.42)",
+          "oklch(49% 0.02314 284.42)",
+          "oklch(61% 0.02314 284.42)",
+          "oklch(72% 0.02314 284.42)",
+          "oklch(84% 0.02314 284.42)",
+          "oklch(95% 0.02314 284.42)"
+        ]
+      },
+      "navigation-selected": {
+        "role": "neutral",
+        "displayName": "Dark navigation selected",
+        "canonical": "#28263e",
+        "cssCustomProperty": "--navigation-selected",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.04365 287.07)",
+          "oklch(26% 0.04365 287.07)",
+          "oklch(38% 0.04365 287.07)",
+          "oklch(49% 0.04365 287.07)",
+          "oklch(61% 0.04365 287.07)",
+          "oklch(72% 0.04365 287.07)",
+          "oklch(84% 0.04365 287.07)",
+          "oklch(95% 0.04365 287.07)"
+        ]
+      },
+      "topbar-line": {
+        "role": "neutral",
+        "displayName": "Dark topbar line",
+        "canonical": "#20212a",
+        "cssCustomProperty": "--topbar-line",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.01704 280.10)",
+          "oklch(26% 0.01704 280.10)",
+          "oklch(38% 0.01704 280.10)",
+          "oklch(49% 0.01704 280.10)",
+          "oklch(61% 0.01704 280.10)",
+          "oklch(72% 0.01704 280.10)",
+          "oklch(84% 0.01704 280.10)",
+          "oklch(95% 0.01704 280.10)"
+        ]
+      },
+      "field-line": {
+        "role": "neutral",
+        "displayName": "Dark field line",
+        "canonical": "#393c50",
+        "cssCustomProperty": "--field-line",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.03478 277.87)",
+          "oklch(26% 0.03478 277.87)",
+          "oklch(38% 0.03478 277.87)",
+          "oklch(49% 0.03478 277.87)",
+          "oklch(61% 0.03478 277.87)",
+          "oklch(72% 0.03478 277.87)",
+          "oklch(84% 0.03478 277.87)",
+          "oklch(95% 0.03478 277.87)"
+        ]
+      },
+      "search-ground": {
+        "role": "neutral",
+        "displayName": "Dark search ground",
+        "canonical": "#181923",
+        "cssCustomProperty": "--search-ground",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.01965 280.16)",
+          "oklch(26% 0.01965 280.16)",
+          "oklch(38% 0.01965 280.16)",
+          "oklch(49% 0.01965 280.16)",
+          "oklch(61% 0.01965 280.16)",
+          "oklch(72% 0.01965 280.16)",
+          "oklch(84% 0.01965 280.16)",
+          "oklch(95% 0.01965 280.16)"
+        ]
+      },
+      "placeholder": {
+        "role": "neutral",
+        "displayName": "Dark placeholder",
+        "canonical": "#b2b3c6",
+        "cssCustomProperty": "--placeholder",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.02690 283.35)",
+          "oklch(26% 0.02690 283.35)",
+          "oklch(38% 0.02690 283.35)",
+          "oklch(49% 0.02690 283.35)",
+          "oklch(61% 0.02690 283.35)",
+          "oklch(72% 0.02690 283.35)",
+          "oklch(84% 0.02690 283.35)",
+          "oklch(95% 0.02690 283.35)"
+        ]
+      },
+      "choice-selected": {
+        "role": "neutral",
+        "displayName": "Dark choice selected",
+        "canonical": "#29223d",
+        "cssCustomProperty": "--choice-selected",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.04964 294.83)",
+          "oklch(26% 0.04964 294.83)",
+          "oklch(38% 0.04964 294.83)",
+          "oklch(49% 0.04964 294.83)",
+          "oklch(61% 0.04964 294.83)",
+          "oklch(72% 0.04964 294.83)",
+          "oklch(84% 0.04964 294.83)",
+          "oklch(95% 0.04964 294.83)"
+        ]
+      },
+      "choice-selected-text": {
+        "role": "neutral",
+        "displayName": "Dark choice selected text",
+        "canonical": "#e3d8ff",
+        "cssCustomProperty": "--choice-selected-text",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(15% 0.05400 298.21)",
+          "oklch(26% 0.05400 298.21)",
+          "oklch(38% 0.05400 298.21)",
+          "oklch(49% 0.05400 298.21)",
+          "oklch(61% 0.05400 298.21)",
+          "oklch(72% 0.05400 298.21)",
+          "oklch(84% 0.05400 298.21)",
+          "oklch(95% 0.05400 298.21)"
+        ]
+      },
+      "light-ground": {
+        "role": "neutral",
+        "displayName": "Light ground",
+        "canonical": "#f6f5fa",
+        "cssCustomProperty": "--ground",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.00670 295.45)",
+          "oklch(26% 0.00670 295.45)",
+          "oklch(38% 0.00670 295.45)",
+          "oklch(49% 0.00670 295.45)",
+          "oklch(61% 0.00670 295.45)",
+          "oklch(72% 0.00670 295.45)",
+          "oklch(84% 0.00670 295.45)",
+          "oklch(95% 0.00670 295.45)"
+        ]
+      },
+      "light-surface": {
+        "role": "neutral",
+        "displayName": "Light surface",
+        "canonical": "#ffffff",
+        "cssCustomProperty": "--surface",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26% 0.00000 89.88)",
+          "oklch(38% 0.00000 89.88)",
+          "oklch(49% 0.00000 89.88)",
+          "oklch(61% 0.00000 89.88)",
+          "oklch(72% 0.00000 89.88)",
+          "oklch(84% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "light-input": {
+        "role": "neutral",
+        "displayName": "Light input",
+        "canonical": "#f2f0f7",
+        "cssCustomProperty": "--input",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.00953 299.24)",
+          "oklch(26% 0.00953 299.24)",
+          "oklch(38% 0.00953 299.24)",
+          "oklch(49% 0.00953 299.24)",
+          "oklch(61% 0.00953 299.24)",
+          "oklch(72% 0.00953 299.24)",
+          "oklch(84% 0.00953 299.24)",
+          "oklch(95% 0.00953 299.24)"
+        ]
+      },
+      "light-line": {
+        "role": "neutral",
+        "displayName": "Light line",
+        "canonical": "#d6d0e1",
+        "cssCustomProperty": "--line",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.02404 301.91)",
+          "oklch(26% 0.02404 301.91)",
+          "oklch(38% 0.02404 301.91)",
+          "oklch(49% 0.02404 301.91)",
+          "oklch(61% 0.02404 301.91)",
+          "oklch(72% 0.02404 301.91)",
+          "oklch(84% 0.02404 301.91)",
+          "oklch(95% 0.02404 301.91)"
+        ]
+      },
+      "light-text": {
+        "role": "neutral",
+        "displayName": "Light text",
+        "canonical": "#211b2b",
+        "cssCustomProperty": "--text",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.03125 301.26)",
+          "oklch(26% 0.03125 301.26)",
+          "oklch(38% 0.03125 301.26)",
+          "oklch(49% 0.03125 301.26)",
+          "oklch(61% 0.03125 301.26)",
+          "oklch(72% 0.03125 301.26)",
+          "oklch(84% 0.03125 301.26)",
+          "oklch(95% 0.03125 301.26)"
+        ]
+      },
+      "light-muted": {
+        "role": "neutral",
+        "displayName": "Light muted",
+        "canonical": "#62596e",
+        "cssCustomProperty": "--muted",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.03496 304.56)",
+          "oklch(26% 0.03496 304.56)",
+          "oklch(38% 0.03496 304.56)",
+          "oklch(49% 0.03496 304.56)",
+          "oklch(61% 0.03496 304.56)",
+          "oklch(72% 0.03496 304.56)",
+          "oklch(84% 0.03496 304.56)",
+          "oklch(95% 0.03496 304.56)"
+        ]
+      },
+      "light-accent": {
+        "role": "primary",
+        "displayName": "Light accent",
+        "canonical": "#6440af",
+        "cssCustomProperty": "--accent",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.16845 293.92)",
+          "oklch(26% 0.16845 293.92)",
+          "oklch(38% 0.16845 293.92)",
+          "oklch(49% 0.16845 293.92)",
+          "oklch(61% 0.16845 293.92)",
+          "oklch(72% 0.16845 293.92)",
+          "oklch(84% 0.16845 293.92)",
+          "oklch(95% 0.16845 293.92)"
+        ]
+      },
+      "light-accent-ink": {
+        "role": "neutral",
+        "displayName": "Light accent ink",
+        "canonical": "#ffffff",
+        "cssCustomProperty": "--accent-ink",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26% 0.00000 89.88)",
+          "oklch(38% 0.00000 89.88)",
+          "oklch(49% 0.00000 89.88)",
+          "oklch(61% 0.00000 89.88)",
+          "oklch(72% 0.00000 89.88)",
+          "oklch(84% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "light-error": {
+        "role": "neutral",
+        "displayName": "Light error",
+        "canonical": "#a72c43",
+        "cssCustomProperty": "--error",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.15849 14.79)",
+          "oklch(26% 0.15849 14.79)",
+          "oklch(38% 0.15849 14.79)",
+          "oklch(49% 0.15849 14.79)",
+          "oklch(61% 0.15849 14.79)",
+          "oklch(72% 0.15849 14.79)",
+          "oklch(84% 0.15849 14.79)",
+          "oklch(95% 0.15849 14.79)"
+        ]
+      },
+      "light-success": {
+        "role": "neutral",
+        "displayName": "Light success",
+        "canonical": "#246441",
+        "cssCustomProperty": "--success",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.08733 156.21)",
+          "oklch(26% 0.08733 156.21)",
+          "oklch(38% 0.08733 156.21)",
+          "oklch(49% 0.08733 156.21)",
+          "oklch(61% 0.08733 156.21)",
+          "oklch(72% 0.08733 156.21)",
+          "oklch(84% 0.08733 156.21)",
+          "oklch(95% 0.08733 156.21)"
+        ]
+      },
+      "light-rail-ground": {
+        "role": "neutral",
+        "displayName": "Light rail ground",
+        "canonical": "#fbfaff",
+        "cssCustomProperty": "--rail-ground",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.00667 295.45)",
+          "oklch(26% 0.00667 295.45)",
+          "oklch(38% 0.00667 295.45)",
+          "oklch(49% 0.00667 295.45)",
+          "oklch(61% 0.00667 295.45)",
+          "oklch(72% 0.00667 295.45)",
+          "oklch(84% 0.00667 295.45)",
+          "oklch(95% 0.00667 295.45)"
+        ]
+      },
+      "light-rail-line": {
+        "role": "neutral",
+        "displayName": "Light rail line",
+        "canonical": "#ddd7e7",
+        "cssCustomProperty": "--rail-line",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.02259 302.90)",
+          "oklch(26% 0.02259 302.90)",
+          "oklch(38% 0.02259 302.90)",
+          "oklch(49% 0.02259 302.90)",
+          "oklch(61% 0.02259 302.90)",
+          "oklch(72% 0.02259 302.90)",
+          "oklch(84% 0.02259 302.90)",
+          "oklch(95% 0.02259 302.90)"
+        ]
+      },
+      "light-navigation-hover": {
+        "role": "neutral",
+        "displayName": "Light navigation hover",
+        "canonical": "#eeeaf5",
+        "cssCustomProperty": "--navigation-hover",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.01526 302.55)",
+          "oklch(26% 0.01526 302.55)",
+          "oklch(38% 0.01526 302.55)",
+          "oklch(49% 0.01526 302.55)",
+          "oklch(61% 0.01526 302.55)",
+          "oklch(72% 0.01526 302.55)",
+          "oklch(84% 0.01526 302.55)",
+          "oklch(95% 0.01526 302.55)"
+        ]
+      },
+      "light-navigation-selected": {
+        "role": "neutral",
+        "displayName": "Light navigation selected",
+        "canonical": "#e9e0f8",
+        "cssCustomProperty": "--navigation-selected",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.03360 302.74)",
+          "oklch(26% 0.03360 302.74)",
+          "oklch(38% 0.03360 302.74)",
+          "oklch(49% 0.03360 302.74)",
+          "oklch(61% 0.03360 302.74)",
+          "oklch(72% 0.03360 302.74)",
+          "oklch(84% 0.03360 302.74)",
+          "oklch(95% 0.03360 302.74)"
+        ]
+      },
+      "light-topbar-line": {
+        "role": "neutral",
+        "displayName": "Light topbar line",
+        "canonical": "#ddd7e7",
+        "cssCustomProperty": "--topbar-line",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.02259 302.90)",
+          "oklch(26% 0.02259 302.90)",
+          "oklch(38% 0.02259 302.90)",
+          "oklch(49% 0.02259 302.90)",
+          "oklch(61% 0.02259 302.90)",
+          "oklch(72% 0.02259 302.90)",
+          "oklch(84% 0.02259 302.90)",
+          "oklch(95% 0.02259 302.90)"
+        ]
+      },
+      "light-field-line": {
+        "role": "neutral",
+        "displayName": "Light field line",
+        "canonical": "#8e819e",
+        "cssCustomProperty": "--field-line",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.04540 305.42)",
+          "oklch(26% 0.04540 305.42)",
+          "oklch(38% 0.04540 305.42)",
+          "oklch(49% 0.04540 305.42)",
+          "oklch(61% 0.04540 305.42)",
+          "oklch(72% 0.04540 305.42)",
+          "oklch(84% 0.04540 305.42)",
+          "oklch(95% 0.04540 305.42)"
+        ]
+      },
+      "light-search-ground": {
+        "role": "neutral",
+        "displayName": "Light search ground",
+        "canonical": "#ffffff",
+        "cssCustomProperty": "--search-ground",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26% 0.00000 89.88)",
+          "oklch(38% 0.00000 89.88)",
+          "oklch(49% 0.00000 89.88)",
+          "oklch(61% 0.00000 89.88)",
+          "oklch(72% 0.00000 89.88)",
+          "oklch(84% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "light-placeholder": {
+        "role": "neutral",
+        "displayName": "Light placeholder",
+        "canonical": "#62596e",
+        "cssCustomProperty": "--placeholder",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.03496 304.56)",
+          "oklch(26% 0.03496 304.56)",
+          "oklch(38% 0.03496 304.56)",
+          "oklch(49% 0.03496 304.56)",
+          "oklch(61% 0.03496 304.56)",
+          "oklch(72% 0.03496 304.56)",
+          "oklch(84% 0.03496 304.56)",
+          "oklch(95% 0.03496 304.56)"
+        ]
+      },
+      "light-primary-hover": {
+        "role": "primary",
+        "displayName": "Light primary hover",
+        "canonical": "#543198",
+        "cssCustomProperty": "--primary-hover",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.15925 293.97)",
+          "oklch(26% 0.15925 293.97)",
+          "oklch(38% 0.15925 293.97)",
+          "oklch(49% 0.15925 293.97)",
+          "oklch(61% 0.15925 293.97)",
+          "oklch(72% 0.15925 293.97)",
+          "oklch(84% 0.15925 293.97)",
+          "oklch(95% 0.15925 293.97)"
+        ]
+      },
+      "light-secondary": {
+        "role": "neutral",
+        "displayName": "Light secondary",
+        "canonical": "#eae5f3",
+        "cssCustomProperty": "--secondary",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.01947 302.20)",
+          "oklch(26% 0.01947 302.20)",
+          "oklch(38% 0.01947 302.20)",
+          "oklch(49% 0.01947 302.20)",
+          "oklch(61% 0.01947 302.20)",
+          "oklch(72% 0.01947 302.20)",
+          "oklch(84% 0.01947 302.20)",
+          "oklch(95% 0.01947 302.20)"
+        ]
+      },
+      "light-secondary-hover": {
+        "role": "neutral",
+        "displayName": "Light secondary hover",
+        "canonical": "#ddd5eb",
+        "cssCustomProperty": "--secondary-hover",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.03102 302.26)",
+          "oklch(26% 0.03102 302.26)",
+          "oklch(38% 0.03102 302.26)",
+          "oklch(49% 0.03102 302.26)",
+          "oklch(61% 0.03102 302.26)",
+          "oklch(72% 0.03102 302.26)",
+          "oklch(84% 0.03102 302.26)",
+          "oklch(95% 0.03102 302.26)"
+        ]
+      },
+      "light-choice-selected": {
+        "role": "neutral",
+        "displayName": "Light choice selected",
+        "canonical": "#e9e0f8",
+        "cssCustomProperty": "--choice-selected",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.03360 302.74)",
+          "oklch(26% 0.03360 302.74)",
+          "oklch(38% 0.03360 302.74)",
+          "oklch(49% 0.03360 302.74)",
+          "oklch(61% 0.03360 302.74)",
+          "oklch(72% 0.03360 302.74)",
+          "oklch(84% 0.03360 302.74)",
+          "oklch(95% 0.03360 302.74)"
+        ]
+      },
+      "light-choice-selected-text": {
+        "role": "neutral",
+        "displayName": "Light choice selected text",
+        "canonical": "#482579",
+        "cssCustomProperty": "--choice-selected-text",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(15% 0.13595 298.40)",
+          "oklch(26% 0.13595 298.40)",
+          "oklch(38% 0.13595 298.40)",
+          "oklch(49% 0.13595 298.40)",
+          "oklch(61% 0.13595 298.40)",
+          "oklch(72% 0.13595 298.40)",
+          "oklch(84% 0.13595 298.40)",
+          "oklch(95% 0.13595 298.40)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Featured film title",
+        "purpose": "Cormorant Garamond film identity."
+      },
+      "headline": {
+        "displayName": "Page headline",
+        "purpose": "General page titles in DM Sans Variable."
+      },
+      "title": {
+        "displayName": "Section title",
+        "purpose": "Section h2 in DM Sans Variable."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Readable interface copy."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form labels and secondary metadata."
+      },
+      "profile-headline": {
+        "displayName": "Profile headline",
+        "purpose": "Compact profile-local page heading; 28px with 1.25 line height."
+      },
+      "profile-headline-mobile": {
+        "displayName": "Profile headline mobile",
+        "purpose": "24px profile page heading at the existing 700px breakpoint."
+      },
+      "profile-section": {
+        "displayName": "Profile section",
+        "purpose": "20px task-panel heading, shared by desktop and mobile."
+      },
+      "profile-name": {
+        "displayName": "Profile name",
+        "purpose": "Muted 15px account name beneath the compact page heading."
+      },
+      "profile-name-mobile": {
+        "displayName": "Profile name mobile",
+        "purpose": "14px account name at the 700px breakpoint."
+      },
+      "profile-list-title": {
+        "displayName": "Profile list title",
+        "purpose": "16px recent-engagement list heading."
+      },
+      "profile-content-title": {
+        "displayName": "Profile content title",
+        "purpose": "15px owned-content row title."
+      },
+      "profile-total": {
+        "displayName": "Profile total",
+        "purpose": "22px real recorded totals with tabular numerals."
+      },
+      "profile-description": {
+        "displayName": "Profile description",
+        "purpose": "14px explanations and empty states with 1.6 line height."
+      },
+      "profile-support": {
+        "displayName": "Profile support",
+        "purpose": "13px statistics labels, theme status and mobile tabs."
+      },
+      "profile-label": {
+        "displayName": "Profile label",
+        "purpose": "14px desktop task tabs, summary values, field labels and disclosure actions."
+      },
+      "profile-initials": {
+        "displayName": "Profile initials",
+        "purpose": "24px actual initials in a compact circular marker."
+      },
+      "profile-initials-mobile": {
+        "displayName": "Profile initials mobile",
+        "purpose": "22px actual initials at the 700px breakpoint."
+      },
+      "assistant-welcome": {
+        "displayName": "Assistant welcome",
+        "purpose": "Assistant-local 23px welcome h3, inherited 500 weight and 1.5 line height."
+      },
+      "assistant-film-title": {
+        "displayName": "Assistant film title",
+        "purpose": "Assistant-local 18px linked result title, weight 500 and inherited 1.5 line height."
+      },
+      "assistant-footnote": {
+        "displayName": "Assistant footnote",
+        "purpose": "Assistant-only 10px rule-based/catalog disclosure and tabular character counter, line height 1.5."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background .18s ease,color .18s ease",
+        "purpose": "Primary and secondary button hover transitions."
+      },
+      {
+        "name": "artwork-hover",
+        "value": "transform .3s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Artwork scales to 1.025 on hover; reduced motion removes scaling."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}.film-art:hover img{transform:none}}",
+        "purpose": "Source rule removes decorative transition, animation, and smooth scrolling."
+      },
+      {
+        "name": "assistant-enter",
+        "value": "assistant-enter .25s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Assistant drawer translates from 28px to 0; animation removed by prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-min",
+        "value": "1600px"
+      },
+      {
+        "name": "compact-desktop-max",
+        "value": "1250px"
+      },
+      {
+        "name": "tablet-max",
+        "value": "1050px"
+      },
+      {
+        "name": "mobile-max",
+        "value": "700px"
+      }
+    ],
+    "themes": {
+      "dark": {
+        "selector": ":root",
+        "colorScheme": "dark",
+        "variables": {
+          "--ground": "{colors.ground}",
+          "--surface": "{colors.surface}",
+          "--input": "{colors.input}",
+          "--line": "{colors.line}",
+          "--text": "{colors.text}",
+          "--muted": "{colors.muted}",
+          "--accent": "{colors.accent}",
+          "--accent-ink": "{colors.accent-ink}",
+          "--error": "{colors.error}",
+          "--success": "{colors.success}",
+          "--rail-ground": "{colors.rail-ground}",
+          "--rail-line": "{colors.rail-line}",
+          "--navigation-hover": "{colors.navigation-hover}",
+          "--navigation-selected": "{colors.navigation-selected}",
+          "--topbar-line": "{colors.topbar-line}",
+          "--field-line": "{colors.field-line}",
+          "--search-ground": "{colors.search-ground}",
+          "--placeholder": "{colors.placeholder}",
+          "--primary-hover": "{colors.primary-hover}",
+          "--secondary": "{colors.secondary}",
+          "--secondary-hover": "{colors.secondary-hover}",
+          "--choice-selected": "{colors.choice-selected}",
+          "--choice-selected-text": "{colors.choice-selected-text}"
+        }
+      },
+      "light": {
+        "selector": ":root[data-theme=\"light\"]",
+        "colorScheme": "light",
+        "variables": {
+          "--ground": "{colors.light-ground}",
+          "--surface": "{colors.light-surface}",
+          "--input": "{colors.light-input}",
+          "--line": "{colors.light-line}",
+          "--text": "{colors.light-text}",
+          "--muted": "{colors.light-muted}",
+          "--accent": "{colors.light-accent}",
+          "--accent-ink": "{colors.light-accent-ink}",
+          "--error": "{colors.light-error}",
+          "--success": "{colors.light-success}",
+          "--rail-ground": "{colors.light-rail-ground}",
+          "--rail-line": "{colors.light-rail-line}",
+          "--navigation-hover": "{colors.light-navigation-hover}",
+          "--navigation-selected": "{colors.light-navigation-selected}",
+          "--topbar-line": "{colors.light-topbar-line}",
+          "--field-line": "{colors.light-field-line}",
+          "--search-ground": "{colors.light-search-ground}",
+          "--placeholder": "{colors.light-placeholder}",
+          "--primary-hover": "{colors.light-primary-hover}",
+          "--secondary": "{colors.light-secondary}",
+          "--secondary-hover": "{colors.light-secondary-hover}",
+          "--choice-selected": "{colors.light-choice-selected}",
+          "--choice-selected-text": "{colors.light-choice-selected-text}"
+        }
+      }
+    },
+    "profileGeometry": {
+      "source": "src/app/profile/profile.css",
+      "container": {
+        "maxWidth": "1040px",
+        "padding": "32px 30px 64px",
+        "mobilePadding": "24px 20px 44px"
+      },
+      "initials": {
+        "desktop": "64px",
+        "mobile": "56px",
+        "rounded": "{rounded.initials}"
+      },
+      "taskTabs": {
+        "gap": "24px; distributed at max-width 700px",
+        "minHeight": "48px",
+        "topMargin": "28px; 24px at max-width 700px",
+        "selectedBorder": "2px solid var(--accent)",
+        "focus": "2px solid var(--accent); offset 4px",
+        "behavior": "One visible native hidden tabpanel; roving focus, Arrow/Home/End and supported hash history."
+      },
+      "accountSummary": {
+        "maxWidth": "700px",
+        "columns": "180px minmax(0,1fr)",
+        "gap": "24px",
+        "rowPadding": "14px 0",
+        "mobileColumns": "112px minmax(0,1fr)",
+        "mobileGap": "16px",
+        "behavior": "Four read-only rows; editing and secondary settings appear on request."
+      },
+      "themeChoice": {
+        "rounded": "{rounded.sm}",
+        "minHeight": "56px",
+        "minWidth": "150px; flexible at max-width 700px",
+        "padding": "12px 16px; 12px at max-width 700px",
+        "radioSize": "18px",
+        "selectedBorder": "1px solid var(--accent)",
+        "focusOutline": "2px solid var(--accent); offset 4px",
+        "behavior": "Native Dark/Light radios with decorative Moon/Sun SVG icons; no miniature illustrations."
+      },
+      "panelState": "Hidden tasks stay mounted; pending account edits and opened studio child state survive task switches.",
+      "footer": "Shared footer omitted only on /profile."
+    },
+    "assistantGeometry": {
+      "source": "src/app/assistant.css",
+      "approval": ".impeccable/mocks/assistant/option-a.png.json",
+      "contract": ".impeccable/surface-assistant.md",
+      "drawer": {
+        "width": "440px",
+        "maxWidth": "100%",
+        "height": "100dvh",
+        "mobile": "width:100%; border-left:0 at max-width:700px",
+        "border": "1px solid var(--line) on left",
+        "backdrop": "{components.assistant-backdrop.backgroundColor}"
+      },
+      "layout": {
+        "header": "max(18px, env(safe-area-inset-top)) 24px 16px; 20px horizontal at max-width:700px",
+        "scroll": "flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:24px;20px on phone",
+        "composer": "flex:0 0 auto;padding:14px 20px max(14px, env(safe-area-inset-bottom));border-top:1px solid var(--line)",
+        "topbar": "search/launcher grid at max-width:700px; shared demo notice hidden only from 701px to 1250px"
+      },
+      "shapes": {
+        "message": "{rounded.assistant-message}",
+        "filterAndRefine": "{rounded.assistant-pill}",
+        "composerAndArtwork": "{rounded.base}",
+        "sendStop": "50%; 44px square"
+      },
+      "focus": {
+        "controls": "2px solid var(--accent); outline-offset:4px",
+        "textarea": "2px solid var(--accent); outline-offset:3px",
+        "behavior": "Native showModal/Escape; close restores launcher focus; body scroll locked while open."
+      },
+      "behavior": "One scrolling conversation/results region with anchored composer; Enter sends, Shift+Enter newline, composition input respected. New search clears filters/conversation. Eight in-memory turns; no chat persistence.",
+      "reducedMotion": "@media(prefers-reduced-motion:reduce){.assistant-drawer[open]{animation:none}}",
+      "scope": "Approved component extension only; all existing palette, typography and other primitives remain unchanged."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Violet primary action with dark text and visible keyboard focus.",
+      "html": "<button class=\"ds-primary\">View details</button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:10px 25px;border-radius:5px;font:600 14px var(--body-font);border:0;cursor:pointer;transition:background .18s ease,color .18s ease;background:var(--accent);color:var(--accent-ink)}.ds-primary:hover{background:var(--primary-hover)}.ds-primary:disabled{cursor:not-allowed;opacity:.5}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-auth:focus-visible,.ds-nav a:focus-visible,.ds-choice:focus-visible,.ds-art:focus-visible,.ds-fusion select:focus-visible,.ds-fusion button:focus-visible,.ds-save:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Subdued alternative action, including navigation away from empty states.",
+      "html": "<button class=\"ds-secondary\">Explore all samples</button>",
+      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:10px 25px;border-radius:5px;font:600 14px var(--body-font);border:0;cursor:pointer;transition:background .18s ease,color .18s ease;background:var(--secondary);color:var(--text)}.ds-secondary:hover{background:var(--secondary-hover)}.ds-secondary:disabled{cursor:not-allowed;opacity:.5}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-auth:focus-visible,.ds-nav a:focus-visible,.ds-choice:focus-visible,.ds-art:focus-visible,.ds-fusion select:focus-visible,.ds-fusion button:focus-visible,.ds-save:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+    },
+    {
+      "name": "Account field",
+      "kind": "input",
+      "refersTo": "input-auth",
+      "description": "Visible label, semantic themed field, and native email autocomplete.",
+      "html": "<label class=\"ds-field\">Email<input class=\"ds-auth\" name=\"email\" type=\"email\" autocomplete=\"email\" maxlength=\"254\"></label>",
+      "css": ".ds-field{display:grid;gap:7px;color:var(--text);font:15px/1.5 var(--body-font);max-width:440px}.ds-auth{min-height:46px;color:var(--text);border:1px solid var(--line);border-radius:5px;background:var(--input);padding:10px 13px;font:inherit;caret-color:var(--accent)}.ds-auth:disabled{opacity:.5}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-auth:focus-visible,.ds-nav a:focus-visible,.ds-choice:focus-visible,.ds-art:focus-visible,.ds-fusion select:focus-visible,.ds-fusion button:focus-visible,.ds-save:focus-visible{outline:2px solid var(--accent);outline-offset:4px}:host-context([data-theme=\"light\"]) :is(input,select,textarea){border-color:var(--field-line)}"
+    },
+    {
+      "name": "Search field",
+      "kind": "input",
+      "refersTo": "search",
+      "description": "User-approved pill-shaped shared search; retains existing field colors and focus treatment.",
+      "html": "<form class=\"ds-search\" action=\"#search\" role=\"search\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input name=\"q\" aria-label=\"Search the demo catalog\" placeholder=\"What do you feel like watching?\"><button type=\"submit\" aria-label=\"Search\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg></button></form>",
+      "css": ".ds-search{display:flex;align-items:center;gap:16px;border:1px solid var(--field-line);border-radius:9999px;background:var(--search-ground);height:47px;padding:0 15px;min-width:0;font-family:var(--body-font)}.ds-search>svg{color:var(--accent);flex-shrink:0}.ds-search input{background:none;border:0;color:var(--text);width:100%;outline:none;font:16px var(--body-font);min-width:0;caret-color:var(--accent)}.ds-search input::placeholder{color:var(--placeholder);opacity:1}.ds-search button{display:none}.ds-search:focus-within{outline:2px solid var(--accent);outline-offset:3px}.ds-search button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:1050px){.ds-search{padding-inline:11px;gap:10px}.ds-search input{font-size:14px}}@media(max-width:700px){.ds-search{height:44px;gap:10px}.ds-search>svg{width:19px}.ds-search button{display:flex;align-items:center;justify-content:center;background:none;color:var(--accent);border:0;min-width:30px;min-height:36px;cursor:pointer}}:host-context([data-theme=\"light\"]) :is(input,select,textarea){border-color:var(--field-line)}"
+    },
+    {
+      "name": "Labeled navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Desktop rail links with current-page semantics; mobile retains labels.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#home\" aria-current=\"page\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z\"/><path d=\"M9 21v-8h6v8\"/></svg>Home</a><a href=\"#reels\">Reels</a><a href=\"#movies\">Movies</a><a href=\"#fusion\">Fusion</a></nav>",
+      "css": ".ds-nav{display:grid;gap:7px;width:162px;font:14px/1.5 var(--body-font)}.ds-nav a{min-height:49px;display:flex;align-items:center;gap:17px;padding:12px 17px;color:var(--muted);border-radius:5px;text-decoration:none}.ds-nav a:hover{background:var(--navigation-hover);color:var(--text)}.ds-nav a[aria-current=page]{background:var(--navigation-selected);color:var(--text)}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-auth:focus-visible,.ds-nav a:focus-visible,.ds-choice:focus-visible,.ds-art:focus-visible,.ds-fusion select:focus-visible,.ds-fusion button:focus-visible,.ds-save:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:700px){.ds-nav{width:100%;grid-template-columns:repeat(4,1fr);gap:4px}.ds-nav a{padding:10px 6px;justify-content:center;gap:7px;font-size:12px;min-height:44px}}"
+    },
+    {
+      "name": "Preference choice",
+      "kind": "chip",
+      "refersTo": "choice",
+      "description": "Pressed-state preference button; selection is also communicated by a check.",
+      "html": "<button class=\"ds-choice\" type=\"button\" aria-pressed=\"true\">Romance<svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg></button>",
+      "css": ".ds-choice{display:flex;justify-content:space-between;align-items:center;gap:24px;min-height:48px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:12px 15px;font:15px/1.5 var(--body-font);cursor:pointer}.ds-choice:hover:not(:disabled){border-color:var(--accent)}.ds-choice[aria-pressed=true]{background:var(--choice-selected);border-color:var(--accent);color:var(--choice-selected-text)}.ds-choice:disabled{cursor:not-allowed;opacity:.5}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-auth:focus-visible,.ds-nav a:focus-visible,.ds-choice:focus-visible,.ds-art:focus-visible,.ds-fusion select:focus-visible,.ds-fusion button:focus-visible,.ds-save:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:700px){.ds-choice{font-size:13px;padding:11px 12px}}"
+    },
+    {
+      "name": "Film card",
+      "kind": "card",
+      "refersTo": "artwork-card",
+      "description": "Source-derived text and artwork framing. Preview uses an honest placeholder, not remote or fabricated media.",
+      "html": "<article class=\"ds-film\"><a class=\"ds-art\" href=\"#detail\" aria-label=\"View details for The last greenhouse\"><span>Sample artwork</span></a><h3><a href=\"#detail\">The last greenhouse</a></h3><p>Sci-fi <span>Global inspiration</span><span>2m 58s</span><span>AI-generated demo</span></p></article>",
+      "css": ".ds-film{max-width:420px;color:var(--text);font-family:var(--body-font)}.ds-film a{color:inherit;text-decoration:none}.ds-art{display:block;position:relative;aspect-ratio:1.83;border-radius:5px;overflow:hidden;background:var(--surface)}.ds-art>span{position:absolute;inset:0;display:grid;place-content:center;color:var(--muted);font-size:12px}.ds-film h3{font-size:18px;font-weight:500;margin:8px 0 5px}.ds-film h3 a:hover{color:var(--accent)}.ds-film p{display:flex;flex-wrap:wrap;margin:0;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}.ds-film p span:before{content:'|';padding:0 7px;color:#707589}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-auth:focus-visible,.ds-nav a:focus-visible,.ds-choice:focus-visible,.ds-art:focus-visible,.ds-fusion select:focus-visible,.ds-fusion button:focus-visible,.ds-save:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.ds-film h3 a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:700px){.ds-art{aspect-ratio:1.8}.ds-film h3{font-size:19px;margin-top:9px}}"
+    },
+    {
+      "name": "Fusion form",
+      "kind": "custom",
+      "refersTo": "fusion",
+      "description": "Grouped native filters with readable labels and a violet submit action.",
+      "html": "<form class=\"ds-fusion\" action=\"#fusion\"><div class=\"ds-fusion-title\"><h2>Fusion</h2><p>Create a mix inspired by what you love</p></div><label>Content inspiration<select name=\"region\"><option value=\"korean\">Korean</option><option value=\"all\">Any inspiration</option></select></label><label>Genre<select name=\"genre\"><option value=\"romance\">Romance</option><option value=\"all\">Any genre</option></select></label><label>Format<select name=\"format\"><option value=\"reels\">Reels</option><option value=\"movies\">Movies</option></select></label><button>Find my mix</button></form>",
+      "css": ".ds-fusion{display:grid;grid-template-columns:minmax(240px,1.8fr) repeat(3,minmax(115px,1fr)) auto;gap:27px;align-items:end;padding:17px 18px 17px 23px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-family:var(--body-font);color:var(--text)}.ds-fusion-title{align-self:center;border-right:1px solid var(--line);padding-right:20px}.ds-fusion-title h2{font-size:24px;line-height:1.2;margin:0;letter-spacing:-.015em}.ds-fusion-title p{font-size:12px;color:var(--muted);margin:3px 0 0}.ds-fusion label{font-size:12px;color:var(--muted);display:grid;gap:5px;min-width:0}.ds-fusion select{border:1px solid var(--field-line);border-radius:5px;background:var(--input);padding:9px 10px;color:var(--text);width:100%;height:40px;font:13px var(--body-font)}.ds-fusion button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:10px 25px;border-radius:5px;font:600 14px var(--body-font);border:0;cursor:pointer;transition:background .18s ease,color .18s ease;padding:10px 20px;background:var(--accent);color:var(--accent-ink);white-space:nowrap}.ds-fusion button:hover{background:var(--primary-hover)}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-auth:focus-visible,.ds-nav a:focus-visible,.ds-choice:focus-visible,.ds-art:focus-visible,.ds-fusion select:focus-visible,.ds-fusion button:focus-visible,.ds-save:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:1050px){.ds-fusion{grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.ds-fusion-title{grid-column:1/-1;border:0}.ds-fusion button{grid-column:1/-1}}@media(max-width:700px){.ds-fusion{padding:18px 16px;grid-template-columns:1fr}.ds-fusion select{height:44px;font-size:14px}.ds-fusion button{min-height:46px;grid-column:auto}}@media(prefers-reduced-motion:reduce){.ds-fusion button{transition:none}}"
+    },
+    {
+      "name": "Watch later",
+      "kind": "button",
+      "description": "Browser-local demo save control; preview illustrates its saved state.",
+      "html": "<button class=\"ds-save\" type=\"button\" aria-pressed=\"true\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg>Saved on this device</button>",
+      "css": ".ds-save{display:flex;align-items:center;gap:11px;min-height:44px;background:none;border:0;color:#e6e3f3;padding:4px 0;font:14px/1.5 var(--body-font);cursor:pointer}.ds-save:hover{color:var(--accent)}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-auth:focus-visible,.ds-nav a:focus-visible,.ds-choice:focus-visible,.ds-art:focus-visible,.ds-fusion select:focus-visible,.ds-fusion button:focus-visible,.ds-save:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:700px){.ds-save{font-size:12px}}"
+    },
+    {
+      "name": "Profile initials",
+      "kind": "custom",
+      "refersTo": "profile-initials",
+      "description": "Actual account initials in the compact 64px desktop/56px mobile circular identity exception; no portrait raster.",
+      "html": "<span class=\"ds-profile-initials\" aria-label=\"Account initials\">AM</span>",
+      "css": ".ds-profile-initials{display:grid;place-items:center;width:64px;height:64px;flex:0 0 64px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:24px/1 var(--body-font)}@media(max-width:700px){.ds-profile-initials{width:56px;height:56px;flex-basis:56px;font-size:22px}}"
+    },
+    {
+      "name": "Profile task tabs",
+      "kind": "nav",
+      "description": "Semantic tabs select exactly one mounted panel. This static style preview shows Account selected; application code owns roving focus, keyboard selection and hash history.",
+      "html": "<div class=\"ds-profile-tabs\" role=\"tablist\" aria-label=\"Profile sections\"><button type=\"button\" role=\"tab\" aria-selected=\"true\" aria-controls=\"ds-account\" id=\"ds-account-tab\">Account</button><button type=\"button\" role=\"tab\" aria-selected=\"false\" aria-controls=\"ds-content\" id=\"ds-content-tab\" tabindex=\"-1\">Content</button><button type=\"button\" role=\"tab\" aria-selected=\"false\" aria-controls=\"ds-statistics\" id=\"ds-statistics-tab\" tabindex=\"-1\">Statistics</button><button type=\"button\" role=\"tab\" aria-selected=\"false\" aria-controls=\"ds-appearance\" id=\"ds-appearance-tab\" tabindex=\"-1\">Appearance</button></div><section class=\"ds-profile-panel\" id=\"ds-account\" role=\"tabpanel\" aria-labelledby=\"ds-account-tab\" tabindex=\"0\">Account details</section><section id=\"ds-content\" role=\"tabpanel\" aria-labelledby=\"ds-content-tab\" hidden></section><section id=\"ds-statistics\" role=\"tabpanel\" aria-labelledby=\"ds-statistics-tab\" hidden></section><section id=\"ds-appearance\" role=\"tabpanel\" aria-labelledby=\"ds-appearance-tab\" hidden></section>",
+      "css": ".ds-profile-tabs{display:flex;gap:24px;border-bottom:1px solid var(--line);font:14px/1.5 var(--body-font)}.ds-profile-tabs button{min-height:48px;padding:10px 2px;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:var(--muted);font:inherit;cursor:pointer}.ds-profile-tabs button[aria-selected=true]{border-bottom-color:var(--accent);color:var(--accent)}.ds-profile-tabs button:hover{color:var(--text)}.ds-profile-tabs button:focus-visible,.ds-profile-panel:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.ds-profile-panel{padding-top:28px;color:var(--text);font:600 20px/1.4 var(--body-font)}@media(max-width:700px){.ds-profile-tabs{gap:0;justify-content:space-between;font-size:13px}.ds-profile-panel{padding-top:24px}}",
+      "refersTo": "profile-tab"
+    },
+    {
+      "name": "Profile appearance choice",
+      "kind": "custom",
+      "refersTo": "profile-theme-choice",
+      "description": "Compact native saved-appearance radio with decorative Moon/Sun SVGs, accent selection and separate keyboard focus.",
+      "html": "<fieldset class=\"ds-theme-options\"><legend class=\"ds-theme-legend\">Saved appearance</legend><label class=\"ds-theme-option\"><input type=\"radio\" name=\"ds-appearance\" value=\"dark\" checked><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.44.402.784a6.25 6.25 0 0 0 8.268 8.268c.344-.215.806-.004.803.42\"/></svg><span>Dark</span></label><label class=\"ds-theme-option\"><input type=\"radio\" name=\"ds-appearance\" value=\"light\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42\"/></svg><span>Light</span></label></fieldset>",
+      "css": ".ds-theme-options{display:flex;flex-wrap:wrap;gap:16px;border:0;padding:0;margin:0;min-width:0;font:15px/1.5 var(--body-font);color:var(--text)}.ds-theme-legend{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.ds-theme-option{display:flex;align-items:center;gap:12px;min-height:56px;min-width:150px;padding:12px 16px;border:1px solid var(--line);border-radius:5px;cursor:pointer}.ds-theme-option:has(input:checked){border-color:var(--accent);color:var(--accent)}.ds-theme-option:hover{background:var(--surface)}.ds-theme-option input{width:18px;height:18px;margin:0;accent-color:var(--accent)}.ds-theme-option:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:4px}.ds-theme-option:has(input:disabled){cursor:wait}.ds-theme-option input:disabled{opacity:.5}@media(max-width:700px){.ds-theme-options{gap:12px}.ds-theme-option{min-width:0;flex:1;gap:10px;padding:12px}}"
+    },
+    {
+      "name": "Profile account summary",
+      "kind": "custom",
+      "refersTo": "profile-summary-row",
+      "description": "Four private account rows at rest; Edit details opens the form. Native More settings keeps secondary links available without showing them initially.",
+      "html": "<section class=\"ds-account\"><div class=\"ds-account-heading\"><h2>Account details</h2><button class=\"ds-account-edit\" type=\"button\">Edit details</button></div><dl class=\"ds-account-summary\"><div><dt>Full name</dt><dd>Sample account</dd></div><div><dt>Email address</dt><dd>sample@example.test</dd></div><div><dt>Age</dt><dd>30</dd></div><div><dt>Contact number</dt><dd>Not added</dd></div></dl><details class=\"ds-account-more\"><summary>More settings</summary><div><a href=\"#interests\">Manage your interests</a><a href=\"#optional\">Optional personal information</a></div></details></section>",
+      "css": ".ds-account{max-width:700px;color:var(--text);font:14px/1.5 var(--body-font)}.ds-account-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.ds-account-heading h2{margin:0;font:600 20px/1.4 var(--body-font);letter-spacing:-.015em}.ds-account-edit{min-height:44px;padding:10px 25px;border:0;border-radius:5px;background:var(--secondary);color:var(--text);font:600 14px var(--body-font);cursor:pointer;transition:background .18s ease,color .18s ease}.ds-account-edit:hover{background:var(--secondary-hover)}.ds-account-summary{margin:18px 0 0}.ds-account-summary>div{display:grid;grid-template-columns:180px minmax(0,1fr);gap:24px;padding-block:14px;border-bottom:1px solid var(--line)}.ds-account-summary dt{color:var(--muted)}.ds-account-summary dd{margin:0;overflow-wrap:anywhere}.ds-account-more{margin-top:24px}.ds-account-more summary{width:fit-content;cursor:pointer;min-height:44px;align-content:center;color:var(--muted)}.ds-account-more summary:hover{color:var(--text)}.ds-account-more>div{display:flex;align-items:flex-start;flex-direction:column;gap:4px;margin-top:4px}.ds-account-more a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent);text-underline-offset:3px}.ds-account-edit:focus-visible,.ds-account-more summary:focus-visible,.ds-account-more a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:700px){.ds-account-summary>div{grid-template-columns:112px minmax(0,1fr);gap:16px}}@media(prefers-reduced-motion:reduce){.ds-account-edit{transition:none}}"
+    },
+    {
+      "name": "Ask AIVerse drawer",
+      "kind": "custom",
+      "refersTo": "assistant-drawer",
+      "description": "Approved A drawer style preview: one scroll region, local message/filter/refinement shapes and anchored composer. Application code owns native modal, request, result and account behavior; preview controls illustrate styling.",
+      "html": "<section class=\"ds-assistant\" aria-label=\"Ask AIVerse preview\"><header class=\"ds-assistant-header\"><div class=\"ds-assistant-heading\"><h2>Ask AIVerse</h2><button class=\"ds-assistant-close\" type=\"button\" aria-label=\"Close Ask AIVerse\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m18 6-12 12M6 6l12 12\"/></svg></button></div><div class=\"ds-assistant-subheading\"><p>Catalog helper · Demo</p><button type=\"button\">New search</button></div></header><div class=\"ds-assistant-scroll\"><h3 class=\"ds-assistant-welcome\">What do you feel like watching?</h3><p class=\"ds-assistant-user\">Cat cooking spaghetti</p><p class=\"ds-assistant-reply\">Search the sample catalog with the recognized filters below.</p><ul class=\"ds-assistant-filters\"><li><span>Keywords: </span>cat cooking spaghetti</li></ul><a class=\"ds-assistant-film-title\" href=\"#sample-detail\">One table for two</a><p class=\"ds-assistant-meta\">Reel · 1m 15s · AI-generated demo</p><div class=\"ds-assistant-refine\"><p>Refine your search</p><div><button type=\"button\">Shorter</button><button type=\"button\">More comedy</button><button type=\"button\">In Tagalog</button></div></div></div><form class=\"ds-assistant-composer\" action=\"#sample-search\"><div class=\"ds-assistant-field\"><textarea aria-label=\"Your viewing request\" rows=\"2\" maxlength=\"500\" placeholder=\"What do you feel like watching?\"></textarea><button class=\"ds-assistant-send\" type=\"submit\" aria-label=\"Send message\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m5 12 7-7 7 7M12 5v14\"/></svg></button></div><p class=\"ds-assistant-footnote\">Rule-based discovery · Sample artwork, no live playback<span>0/500</span></p></form></section>",
+      "css": ".ds-assistant{display:flex;flex-direction:column;width:440px;max-width:100%;height:100dvh;max-height:100dvh;overflow:hidden;border:0;border-left:1px solid var(--line);background:var(--ground);color:var(--text);font:15px/1.5 var(--body-font)}.ds-assistant-header{flex:0 0 auto;padding:max(18px, env(safe-area-inset-top)) 24px 16px;border-bottom:1px solid var(--line)}.ds-assistant-heading,.ds-assistant-subheading{display:flex;align-items:center;justify-content:space-between;gap:12px}.ds-assistant-heading h2{margin:0;font-size:24px;font-weight:600;letter-spacing:-.015em}.ds-assistant-close{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:0;border-radius:var(--radius);background:transparent;color:var(--muted);cursor:pointer}.ds-assistant-close:hover{background:var(--navigation-hover);color:var(--text)}.ds-assistant-subheading{color:var(--muted);font-size:12px}.ds-assistant-subheading p{margin:0}.ds-assistant-subheading button{min-height:44px;padding:0;border:0;background:transparent;color:var(--accent);font:12px var(--body-font);cursor:pointer}.ds-assistant-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:24px}.ds-assistant-welcome{margin:0 0 10px;font-size:23px;font-weight:500}.ds-assistant-user{width:fit-content;max-width:92%;margin:22px 0 18px auto;padding:12px 15px;border-radius:12px 12px 3px 12px;background:var(--navigation-selected);color:var(--text);overflow-wrap:anywhere;white-space:pre-wrap;font-size:14px}.ds-assistant-reply{margin:0;font-size:15px;line-height:1.65}.ds-assistant-filters{display:flex;flex-wrap:wrap;gap:7px;list-style:none;padding:0;margin:16px 0 24px}.ds-assistant-filters li{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:12px;overflow-wrap:anywhere}.ds-assistant-filters span{color:var(--muted)}.ds-assistant-film-title{color:var(--text);text-decoration:none;font-size:18px;font-weight:500}.ds-assistant-film-title:hover{color:var(--accent)}.ds-assistant-meta{margin:5px 0 0;color:var(--muted);font-size:12px;line-height:1.65}.ds-assistant-refine{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}.ds-assistant-refine p{margin:0 0 10px;color:var(--muted);font-size:12px}.ds-assistant-refine>div{display:flex;flex-wrap:wrap;gap:8px}.ds-assistant-refine button{min-height:44px;padding:9px 13px;border:1px solid var(--field-line);border-radius:999px;background:transparent;color:var(--text);font:13px var(--body-font);cursor:pointer}.ds-assistant-refine button:hover{background:var(--navigation-hover)}.ds-assistant-composer{flex:0 0 auto;padding:14px 20px max(14px, env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--ground)}.ds-assistant-field{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--field-line);border-radius:var(--radius);background:var(--input)}.ds-assistant-field textarea{resize:none;width:100%;min-width:0;max-height:100px;padding:4px;font:14px/1.5 var(--body-font);border:0;background:transparent;color:var(--text);caret-color:var(--accent)}.ds-assistant-field textarea::placeholder{color:var(--placeholder);opacity:1}.ds-assistant-send{flex:0 0 44px;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--accent);color:var(--accent-ink);cursor:pointer}.ds-assistant-send:hover{background:var(--primary-hover)}.ds-assistant button:focus-visible,.ds-assistant a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.ds-assistant textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.ds-assistant button:disabled{cursor:not-allowed;opacity:.5}.ds-assistant-footnote{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin:9px 0 0;color:var(--muted);font-size:10px;line-height:1.5}.ds-assistant-footnote span{flex-shrink:0;font-variant-numeric:tabular-nums}.ds-assistant-modal::backdrop{background:rgb(0 0 0 / .36)}.ds-assistant-modal[open]{animation:ds-assistant-enter .25s cubic-bezier(.16,1,.3,1)}@keyframes ds-assistant-enter{from{transform:translateX(28px)}to{transform:translateX(0)}}@media(max-width:700px){.ds-assistant{width:100%;border-left:0}.ds-assistant-header{padding-inline:20px}.ds-assistant-scroll{padding:20px}}@media(prefers-reduced-motion:reduce){.ds-assistant-modal[open]{animation:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Late-night screening room",
+    "overview": "Content authority update2026-10-25: runtime mock data is removed. Earlier demo film, sample artwork, fixture identifier/duration and browser-local demo-save rules in this sidecar are historical records of the retired demonstration. Current application content comes only from the published database; auth uses approved published covers or a quiet empty panel, and interests use verified account APIs. Fixtures belong only in tests. PRODUCT.md and published-only home/auth amendments supersede those obsolete content rules; visual tokens and component styles are unchanged.\n\nArtwork leads; the surrounding interface recedes into restrained surfaces. Dark remains the default screening room; the user-requested light appearance adds pale grounds, dark ink and deeper violet controls. Violet gives actions and selected states a consistent point of orientation. Film titles bring a literary serif voice into a practical sans-serif interface.\n\nThis system is extracted from the global stylesheet, shared components, font imports and profile implementation. The supplied cinematic sidebar reference remains the home authority; `.impeccable/surface-home.md` retains that composition. The current minimal profile contract lives in `.impeccable/surface-profile.md`; the former all-visible C overview is historical at `.impeccable/history/profile-overview-before-minimal.md`. This merge records implemented visual rules; bounded browser evidence and remaining finish/method gates are recorded in the delivery vault, not inferred from this document.\n\n**Key Characteristics:",
+    "keyCharacteristics": [
+      "Cinematic artwork with readable foreground captions.",
+      "Dark or light tonal layers, quiet borders, and restrained violet actions.",
+      "Expressive serif film titles paired with readable sans-serif controls.",
+      "Explicit demo status and accessible, labeled interactions."
+    ],
+    "rules": [
+      {
+        "name": "The Honest Accent Rule",
+        "body": "Use violet to identify interaction and selection; never use visual emphasis to imply unavailable playback or fabricated live activity.",
+        "section": "colors"
+      },
+      {
+        "name": "The Artwork Contrast Rule",
+        "body": "Featured-film and auth artwork captions retain their dark screening-room text/accent scope in either appearance; switching the document to light must not turn captions dark over artwork.",
+        "section": "colors"
+      },
+      {
+        "name": "The Quiet Interface Rule",
+        "body": "Reserve Cormorant Garamond for the featured film title; controls and general page headings use DM Sans Variable.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "**Do** use semantic violet and neutral tokens for controls and surface hierarchy in both appearances.",
+      "**Do** pair locally bundled DM Sans Variable controls with Cormorant Garamond featured-film titles.",
+      "**Do** preserve visible demo disclosure, explicit detail actions, and browser-local save language.",
+      "**Do** retain labeled navigation, visible keyboard focus, semantic form labels, and reduced-motion behavior.",
+      "**Do** keep current fixture data separate from image-reference example metadata."
+    ],
+    "donts": [
+      "**Don't** invent live playback, activity counts, endorsements, or production catalog availability.",
+      "**Don't** add a carousel or auto-advance to the approved sidebar home composition.",
+      "**Don't** add unimplemented cyan UI tokens, floating-card shadows, or pill-shaped defaults beyond the approved shared search and assistant-local filter/refinement controls.",
+      "**Don't** compress desktop navigation labels into unreadable mobile controls.",
+      "**Don't** infer visual SHIP, method completion or release acceptance from this source documentation pass."
+    ]
+  }
+}

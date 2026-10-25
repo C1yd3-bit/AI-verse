@@ -1,0 +1,93 @@
+# Local development
+
+[[Home]] · [[04 Operations/Runbook|Runbook]] · [[03 Delivery/Release Checklist|Release checklist]]
+
+## Project and Obsidian
+
+Project root: `<project-root>`.
+
+Choose Obsidian **Open folder as vault**, then `<project-root>\docs\vault`. Open Home. Built-in plugins only; this does not install Obsidian.
+
+## Application
+
+Use Node 24.x and npm, open PowerShell in the project root:
+
+```powershell
+npm ci
+if (-not (Test-Path .env.local)) { Copy-Item .env.example .env.local }
+npm run dev
+```
+
+Use the printed loopback origin, normally `http://127.0.0.1:3000`. This workspace currently has an ignored account-mode local environment. The example defaults to demo; never copy over a configured local file. Restart Next.js after environment edits. Keep local auth callback URLs consistent with the origin.
+
+## Isolated local Supabase
+
+Local Supabase is the user's chosen database/backend for now. Continue using project `aiverse-ana` and the active ignored `.env.local`; its API URL is exactly `http://127.0.0.1:55321`, with account mode enabled and local keys. The current local file has no publishable-key override. Demo catalog/artwork remains a separate choice from authenticated local persistence.
+
+The ignored `.env.hosted.local` profile is staged and inactive. It is deferred rather than a blocker to local development. Do not activate that profile, apply hosted migrations or change the hosted project during the current local work. See [[04 Operations/Hosted Environment]] and [[02 Architecture/Decisions#ADR-015 — Local Supabase for now]].
+
+Requires Docker and Supabase CLI. Configuration uses project `aiverse-ana`, API `127.0.0.1:55321`, PostgreSQL 55322, shadow DB 55320 and captured-mail UI 55324. The dedicated Docker network requests a loopback default, but that option does not prove the actual host bindings. Latest inspection advertises wildcard Docker bindings; host-only exposure is not certified. First inspect whether the network exists; create it only if absent:
+
+```powershell
+docker network inspect aiverse-ana-local
+# Only if absent:
+docker network create --driver bridge --opt com.docker.network.bridge.host_binding_ipv4=127.0.0.1 aiverse-ana-local
+supabase start --network-id aiverse-ana-local -x realtime,storage-api,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
+```
+
+Do not capture/print the CLI credential summary into chat, logs or this vault. Verify container port bindings locally. Apply ordered migrations without resetting data using the CLI's local migration procedure (`supabase migration up --local`). Read `supabase/README.md` before schema or role changes; do not use a database reset on existing data.
+
+`supabase/config.toml` keeps email confirmation enabled. Test messages are captured locally at `http://127.0.0.1:55324`; no external SMTP delivery is proved. Auth accepts the `/auth/callback` routes for localhost/127.0.0.1:3000. The local HTTP integration now exercises normal signup, captured Mailpit confirmation and PKCE callback cookie exchange through onboarding/preferences and logout, alongside isolated temporary confirmed users for other checks.
+
+Local project credentials are stored in ignored `.env.local`. For a new machine, obtain that machine's local values privately from the CLI and enter them directly in the file. Preserve existing database data when restarting the stack; do not reset it or remove its volumes. Future hosted use requires a separate activation decision and verification, while this local setup remains the development target. No admin is seeded: bootstrap a verified Auth UUID via a trusted owner connection and restricted audit, as documented in `supabase/README.md`.
+
+## Configuration contract
+
+- `NEXT_PUBLIC_APP_MODE=demo|account`: browser-local demo preferences or authenticated persistence.
+- `NEXT_PUBLIC_APP_URL`: exact app origin.
+- `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`: public project configuration; the adapter also accepts `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+- `SUPABASE_SERVICE_ROLE_KEY`: server-only internal reconciliation/playback operations; never a public variable.
+- `AIVERSE_CATALOG_MODE=demo|live`: labeled fixtures or published database projection. Live can be empty; it never fabricates media.
+- `AIVERSE_ENABLE_STREAM_UPLOADS=false`: leave disabled until rights, provider and budget gates pass.
+- `AIVERSE_WORKER_SECRET`: random 32+ character server-only bearer secret for the internal media worker.
+- `AIVERSE_RETENTION_DAYS`: leave empty until retention approval; the worker accepts an integer from 30 to 365 days and otherwise leaves cleanup disabled.
+- `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_STREAM_API_TOKEN`, `CLOUDFLARE_STREAM_WEBHOOK_SECRET`, `CLOUDFLARE_STREAM_SIGNING_KEY_ID`, `CLOUDFLARE_STREAM_SIGNING_PRIVATE_KEY`: server-only provider configuration. Current token issuance uses the authenticated provider API; signing-key placeholders do not imply local JWT signing exists.
+
+Enter secrets only in the ignored local file or approved hosting secret store. `NEXT_PUBLIC_` values may be bundled for browsers. Keep external uploads disabled while running local integration tests.
+
+The user declined creation of the Cloudflare Stream token. Keep Stream unconfigured and `AIVERSE_ENABLE_STREAM_UPLOADS=false`; neither the local database nor the staged hosted profile supplies licensed media or live provider access.
+
+## Verification layers
+
+```powershell
+npm run typecheck
+npm run lint
+npm run format:check
+npm test
+npm run build
+```
+
+With local Supabase and an account-mode app at `127.0.0.1:3000`:
+
+```powershell
+npm run test:integration
+npm run test:onboarding
+node tests/local-media-integration.mjs
+npm run smoke
+```
+
+The HTTP integration scripts are local-only and refuse the wrong API origin. They create randomized temporary accounts and clean up only their owned records/messages. Account checks include real Mailpit confirmation/PKCE, preferences/logout, owner-isolated library save/delete and actual studio/report/appeal HTTP column queries. The media script races four real PostgREST reservation requests, expecting three accepted/one denied, and checks version/publication/replay/removal boundaries using simulated provider facts. It passes after the fair-processing migration; it performs no Cloudflare binary upload or deletion. Review a cleanup warning before rerunning; do not delete unrelated accounts or reset the database.
+
+Apply every ordered migration, including 005 RPC/binding/text hardening, 006 public creators, 007 fair processing/terminal deletion and 008 duration-derived playback windows. Exact final totals/check outcomes belong to the parent/reviewer evidence. The earlier privileged browser gate was resolved by explicit human approval limited to two disposable personas on isolated `aiverse-ana`; creator/candidate/administrator workflows were exercised and all exact accounts/dependent records and temporary credentials removed afterward. Fourteen valid desktop/mobile captures received independent finish review with no material visual blocker in observed states. Moderator-only browser and actual player coverage remain unverified. See [[03 Delivery/Authenticated Browser Verification]].
+
+The parent checked only configuration flags: local Supabase URL remains exactly `http://127.0.0.1:55321`, uploads remain false and Cloudflare account/token values remain empty. This does not configure hosted services or authorize future production personas. Processing evidence in browser review was explicitly simulated at ninety seconds; private preview correctly reported unconfigured playback, and no video was published.
+
+PGlite provides meaningful SQL/RLS tests with emulated Auth; local integration adds actual local Auth and PostgREST. Choosing local Supabase does not itself establish a new migration, persistence or integration test result; current evidence belongs in [[03 Delivery/Verification]] and the Build Log. Hosted email/cookies, Cloudflare, real licensed playback and deployment need separate evidence when those stages are authorized. CI currently runs the portable Node/PGlite suite, not Docker integrations. See [[03 Delivery/Release Checklist]] for open gates.
+
+## Current account/OTP extension
+
+Migrations 009/010 were applied only to isolated local `aiverse-ana` through transactional container SQL plus migration history, preserving the existing volume. Two local service restarts loaded the custom code-only confirmation template; email contains six digits without a fallback confirmation link. Keep credentials/mail codes out of terminal output and chat. Google provider readiness is false; external Google credentials/setup and real OAuth remain pending.
+
+`npm run test:onboarding` exercises real Mailpit OTP signup, wrong/fixture-timestamp-expired/resend/superseded/replayed-code cases, private profile/preferences, verified-owner denial, rollback and consent clearing. The updated existing account integration also passes; earlier confirmation-link documentation is historical, not the current signup contract. Both tests clean their exact fixtures. Current parent checks pass 153 tests/19 files, typecheck/lint/format, 36-page build and 28 HTTP smokes.
+
+Observed mobile390/desktop1505 account browser journey passes through verification, private information, interests, optional ethnicity skip, awaited save/dashboard, edit/reload and logout. Two exact disposable accounts (journey and fresh unconfirmed label recaptures), private profiles/messages and temporary credentials were removed. Fourteen valid account captures were reviewed. Keyboard/reduced-motion mechanisms were inspected in source; exhaustive runtime coverage is not claimed. Independent backend verdict is ACCEPT; formal design disposition remains FIX for static-plate/method persistence, with no remaining material UI repair. See [[02 Architecture/Account Onboarding]], [[03 Delivery/Auth Onboarding Verification]] and [[03 Delivery/Auth Onboarding Design Review]]. Existing release and privacy/service gates remain open.

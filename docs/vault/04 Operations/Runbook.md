@@ -1,0 +1,61 @@
+# Runbook
+
+[[Home]] · [[04 Operations/Local Development|Local development]] · [[03 Delivery/Release Checklist|Release checklist]] · [[02 Architecture/Media Provider|Media provider]] · [[02 Architecture/Trust Controls|Trust controls]]
+
+## Accepting a slice
+
+Read STATE.md and LOOP.md. Run relevant checks, preserve failure evidence and obtain independent ACCEPT/REJECT. Distinguish PGlite SQL, real local Auth/PostgREST, mocked provider responses, browser behavior and external delivery. A successful build does not close visual or operational gates. UI follows the approved A composition and bounded Impeccable review; final human design/asset acceptance remains open.
+
+## Provider activation checklist
+
+Current readiness and evidence: [[03 Delivery/Studio Upload Verification]]. `npm run media:preflight` is a read-only, redacted configuration/file prerequisite report; `ready:true` is not live-service verification. Keep Stream disabled until explicit activation, token authorization, costs and rights-cleared media are ready. The current user has not superseded the earlier token decline. A Cloudflare connector login does not install application credentials. For local testing, deliberate authenticated maintenance ticks can reconcile provider processing without exposing loopback publicly; Studio Refresh only rereads the database. Public webhook hosting/tunnels require separate authorization.
+Use a dedicated authorized test account and licensed media. In the ignored local file or approved secret store, set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (or supported publishable key), `SUPABASE_SERVICE_ROLE_KEY`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_STREAM_API_TOKEN`, `CLOUDFLARE_STREAM_WEBHOOK_SECRET`, and random 32+ character `AIVERSE_WORKER_SECRET`. `NEXT_PUBLIC_APP_URL` must be the real test origin; account and catalog modes are deliberate independent settings. `CLOUDFLARE_STREAM_SIGNING_KEY_ID` and `CLOUDFLARE_STREAM_SIGNING_PRIVATE_KEY` remain placeholders for future local signing; current token creation uses the provider API.
+
+Leave `AIVERSE_ENABLE_STREAM_UPLOADS=false` until upload limits, duration, rights, retention and spending policies are approved. Only then deliberately enable it and restart the app. Do not put any service-role, worker or Cloudflare credential under `NEXT_PUBLIC_`. Do not log upload grants, signed playback URLs, request authorization headers or raw provider responses.
+
+Manually register the HTTPS `/api/webhooks/stream` endpoint with Cloudflare and keep the returned webhook secret server-only. Local loopback alone cannot receive provider callbacks; any external test endpoint/tunnel requires a separately authorized setup. The webhook verifies exact raw bytes and freshness before durable event deduplication. Test signature failures, duplicate and late notifications with the configured service; local mocks do not prove registration.
+
+## Upload grant recovery
+
+Quota reservation/idempotency happens before provider grant issuance. Operation metadata is an application recovery key, not provider-enforced idempotency. A timeout may have created a real asset. If an outcome is uncertain, do not repeat the grant request or clear its operation state blindly.
+
+A trusted operator must look up provider evidence privately, verify asset UID, creator/operation metadata, reservation ID, signed-only delivery setting, duration and processing state against the exact stored operation, then bind/reconcile through the trusted service-role path. Keep unknown assets private-only/quarantined. If ownership or operation evidence cannot be established, keep the reservation unavailable and investigate/delete the orphan through the authorized provider workflow. Expired/cancelled operations must remain nonpublishable; late evidence schedules cleanup instead of resurrecting content. Record safe operation/incident identifiers and decisions in restricted audit, never bearer URLs/tokens.
+
+## Review and playback
+
+Review the exact revision thumbnail alongside its video and metadata. Thumbnail upload is optional and limited to the creator's latest unreserved draft; reservation freezes it. A saved thumbnail must load/decode before the decision UI is enabled. Failure requires Reload thumbnail; do not approve unseen present artwork. Public application thumbnails recheck active publication on every uncached request, while previously received bytes cannot be recalled from a viewer's device. Do not mistake this local cover boundary for measured Stream segment/token revocation.
+Studio drafts have immutable versions. Review the exact version and its metadata through a short-lived authorized private preview; only approved creators upload, only administrators grant creator roles, and moderators review content. Revising an approved asset/metadata produces a new version; it cannot silently replace the active public approved version.
+
+`/api/playback/[id]` issues grants only after database entitlement and current provider readiness/signed-only checks. Migration015 uses verified version duration plus60seconds, minimum60, maximum1260 for Movies and300 for Reels. The API retains the original absolute expiry and rechecks asset/version/duration after provider work. Hide/removal/suspension deny new grants in application state, while existing Movie tokens may last up to21minutes. Actual interruption/cache behavior is unmeasured; these are implementation bounds, not an approved revocation SLA.
+
+Full-film uploads: choose Movie for THE CALL and TARU, both within20minutes/500MB. Above200MB the app uses TUS chunks; no compression or original-file change is required. Under the unchanged30-minute monthly allowance, wait for THE CALL's processing/reconciliation before reserving TARU: first hold1200, actual737, then remaining1063 admits TARU930. Studio Refresh rereads database state; an authenticated maintenance tick or verified webhook must reconcile provider readiness. Interrupted transfers remain uncertain and never trigger a blind new grant. See [[03 Delivery/Full Film Verification]].
+
+## Media maintenance worker
+
+`POST /api/internal/media` requires `Authorization: Bearer <AIVERSE_WORKER_SECRET>` and configured server-side database/provider credentials. Use an approved operator worker that reads the secret from protected environment storage at runtime and sends the HTTP header privately. Never type the secret into chat, shell history, request logs, public URLs or a browser. No automatic schedule is configured by this repository.
+
+The endpoint first claims up to ten eligible private processing assets in least-recently-polled order using two-minute leases, queries the provider privately and reconciles ready/error evidence. This fair queue prevents unfinished early assets from starving later ones; nonready assets and provider request failures remain for later ticks. It then expires upload reservations and claims up to ten deletion jobs, calls provider deletion and durably records completion/failure. Deletion jobs use a two-minute lease and exponential retry capped at one hour; after ten attempts they become `exhausted`. Provider 404 counts as deleted. Queued assets become `deleting`, including migration backfill, and terminal callbacks cannot restore them. Monitor pending/retry/processing/exhausted jobs using restricted operator access. On exhaustion investigate account scope, UID, provider response and connectivity privately; confirm provider existence before any manual retry/reset and retain an audit trail. Never mark deletion complete merely to clear a queue. Recheck permissions and application denial even while cleanup is retrying.
+
+## Trust, policy and retention
+
+Moderation/operations APIs implement reports, hide/remove, administrator suspension, incident-bound appeals and audited quota overrides. Report reasons, appeals and suspension details are private. Use documented role checks and do not resolve your own report or grant yourself privileges. Defaults remain three uploads per UTC day and thirty minutes per UTC month; per-video maximum is3minutes for Reels and20minutes for Movies. Overrides retain format caps. The user's full-film choice authorizes local support; operational costs, failure accounting and case-retention policy still need approval before live creator use.
+
+`ops_summary()` provides aggregate queue/storage/client-claimed watch counters, not billable provider delivery or reliable revenue. Configure actual provider stored/delivered-minute measurement, budget owners, alert thresholds and escalation actions; thresholds are not configured here. No ad-revenue claim is made.
+
+`purge_operational_events(cutoff)` is service-role-only, retaining one to 365 days and deleting at most 1,000 old watch events plus 1,000 provider events associated with deleted assets per invocation. The media HTTP worker optionally invokes it only when `AIVERSE_RETENTION_DAYS` is an integer from 30 to 365; empty/invalid values leave retention disabled. No worker schedule or policy approval is supplied. Keep this setting empty and retention automation disabled until approval; retain live-asset deduplication evidence. Reports, appeals and audit history need separate approved case retention. Rights, prohibited-content, copyright, privacy and appeal procedures need accountable review; this implementation does not invent a legal policy.
+
+## Backup, recovery and incidents
+
+Before beta, approve backup frequency, encryption/access, RPO/RTO and retention; restore a backup into an isolated test environment and prove Auth/schema/data and published/private separation. No configured backup or successful restore drill is claimed.
+
+During a live incident, use audited controls to restrict affected uploads/playback, preserve safe event/operation identifiers, reconcile provider/database state and rotate compromised secrets through approved stores. Do not blindly replay into hidden/removed records. Verify with separate owner/other-user/guest sessions before reopening access, then record impact, recovery and follow-up. Actual on-call ownership and escalation contacts remain release gates.
+
+## Local troubleshooting
+
+Use Node 24; `npm.cmd` avoids PowerShell npm script policy changes. Preserve the lockfile on install errors. Inspect startup validation and port availability without dumping environment values. For local Auth, check exact origin/callback and captured email at 55324. Diagnose the isolated stack without resetting existing data. If temporary integration cleanup fails, inspect only the script's temporary accounts/IDs. Hosted configuration must never be substituted into local-only tests.
+
+The latest integration exercises real captured-mail confirmation/PKCE, authenticated preferences/logout, owner-isolated saved-library CRUD and real studio/report/appeal HTTP queries. The initial automatic refusal of privileged browser personas was subsequently resolved by explicit human approval limited to the isolated `aiverse-ana` stack. Two disposable accounts exercised application/approval, library Fusion, revision/rejection, suspension/appeal and administrator Operations controls. Fourteen valid full-page captures at desktop 1440/mobile 390 widths show no overflow or material visual blocker in observed states. Temporary accounts, roles, videos and dependent records were removed and absence checked; the temporary credential file was removed. See [[03 Delivery/Authenticated Browser Verification]].
+
+The film preview correctly displayed “Playback is not configured”; processing evidence was locally simulated at ninety seconds. No Cloudflare I/O, actual video or publication occurred. A separate rejected first revision remained rejected after a second draft was saved. Administrator use of shared film-review controls does not prove a moderator-only browser session; moderator privilege boundaries have separate SQL/HTTP integration evidence. This authorization was scoped to disposable local verification and does not authorize external accounts, production access or rollout.
+
+CI uses read-only permissions, no project secrets and no deployment; see [checkout documentation](https://github.com/actions/checkout) and [setup-node documentation](https://github.com/actions/setup-node) for the verified action inputs. A local workflow file is not proof of a remote CI run.

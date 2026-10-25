@@ -1,0 +1,74 @@
+.reels-page .film-grid-portrait {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 14px;
+  margin-top: 14px;
+}
+
+.reels-page .film-grid-portrait .film-item {
+  min-width: 0;
+}
+
+.reels-page .film-grid-portrait .film-art {
+  aspect-ratio: 9 / 16;
+}
+
+.reels-page .film-grid-portrait h3 {
+  margin: 10px 0 6px;
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.reels-page .film-grid-portrait h3 a {
+  display: flex;
+  align-items: flex-start;
+  min-height: 44px;
+}
+
+.reels-page .film-grid-portrait .film-meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.reels-page .film-grid-portrait .film-meta span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.reels-page .film-grid-portrait .film-meta span + span::before {
+  content: none;
+}
+
+.reels-page .film-grid-portrait .film-meta span:nth-child(2),
+.reels-page .film-grid-portrait .film-meta span:last-child {
+  grid-column: 1 / -1;
+}
+
+.reels-page .film-grid-portrait .film-meta span:nth-child(3) {
+  grid-column: 2;
+  grid-row: 1;
+  white-space: nowrap;
+}
+
+@media (min-width: 701px) {
+  .reels-page .film-grid-portrait {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px 18px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .reels-page .film-grid-portrait {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1600px) {
+  .reels-page .film-grid-portrait {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: 20px;
+  }
+}

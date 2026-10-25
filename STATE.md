@@ -1,0 +1,273 @@
+# AIVerse build state
+
+## High Priority — Remove runtime mock data and publish GitHub source
+
+- Goal: Make the app show only real published database content or honest empty/unavailable states, then publish the reviewed source to the user's public C1yd3-bit/AI-verse repository.
+- Brief: User explicitly requested removal of mock data and upload to the repository shown in their screenshot. Preserve real local accounts, private data and supplied original films. Move deterministic sample catalog into tests only; no fake movie cards/auth artwork or demo fallback in runtime. Exclude secrets, local Supabase state, downloaded media, account/provider screenshots and design/mock/evidence binaries from the public Git tree. Preserve historical local design evidence; no deployment, billing or provider mutation. Commit/publish is authorized by this request; remote repository is currently empty and public. Connector write was rejected403; authenticated CLI publication is authorized.
+- Acceptance:
+  - [x] Production discovery/home/auth consume published content only; empty and unavailable states are explicit with no seeded demo fallback.
+  - [x] Sample records remain isolated test fixtures; runtime sample artwork removed from served public assets and legacy mock-preference modules removed.
+  - [x] Meaningful regression tests, TypeScript/lint/format/build, browser desktop/mobile checks and independent ACCEPT cover removal.
+  - [ ] Review exact Git upload manifest for secrets/private artifacts/media, retaining source, migrations, tests and documentation; preserve original account data.
+  - [ ] Publish to verified C1yd3-bit/AI-verse without overwriting remote work; verify remote branch/tree/commit and record source/runtime/service limits.
+- Status: Local removal ACCEPT;603 tests/51 files, global checks and production40/40 PASS. Independent88 tests/seven files,30 actual read-only HTTP checks and six retired-art404s PASS; existing viewer's nine data hashes preserved, no DB mutation. Home/auth desktop/phone captures show zero sample images and honest empty content; initial incorrect Auth phone viewport replaced before review. Single detector14advisory/0primary; fresh review's single DESIGN/sidecar persistence fix scored resolved with ship for that fix only. Visual primitives unchanged, current narrative explicitly supersedes obsolete demo rules; ordinary-extension documentation recorded separately. Public boundary is text-only with private/runtime mock/media artifacts ignored. Local repository has no commits/remotes; GitHub connector write rejected403; network/keyring CLI check confirms active C1yd3-bit authentication with repo/workflow scopes. Restricted CLI credential failure was not an authoritative authentication check. Exact final manifest review and remote publication/verification remain. See docs/vault/03 Delivery/GitHub Release Verification.md.
+
+## Previous goal — Full films and large-file upload support (local accepted)
+
+- Goal: Support the complete user-supplied films as Movies, up to20minutes/500MB, while preserving Reels at3minutes and existing ownership/moderation boundaries.
+- Brief: User explicitly chose full-film support and confirmed permission to upload/distribute THE CALL and TARU. Preserve original files, existing local accounts and visual direction. No provider activation, credential creation, billing, public deployment or actual upload without configured authorized service access. Use Cloudflare TUS for files over200MB rather than merely raising a multipart file limit. Keep existing3/day and30minutes/month quota defaults; reservations may be bounded by remaining monthly seconds, never bypassed.
+- Acceptance:
+  - [x] Add format-aware reservation/reconciliation and long-film playback/tracking constraints in an additive migration; preserve existing data and Reels limits.
+  - [x] Add bounded private TUS grant/chunk transfer for large files, accurate progress/cancellation and safe offsets/account/version uncertainty handling; retain small-file multipart path.
+  - [x] Validate full durations throughout provider, public detail/discovery, playback and activity; both files pass500MB preflight and independent MP4-header duration check. No300-second entitlement truncation for a15-minute film.
+  - [x] Meaningful boundary/regression tests, TypeScript/lint/format/build and independent ACCEPT; apply/verify local migration without reset.
+  - [x] Verify supplied files pass new size/duration policy, inspect changed Studio copy/states, document actual evidence and outstanding live provider gate.
+- Status: Local implementation ACCEPT. Full588 tests/51 files, global TypeScript/ESLint/format and unchanged production build40/40 PASS; independent308 tests/17 files plus eight SQL probes ACCEPT. Migration015 installed transactionally without reset, exact history/source and original Auth preserved; verifier read actual installed bounds. Movie1200seconds/500MB/TUS and full player/activity support implemented, Reels180seconds/default3daily1800monthly retained. Independently read original MP4 headers737/930seconds fit; no transcode/trimming/file mutation. Actual Studio desktop/phone fullpage and detail captures valid, nooverflow; single detector zero findings. Fresh finish initially FIX solely for two stale product/surface policy records; both scored resolved with ship for those fixes only. Fresh ordinary-extension documentation PASS preserves DESIGN/sidecar bytes and46 incumbent colors. No global design/token change. Two disposable local accounts/three synthetic films removed; SELECT-only independent29-scope cleanup proves zero rows/nine original hashes preserved and credentials absent; fresh verifier retains ACCEPT. Existing viewer remains signed in. Current Stream403 and missing application credentials remain external blockers; neither actual film uploaded/published. Prior formal plates/DRIFT and overall release gates remain open. See docs/vault/03 Delivery/Full Film Verification.md and Full Film Design Review.md.
+
+## Previous goal — Real creator upload and playback readiness (local preparation accepted)
+
+- Goal: Complete the safe creator upload/progress/recovery slice and prepare a verifiable real upload-to-playback journey, then exercise live services only with configured credentials, rights-cleared media and approved costs.
+- Brief: User authorized the next media milestone. Preserve approved Studio identity and local Supabase/accounts. No billing activation, credential creation, public deployment or guessed media rights. Prior Cloudflare decline remains authoritative until explicitly superseded. Prefer measured progress and truthful processing states; no simulated provider evidence presented as live.
+- Acceptance:
+  - [x] Inspect actual Cloudflare access and local readiness without exposing secrets or mutating hosted configuration; identify exact missing live inputs.
+  - [x] Creator upload shows measured transfer progress with safe validation, stable grant identity, cancellation/unmount/account boundaries, uncertainty handling and usable errors.
+  - [x] Studio reflects actual draft/processing/review/publication states, with bounded manual recovery and server-side owner/role enforcement; no fabricated readiness or automatic uncertain grant retries. Optional normalized thumbnails are private and editable only before reservation, then reviewed/published with their exact revision.
+  - [x] Meaningful client/server tests, typecheck/lint/build and independent ACCEPT cover implemented local changes; inspect changed UI at desktop/mobile dark/light.
+  - [x] Record the exact external gate and finish all independent local preparation without a live-pass claim: Stream activation, approved credentials/costs and a rights-cleared test file have not been supplied.
+  - [x] Update vault and handoff with exact evidence, cleanup and retained account/provider limits.
+- Status: Bounded local ACCEPT / fresh ordinary-extension ship; live media milestone remains incomplete. Full530 tests/49 files, global TypeScript/ESLint/format and unchanged Next production build40/40 PASS. Independent234 tests/15 files ACCEPT plus read-only29-scope cleanup verifies zero fixture rows and nine original viewer hashes preserved. Migration014 applied transactionally without reset, preserving original Auth data. Browser proves native thumbnail save/reload, exact moderator revision approval and guest pending404→approved200 normalized WebP/no-store; provider facts are explicitly synthetic, not an uploaded film. Eight valid desktop/phone dark/light Studio and moderator top/detail captures accepted by fresh finish; single detector zero findings. Fresh documenter comparison PASS preserves DESIGN/sidecar byte-for-byte and46 incumbent colors. Existing preview viewer remains signed in, Docker and development preview active; disposable fixture credentials removed. No Stream activation, credential creation, env change, hosted mutation, billing, deployment or real footage. See docs/vault/03 Delivery/Studio Upload Verification.md and Studio Upload Design Review.md. Prior Reels formal plates/DRIFT and overall release gates remain open.
+
+### Next external milestone — intentionally open
+
+- [x] User supplied two local MP4 films and explicitly confirmed permission to upload/distribute both on2026-10-25. Read-only metadata: THE CALL158829024bytes/736.98seconds; TARU329742172bytes/929.84seconds, both1920×1080. Initial checks exceeded the old180-second/200MB limits; user subsequently chose full-film support, implemented above. No trim, transcode, upload or original-file modification performed. This is a permission attestation and container metadata check, not independent licensing review or full media decode.
+- [ ] User activates Stream and authorizes test costs; prior token decline is superseded explicitly before any new credential is created.
+- [ ] Approved server-only credentials and maintenance reconciliation configuration are installed locally; eligible test copies or explicitly expanded full-film limits are ready. Latest read-only Stream storage check still403 Authorization Failure; local account/token/worker configuration remains absent and uploads disabled.
+- [ ] Verify real upload, processing, private video review, publication, guest playback, engagement, takedown and provider cleanup; record actual results rather than controlled-test substitutes.
+
+## Previous goal — Local moderator and accessibility hardening (accepted at bounded local scope)
+
+- Goal: Verify the moderator-only local workflow, keyboard accessibility and loading/error recovery, and repair reproduced defects.
+- Brief: User authorized the recommended local hardening slice. Preserve approved visual identity and the persistent preview viewer. Use isolated disposable local test fixtures only; no hosted/provider activation, external emails, billing or deployment. Keep provider-unavailable states honest.
+- Acceptance:
+  - [x] Exercise a moderator-only account through actual local review decisions and prove privileged admin/creator operations remain unavailable; remove only this slice's disposable fixtures afterward.
+  - [x] Verify keyboard/focus/labels on the review flow and representative public/account navigation; inspect desktop/mobile and dark/light for changed UI.
+  - [x] Verify pending, empty, failure and retry states with meaningful controlled tests and actual local browser evidence where available; correct reproduced defects.
+  - [x] Appropriate tests, typecheck, lint and production build pass; independent verifier returns ACCEPT at the implemented scope.
+  - [x] Vault/state records exact observed evidence, cleanup and unverified external/assistive-technology limits; existing viewer remains available.
+- Status: Bounded local ACCEPT / fresh refinement ship. Serialized moderator queue/decisions, pending locks, timeout/abort/identity ownership, comparison-header guards, input validation, success/error semantics and focus recovery implemented without design/CSS/SQL/env/provider changes. Independent verifier caught and reverified a transient same-account refresh draft-loss regression. Full409 tests/39 files, global TypeScript/ESLint/format and unchanged production build40/40 PASS; independent99 tests/eight files ACCEPT. Ten actual local HTTP privilege/stale/origin/validation checks pass. User explicitly approved moderator+creator disposable fixtures after automatic-review clarification. Actual browser keyboard approval/rejection, configured-off preview failure, disabled pending controls, status/Refresh focus, empty queue, skip link and profile Left/End pass. Five valid desktop/phone dark/light captures opened; one detector zero findings; DESIGN/sidecar unchanged. Exact fixture cleanup independently verified across28 scopes with eight original viewer data hashes preserved; credentials removed, proxy stopped, temporary tabs closed, existing127 preview viewer signed in and Dark retained. Browser fault-injection proxy did not hydrate: network retry races are controlled component evidence, not a browser fault-injection pass. Real Stream, exhaustive assistive technology/performance/cross-browser and overall release remain open. Evidence: docs/vault/03 Delivery/Local Hardening Verification.md.
+
+## Previous goal — Reels viewing and playback activity (local functionality accepted; formal method open)
+
+- Goal: Add an immersive vertical reel viewer and connect actual explicit playback activity to owner-scoped retained completion signals.
+- Brief: User authorized the recommended next MVP slice. Preserve the approved portrait browse grid and existing cinematic identity; a reel opens a dedicated viewing experience. Keep local Supabase, existing accounts, demo honesty, and disabled Cloudflare configuration. No invented video, viewing counts, provider activation, deployment or spending.
+- Acceptance:
+  - [x] Present image mockups and record the user's selected viewer composition before visual UI implementation. User chose B; approved all five plan/asset items and inventory in round3, then explicitly made mock artwork reference-only in favor of the approved rasters.
+  - [x] Preserve portrait browsing and add published-only reel navigation with explicit play, accessible previous/next and mobile vertical movement; no automatic adjacent stream loading.
+  - [x] Exactly one active player; leaving, changing reels, hiding the page or losing account identity cancels stale work and stops inappropriate tracking.
+  - [x] Actual player events produce bounded, seek-resistant activity only for a server-issued, owner/version-bound public playback session; no tracking for demo, guests or private review. SDK/iframe behavior is covered with controlled adapters; real Stream operation remains unverified.
+  - [x] Completion updates are idempotent, monotonic and daily-deduplicated; hidden/suspended/revised media and stale accounts cannot receive old-session activity. Independently accepted backend/RLS tests and real local PostgreSQL rollback probe pass.
+  - [x] Meaningful client/server/SQL tests, typecheck, lint and production build pass; independent verifier returns ACCEPT for implemented scope.
+  - [x] Inspect desktop/mobile and dark/light states in a bounded pass; independent finish and design documentation record evidence and remaining external limitations.
+- Status: Local functionality ACCEPT. User-approved B layout and round3 artwork govern; the mock artwork is reference only. Backend/core ACCEPT83 tests, FilmPlayer/data ACCEPT77 tests and final viewer ACCEPT108 tests include receipt-jitter and queryless-history regressions. Parent full370 tests/37 files, global TypeScript/ESLint/format and unchanged Next production build PASS (40/40 generated pages). Initial Turbopack worker-startup failures cleared after isolating production cache and rerunning with local worker access; precise root cause is unproved. Migration013 applied without reset; actual rollback-only PostgreSQL, six guest HTTP and five authenticated negative checks pass, preserving one account and zero fixture sessions. Real browser navigation/history/filtered return, desktop/medium/phone and dark/light pass; six final captures inspected. Fresh finish exact FIX, method persistence only: visual matrix passes, current comparison74.47% DRIFT and formal CLI plates phase remains open despite approved artwork authority. CLI finish records FIX; no manufactured phase closure. Detector once4 advisory/0 nonadvisory; documenter preserves DESIGN/sidecar and46 colors. Existing preview viewer remains signed in with Dark restored. Actual Stream playback, physical touchscreen, hosted identity and overall release remain unverified. Evidence: docs/vault/03 Delivery/Reels Viewing Review.md.
+
+## Previous goal — Ask AIVerse (local functionality accepted; formal method open)
+
+- Goal: Build Ask AIVerse, a compact catalog-grounded discovery assistant with conversational refinements.
+- Brief: User approved the proposed local rule-based assistant: understand requests, show recognized filters and actual results, refine duration/genre/language, open/save Fusion. Preserve minimal UI and published-only discovery; no paid AI, provider setup, private account data or persisted chat. Image-first direction approval precedes the new visual panel; backend work can proceed independently.
+- Acceptance:
+  - [x] A compact assistant entry/panel follows the approved visual direction, works on desktop/mobile/keyboard and has clear rule-based/demo disclosure.
+  - [x] Bounded validated messages/current filters support initial search and grounded follow-up refinements, clear/reset and unavailable/unsupported recovery.
+  - [x] Only published actual catalog records appear with metadata-grounded explanations, honest empty/broader results and functional detail/Fusion links; signed-in users can save mixes through existing owner-scoped contracts.
+  - [x] Cancellation/stale replies, errors and session boundaries preserve current context without storing private chat or crossing accounts.
+  - [x] Meaningful parser/service/route tests, typecheck/lint/build and actual browser flows pass; independent functional/finish reviews and vault documentation are complete.
+- Status: Local implementation functionally ACCEPT after parser/identity/save-state corrections, independent backend43 tests and UI27 tests/lifecycle probes. User selected A side drawer. Parent full226 tests30files/lint/format and build40 pass; final conditional similarity-copy6tests and build40 also pass. Actual guest HTTP, saved-mix Library/Fusion persistence with exact fixture cleanup, classic search, Enter/ShiftEnter/Escape/focus return, detail navigation, dark/light and1440/885/390 widths pass. Shared provider ignores obsolete aborted401/403 and signals confirmed identity loss without discarding guest chats. Ten valid captures opened. Detector once8advisory/0nonadvisory. Fresh finish's three persistence/truth repairs all scored resolved with SHIP for the fixes only:19 inspected regions, actual measurements/status and full-frame66.54%DRIFT disclosed; DESIGN/sidecar localcomponent norms documented/validated with46previouscolors preserved; Global similarityclaim fixed/tested/browser-proved. Historical profile ledger untouched; current formal method and overall release remain unresolved. No newSQL/env/provider/paidAI/chatstorage. Existing preview viewer remains signed in, Dark restored. Evidence: docs/vault/03 Delivery/Discovery Assistant Review.md.
+
+## Previous goal — Profile photo (accepted)
+
+- Goal: Let verified users change their private profile photo through the avatar.
+- Brief: User requests an edit icon on avatar hover and a photo picker. Preserve the minimal profile, initials fallback and current account session. Keyboard focus reveals the same affordance; touch exposes it without hover. Store a small normalized image in local Supabase with verified-owner isolation, bounded input and no public projection or provider changes.
+- Acceptance:
+  - [x] Avatar exposes an accessible photo picker through hover/focus/touch, with pending/error feedback and initials fallback.
+  - [x] Valid JPEG/PNG/WebP photos save and survive reload; server normalizes image bytes and rejects invalid/oversized payloads.
+  - [x] Verified session plus stale-account/origin guards and database owner policies prevent anonymous, unverified and cross-account access.
+  - [x] Local migration applied without reset; targeted tests/typecheck/lint/build and browser desktop/mobile checks pass.
+  - [x] Independent functional and finish reviews pass; design/vault evidence records the scoped addition.
+- Status: Accepted at this scope. Independent functional ACCEPT with 20 targeted tests/typecheck/scoped lint/format and independent boundary/hook probes. Local012 applied transactionally with migration history and no reset; real HTTP owner upload/read/normalization plus invalid/MIME/SVG/size/stale/origin/anonymous negatives pass. Native browser picker saved; reload loaded256px photo, keyboard focus revealed pencil, actual phone DOM380px had no overflow. Light checked and Dark restored. Synthetic photo restored to exact previous initials baseline; HTTP fixture logout invalidated browser session and parent restored the existing viewer through normal login. Build39pages passes; five valid captures inspected and fresh finish SHIP has no material fixes. Single detector zero findings. Fresh documenter comparison PASS with DESIGN/sidecar hashes unchanged; four updated vault documents pass formatting. No global token, role, account, hosted provider or environment changes. Hover/touch styles verified in source; no actual touchscreen claim. Prior method/release gates remain open.
+
+## Previous goal — Minimal profile (accepted)
+
+- Goal: Simplify the profile so users see one focused task at a time.
+- Brief: User rejected the all-in-one profile as overwhelming. Replace anchor scrolling with Account, Content, Statistics and Appearance sections that display only the selected task. Preserve working private edits, theme persistence, statistics and creator permissions; keep the existing visual identity and local preview session.
+- Acceptance:
+  - [x] Account opens as a compact read-only summary; Edit reveals the form with save/cancel and validation.
+  - [x] Section selection shows one panel, supports keyboard navigation and existing hash links, and keeps unrelated forms/statistics/appearance out of view.
+  - [x] Content retains the real studio/application workflow; Statistics uses actual counts; Appearance uses a compact saved light/dark choice.
+  - [x] Desktop/mobile and dark/light checks confirm a quiet layout, no overflow, usable controls and preserved features.
+  - [x] Appropriate type/lint/build/navigation checks and independent functional/finish reviews pass; documentation records the user's superseding direction.
+- Status: Accepted at this scope. User's minimal-profile request supersedes mock C's all-visible composition. Independent functional ACCEPT: 27 targeted tests across navigation, profile routes and appearance, typecheck and scoped ESLint. Parent production build passes with 38 pages. Browser checks cover one visible panel, read-only default/Edit/Cancel/validation, account and studio draft retention across tasks, keyboard tabs/hash/Back/Forward, light save/reload and Dark restoration, and no overflow at 390/885/1440/2496 CSS widths. All 11 captures inspected; fresh finish SHIP has no material fixes. DESIGN/sidecar and five delivery notes updated; JSON/YAML, all 23 dark/23 light palette tokens, schema/reference and formatting checks pass. Local Preview remains signed in at /profile. No new identity, raster assets, backend, roles, provider or environment changes. Prior method/release gates remain open and are not closed by this bounded refinement.
+
+## Previous foundation goal (functional checks passed; design acceptance open)
+
+- Goal: Establish a documented, runnable, verified AIVerse foundation without external credentials.
+- Brief: Create the Obsidian vault, agent roles, full MVP roadmap, local environment, and Phase 1 foundation. Keep provider operations explicitly unconfigured.
+- Acceptance:
+  - [x] Obsidian vault contains linked product, architecture, roadmap, decisions and operations notes.
+  - [x] AGENTS.md and reusable builder/verifier/design agent definitions implement Loop Engineering and Impeccable.
+  - [x] Safe local environment, pinned dependencies, setup instructions and demo mode work.
+  - [ ] Responsive home/reels/movies/fusion/search shell matches the approved image direction.
+  - [x] Viewer onboarding and editable preferences work locally with skip and 5–8 completed genres.
+  - [x] Supabase auth adapters, foundation migration, RLS and seed data exist; real database verification is run if tooling permits, otherwise accurately marked unverified.
+  - [x] Typecheck, lint, targeted tests and production build pass; browser verification and independent review recorded.
+- Status: Functional foundation verified; final design acceptance remains open. User requested closer artwork; v2 installed and independently inspected. Overall goal is not accepted on the verifier's current REJECT.
+
+## Watch List
+
+- User selected local Supabase as the current backend. AIVerse uses the dedicated aiverse-ana Auth/Postgres stack and captured Mailpit email at local service ports 55321/55322/55324. Hosted credentials remain ignored/staged/inactive and hosted activation is deferred. Stream and hosting remain unconfigured.
+- Local network diagnostic: application/API/mail requests succeed, but the CLI host-TCP migration-list request to 55322 timed out. All eight applied versions were verified inside the database container. Docker advertises wildcard published bindings despite the network's loopback-default option; loopback-only network exposure is not certified.
+- Media workflow is implemented and locally tested with simulated provider evidence. Real binary upload, Stream processing and playback have not run; there is no licensed video in the demo catalog.
+- Initial quota and deletion policy need operational approval before live uploads.
+- Impeccable plates gate remains open. Native image-generator reconstructions of greenhouse/tides trigger its crop/resample detector. Generator prompts and provenance are preserved. Do not claim an automated pass or forge human approval.
+- Local component/asset board awaits user decisions at http://127.0.0.1:59633/ (session c46c3cc4811c2384bd0fadef9183a0b90cf0552f28895fb3723f572a80c7b274).
+
+## Run Notes
+
+- 2026-10-24: Read supplied documents; user confirmed stack and requested image-first design. Empty task workspace inspected.
+- User replaced carousel C with screenshot A; implemented sidebar, featured film, Fusion and three-film shelf. User then requested a closer artwork match; four v2 plates now use exact reference crops.
+- Verified: clean npm ci --ignore-scripts (399 packages); typecheck; lint; formatting; 26 tests in six files; production build; 14 local HTTP smoke checks. PGlite executes actual SQL/RLS with emulated Supabase Auth. Hosted Auth/email/Stream remain unconfigured.
+- Browser checked watch-later, exact/empty Fusion URLs, Enter-submit search, onboarding, five-genre save/reload, ninth-genre prevention, skip and editing. Desktop 1448/1280 and mobile 390 CSS widths inspected. V2 mobile scrollWidth equals 390; all images loaded.
+- Pending final human component/asset review and automatic method gate resolution. Do not advance to live media or deployment yet.
+
+## Previous profile goal (local functionality accepted; formal method open)
+
+- Goal: Build a private profile hub for account management, creator uploads, owned-content statistics and saved light/dark appearance.
+- Brief: Extend the existing account/dashboard and studio workflows. Preserve creator approval, published-only public data and the user's choice to leave Cloudflare unconfigured. Statistics derive from actual owner content and recorded engagement, never sample view counts. Account/appearance persist in local Supabase. Image-first profile selection precedes new UI implementation.
+- Acceptance:
+  - [x] User selects the profile layout from image mockups; surface brief records scope and direction.
+  - [x] Authenticated profile page manages private account information, interests/navigation and logout with recoverable saves and verified-user guards.
+  - [x] Upload area reuses the real approved-creator workflow, supports valid existing operations and clearly explains current provider unavailability without bypassing approval or publication review.
+  - [x] Owner-only content totals, per-video recorded engagement and useful empty states are backed by real data with cross-account/RLS negative tests.
+  - [x] Light and dark appearance persist per account and apply across the app with readable controls, artwork captions and reload/navigation behavior.
+  - [x] Meaningful route/SQL/theme checks, build and desktop/mobile browser journeys pass; independent verification, finish review and documentation are recorded.
+- Status: C selected and implemented at /profile; /dashboard redirects there. Migration011 applied locally without reset. Independent functional ACCEPT after repair of the theme-save/background-refresh race:30 targeted tests/typecheck/scopedlint. Final whole suite183 tests22files, full lint/format, build38pages and31HTTP smoke checks pass. Real local profile integration passed and cleaned all3 fixtures. Parent browser verified account edits/reload/sidebar, independent account themes, native-keyboard radio save, real private revision2 through inline StudioPanel, disabled binary uploads, zero-content viewer/application, privacy links and390/472/1440/1499 widths. Both browser personas, roles, drafts/private settings and credentials removed after logout. Fresh finish reviewer scored all4 requested corrections resolved and returned SHIP for the scored fixes only. Final fresh diff81%; desktop contenty736/providerbottom1039 in1049 frame. DESIGN+sidecar light23/dark23tokens verified. Formal method remains FIX/plates-open: zero-raster plan review unrecorded, hero recording and full SHIP refused by CLI; no phase approval fabricated. New current slice is not inferred; pre-existing provider/auth/home/release gates remain open.
+
+## Previous goal — Rounded shared search (accepted)
+
+- Goal: Give the shared search bar fully rounded ends at desktop and mobile sizes.
+- Acceptance:
+  - [x] Shared search container uses a pill radius without changing dimensions or search behavior.
+  - [x] Browser confirms rounded desktop/mobile styling; formatting and independent scoped verification pass.
+- Status: Accepted. The single feature edit is `.search-box` border-radius 6px → 9999px. Browser confirms radius 9999px with existing heights 47px desktop/44px mobile, and no mobile horizontal overflow. Two header captures were opened; scoped formatting and independent ACCEPT/ship pass. DESIGN.md and sidecar document the user-requested search-only radius exception. No broad test/build rerun or new tests for this reversible CSS-only shape change; prior unrelated gates remain separate.
+
+## Previous goal — Reels portrait grid (accepted)
+
+- Goal: Adapt Reels to the user's supplied Shorts-style portrait thumbnail grid.
+- Brief: Treat the supplied vertical-card screenshot as the composition reference for this narrow layout adaptation. Inherit AIVerse's existing shell, typography, colors and catalog content. Portrait thumbnails and titles below; preserve honest demo labels and actual counts. Home, Movies and other discovery layouts retain their current landscape format. No new media, view counts, playback or external service activation.
+- Acceptance:
+  - [x] Reels exact and broader results use consistent portrait cards with responsive multi-column desktop and two-column phone layout, with no oversized stretch when only two results exist.
+  - [x] Titles, accessible detail links, disclosure, empty results and pagination remain usable; movies/home/search preserve landscape behavior.
+  - [x] Desktop/mobile browser checks confirm portrait dimensions, no horizontal overflow, readable titles and working detail/empty-state navigation.
+  - [x] Typecheck, lint, targeted existing discovery checks and production build pass; independent verification and scoped design review/documentation are recorded.
+- Status: Accepted local Reels adaptation. Independent functional ACCEPT and finish disposition ship; no material repairs remain at this scope. User-supplied reference fixes the layout direction; prior auth/home method and release gates remain separate.
+
+## Previous auth/onboarding goal (local implementation verified; formal method gates open)
+
+- Goal: Create cinematic auth and verified three-step account onboarding backed by local Supabase.
+- Brief: User requested guest Log in/account-name navigation, email and Google entry, email/password signup followed by code verification, then information → interests → optional personal ethnicity → saving → dashboard. Preserve the home design; image-first visual selection remains required. Ethnicity is self-described, optional, explicitly consented, owner-private, never inferred or used for recommendations. No hosted service activation.
+- Acceptance:
+  - [x] Image mockups presented and the user selects the new auth/onboarding direction before UI implementation: B, amended to use a catalog-thumbnail artwork carousel.
+  - [x] Guest rail says Log in; authenticated rail displays the saved private account name and provides account actions.
+  - [x] Email/password login/signup, code verification, resend and Google OAuth entry have accessible pending/error states and safe redirects; unavailable Google is honestly identified.
+  - [x] Unverified users cannot save onboarding; confirmed users complete information, interests and optional ethnicity in sequence, with validation/back navigation and save feedback before the dashboard.
+  - [x] Profile data and completion persist locally with owner-only RLS; ethnicity stays out of public projections and recommendation inputs; atomic failures roll back and UI keeps entered values for retry.
+  - [x] Reduced-motion responsive desktop/mobile screens, boundary tests, typecheck/lint/build and real local captured-code integration pass, with independent backend verification and a recorded finish review.
+  - [ ] Formal Impeccable plate/phase evidence closes. The current static-art plate comparison fails against the user-requested existing-thumbnail carousel; separate asset-board acceptance and later measured phases remain open. No automated pass is claimed.
+- Status: Auth/onboarding implementation and observed local browser flows verified. Independent backend ACCEPT; finish disposition fix solely for open method persistence, with no material UI repairs requested. Google live sign-in awaits provider credentials; email works through local Mailpit. Prior MVP/service/artwork gates remain separate. Overall method/release completion is not claimed.
+
+## Previous MVP goal (local implementation reviewed; release gates open)
+
+- Goal: Complete the locally implementable AIVerse MVP roadmap and verify its trust boundaries, recording hosted-service and human acceptance gates honestly.
+- Brief: User authorized continued work until complete on 2026-10-24. Preserve the chosen home design. Implement private creator/media workflows, catalog discovery and beta operations incrementally. Provider accounts, billing, public launch, real emails and licensed media remain external gates; continue independent local work.
+- Acceptance:
+  - [x] Real local Supabase Auth/preferences, captured confirmation email, PKCE cookie callback, logout and two-account isolation are verified.
+  - [x] Creator applications and audited admin decisions; immutable private versions, explicit public projection and role/owner negative SQL tests.
+  - [x] Atomic quotas/idempotent reservations; server-only Stream adapter, authenticated reconciliation, fair processing leases and retryable revocation/deletion; failure/replay tests.
+  - [x] Version-bound review/publication and short-lived playback authorization with hide/removal denial; complete local SQL/service flow proved with clearly simulated provider facts.
+  - [x] Published-only paginated discovery, deterministic query parsing, multi-select URL round-trips and owner-scoped saved filters/engagement. Public creator/tag pages and configurable recommendations are implemented; recommendations use a documented bounded candidate pool.
+  - [x] Reports, suspension, incident-bound appeals, bounded telemetry and audited quota overrides; local authorization tests.
+  - [x] CI definition, operator setup/recovery/retention/cost and release runbooks exist. Automated checks/build/runtime tests pass; independent backend review recorded. No remote CI run claimed.
+  - [x] Authenticated creator, shared film-review controls, administrator and Library browser workflows are independently accepted for the observed local desktop/mobile states. Admin exercised film review; moderator-only privilege differences retain separate SQL/HTTP coverage. Disposable test users and dependent records were removed.
+  - [ ] Real hosted services and licensed playback, operational budgets/retention, measured revocation/deletion, restore drill and beta policies are accepted. No deployment or controlled beta is claimed.
+  - [ ] Final human artwork/component acceptance and Impeccable phase evidence close. The prior gate is preserved.
+- Status: Local backend and observed authenticated UI are reviewed; overall MVP/release NOT ACCEPTED. Continue once the concrete human/service gates are supplied. User's request to continue remains the project scope; no pause, deployment, spend, approval waiver or goal-completion action was inferred.
+
+## Expanded MVP evidence — 2026-10-24
+
+- Migrations 001–008 applied to dedicated local project aiverse-ana. Other running Supabase projects were inspected only to avoid port collisions and were not modified.
+- Local HTTP Auth integration passes signup → exact captured email → PKCE callback → account preferences → logout. Owner-scoped Library save/delete, cross-account denial, viewer Operations denial and real Studio/Report/Appeal query columns pass.
+- Local media integration passes four concurrent reservations (three admitted, one denied), audited creator approval, private RLS, idempotency, exact-version publication, revision isolation, hide/playback denial, late/duplicate callbacks, uncertain operation recovery and deletion leases. No Cloudflare calls occurred.
+- Independent review found and verified corrections for malformed direct-RPC queue records, unsafe grants after eligibility changes, absolute token expiry drift, missing recommendation freshness and processing-poll starvation. A subsequent playback-window correction uses verified duration + 60 seconds, bounded to 60–300 seconds, so a 180-second film can finish. This is a proposed local policy, not a measured revocation SLA.
+- Final parent checks pass: typecheck, ESLint, formatting, 128 tests in 15 files, production build (32 generated pages) and 26 local HTTP smoke checks. Both local integrations pass after 008. Independent delta verification passes 43 affected playback/route/provider tests.
+- Ten extension captures at desktop 1440 and mobile 390 show guest Studio/Review/Operations/Library and multi-select Fusion. Independent finish disposition is fix for existing method/human/role-coverage gates; no material visual repair was requested in the observed states. Mobile DOM width equals scrollWidth at 390.
+- The detector ran once. Returned visible findings are inherited font-size/color documentation advisories; terminal output was truncated, so no complete mechanical-clean claim is made. Token files were preserved and the documenter checked all 13 shared color mappings.
+- Automatic approval review initially rejected a separate disposable administrator/creator browser persona because it grants privileged access. No persona was created before the user explicitly approved it. The subsequent approved walkthrough and exact cleanup are recorded below.
+
+## Approved authenticated browser slice — 2026-10-24
+
+- User explicitly approved disposable local administrator/creator testing and cleanup. Two synthetic personas in isolated aiverse-ana enabled separate applicant/administrator decisions. No hosted account or unrelated local project changed.
+- Actual browser flow passed application submission → administrator approval → creator access, saved Fusion save/open/delete, private revision save/reload, unavailable-upload explanation, exact-version review and honest unavailable private preview, rejection, default-quota action, suspension → incident-bound appeal → administrator approval and restored creator status.
+- Replacement revision 2 was saved separately; rejected revision 1 retained its original metadata/state. Pending review used explicitly simulated local 90-second provider facts. No video binary, Cloudflare request or publication occurred.
+- Fourteen valid authenticated screenshots at desktop 1440/mobile 390 were opened by parent and independent finish reviewer. Initial scrolled capture artifacts were replaced at document top. No mobile overflow or material visual repair was found. Scoped finish disposition is ship; the historical overall design disposition remains fix.
+- Admin exercised shared film-review controls. A moderator-only browser persona was not created; its permission differences remain covered by existing local SQL/HTTP integration tests. These observations do not certify real playback or every accessibility state.
+- Browser signed out, then exact fixture UUIDs scoped cleanup of both Auth users and their dependent records. Both Auth users, roles and videos were verified absent; the temporary credential file was removed. Guest home preview was restored.
+- Independent verifier accepted the bounded local browser slice and confirmed no remaining fixture Auth, role, application, video/version, reservation, private asset, provider event, deletion job, suspension/appeal, quota or audit rows. All 26 HTTP smoke checks pass again after cleanup. Overall release remains rejected for the separate human/service/policy gates.
+- No product source changed in this slice; prior automated baseline remains 128 tests/15 files, passing typecheck/lint/format, production build and both local integrations. See vault Authenticated Browser Verification, MVP Design Review and Verification for scoped evidence and remaining gates.
+
+## Cloudflare agent setup — 2026-10-24
+
+- User requested execution of Cloudflare's official agent-setup prompt. Installed nineteen official skills globally in the shared user skill directory; all SKILL.md files exist. Registered the official cloudflare MCP URL in Codex and verified enabled OAuth-authenticated status after successful login.
+- User skipped the optional beta cf executable; it was not installed. Existing app source/environment and provider activation flags were not changed. No billing, resource creation or deployment occurred.
+- Codex restart is required to load this new MCP connection in the current session. Agent OAuth is distinct from the application's Stream API token and does not prove an active Stream subscription or real media delivery. See vault Cloudflare Agent Setup; existing release gates remain open.
+
+## Supabase agent setup — 2026-10-24
+
+- User supplied the exact Supabase MCP URL scoped to project YOUR_SUPABASE_PROJECT_REF and seven feature groups. Registered the server, completed automatic OAuth and verified enabled status, exact URL match and o_auth without printing credentials. Existing Codex settings were preserved.
+- Installed both official Supabase skills for this project and recorded their source in skills-lock.json. Restart Codex to load the new MCP tools; no current-session database query is claimed.
+- App environment, isolated local database and hosted schema/accounts were unchanged. Agent connection authentication does not itself complete hosted application configuration or the outstanding release gates. See vault Supabase Agent Setup.
+
+## Hosted environment retrieval — 2026-10-24
+
+- User authorized obtaining required environment credentials. Authenticated CLI retrieved the exact requested Supabase project's keys with values suppressed. Saved public/publishable and service-role keys plus worker secret in ignored .env.hosted.local; temporary raw-key file removed.
+- Exact hosted Auth-settings and server-authenticated REST-schema requests returned 200. Required AIVerse relations are not exposed in that schema metadata. No hosted mutation was made and active .env.local remains byte-for-byte unchanged; local preview stays usable.
+- User completed Cloudflare dashboard sign-in; Account ID was retrieved and saved in the staged profile. User then explicitly declined creating the prepared thirty-day Stream-only API token and chose to leave Cloudflare unconfigured. Draft discarded; token/webhook fields remain empty and uploads stay disabled. No paid activation, token creation, tunnel or deployment occurred.
+- Independent verifier accepted staged Supabase profile preparation, ignored files, key-role/project consistency, preserved local URL and temporary-file removal. Hosted schema activation and real provider verification remain open. See vault Hosted Environment.
+
+## Current backend: local Supabase — 2026-10-24
+
+- User explicitly chose local Supabase for now. The existing active .env.local already targets aiverse-ana at http://127.0.0.1:55321 in account mode; public and server keys match local CLI status and no public-key override points elsewhere. No environment switch or hosted call was needed.
+- Existing persistent Docker volume supabase_db_aiverse-ana contains all eight migration versions 202610240001–008, twenty-six public tables, both public catalog/creator views and seeded taxonomy (12 genres, 12 content inspirations, 17 languages). No data reset, duplicate schema creation or migration application was necessary.
+- Fresh local Auth integration and media integration both pass with exact disposable-fixture cleanup; all 26 HTTP smoke checks pass. Media provider evidence remains simulated with no Cloudflare I/O. No source changes required a new production build.
+- CLI host-TCP migration history timed out; equivalent database history was read inside the exact container. Current app/API functionality is verified. Actual Docker binding diagnostics are retained above rather than repeating the earlier unproved host-only-binding claim.
+- Local-first intent is recorded in ADR-015 and setup/runbook notes. Hosted preparation is deferred, not a blocker to continued local development. Overall public-release/provider/human-design gates remain separate.
+
+## Auth and three-step onboarding — 2026-10-24
+
+- User approved image option B, amending its artwork column to use a carousel of catalog thumbnails. Built standalone auth/onboarding with four existing plates, manual selectors, eight-second rotation, pause and focus/visibility/reduced-motion handling. Home retains its single featured image. All four shipping plates retain embedded provenance; scan reports zero missing.
+- Guest navigation now says Log in; a completed local account displays its private full name and links to the dashboard. Email entry expands email/password. Signup uses the code-only local email template; the browser requires six digits before verified onboarding. Google readiness is actually false locally; the visible disabled option explains setup is needed. OAuth PKCE plumbing exists but live Google sign-in was not tested.
+- Migration 009 adds verified owner-only private account details and atomic information/interests completion. Migration 010 explicitly aligns private string bounds with HTML UTF-16 maxlength. Installed Zod 4.6.7 counts code points by default; 010 is intentional HTML alignment, not a repair of a nonexistent Zod/009 mismatch. Both migrations were applied transactionally with source history inside the exact local container, preserving all prior data and the named volume; ten versions are now applied.
+- Full name, age, optional contact and optional consented self-described ethnicity remain private. No full-name copy to public profiles, no ethnicity inference/public projection/recommendation input. Optional ethnicity can be cleared with its consent timestamp. Age 1–120 is a plausibility bound only; public-launch privacy/minor/retention policy approval remains separate.
+- Actual dedicated local integration passes wrong code, fixture-only timestamp-expired code, resend recovery, superseded/replayed denial, verified session cookies, atomic completion, returning-user dashboard destination, two-account/anonymous privacy and consent revocation. Existing local account integration was updated from legacy email links to captured codes and passes its existing preferences/library/studio/report/appeal boundaries. Independent backend verdict ACCEPT with 29 independently rerun targeted tests and safe aggregate cleanup checks.
+- Parent browser passed real disposable signup → wrong-code error → correct Mailpit code → information → five interests → back navigation → skip optional ethnicity → awaited save → dashboard account name → edit reload → logout → guest Log in. A second disposable signup confirmed the final password/code accessible labels each match their exact name once. Both exact browser accounts, private rows, captured emails and temporary credential files were removed. No hosted call, external email, provider activation or public deployment occurred.
+- Fourteen valid captures in `.impeccable/review/account/` cover desktop 1505×1045 and mobile 390×844. Captures were opened and independently reviewed; mobile scrollWidth equals 390, images loaded. Source covers reduced motion and pending/save-error recovery; no exhaustive screen-reader, OS reduced-motion toggle or live Google coverage is claimed. A transient save state was source-reviewed; no artificial delay was added just to lengthen it.
+- Final checks: typecheck, ESLint, formatting, 153 tests in 19 files, production build with 36 generated pages and 28 HTTP smoke checks pass. Smoke asserts streamed App Router login redirects as well as ordinary 307 responses. A sandboxed build stalled and was stopped; the normal-permissions build, including the final label patch, passed. No repeated full unit run was needed after the semantic-label-only patch; its targeted checks and actual browser names passed.
+- Impeccable detector ran once on the new targets: 41 advisories, zero nonadvisory findings. Independent finish review and its bounded label verdict request no material UI repairs. Formal disposition remains fix because the static-art plate comparison and subsequent method phases are not closed. The user's catalog-thumbnail amendment is honored; no plate-pass, asset-board approval or measured auth diff was fabricated. The old home state/spec are preserved in `.impeccable/history/`. Documenter verified 13 palette mappings and preserved DESIGN.md/sidecar, recording local extension details in Auth Design System Check.
+- Local preview is open at `/login`. Current Google/provider, formal design-method and prior release gates remain open; do not mark the overall goal or public release complete.
+
+## Reels portrait adaptation — 2026-10-24
+
+- User supplied the current page and a Shorts-style reference and requested vertical cards. This is a precisely pinned local layout adaptation; no new world, mock tournament, assets, views, menus or player were invented.
+- Four-file implementation adds an opt-in portrait grid through DiscoveryResults/FilmGrid, enabled on Reels only, with route-scoped 9:16 artwork, natural 16px title wrapping, actual 12px metadata and 44px title-link targets. Exact and broader suggestions share the variant. Two/three/four/five tracks adapt across phone/tablet/medium/wide screens without stretching two real records across the whole row.
+- First batched inspection found soft portrait crops: landscape source-width hints were selecting low-resolution images before cover cropping. One bounded fix adds fixture-specific source-width hints and focal positions; unknown artwork retains the ordinary portrait fallback and all landscape behavior is unchanged. Recaptured desktop/mobile/wide screens were opened and independently accepted; the final source production build passes.
+- Requested CSS viewports: 1440×1000, 390×844, 2048×1152. Actual full-document PNG exports: desktop 1430×1020, mobile 380×1137, wide 2048×1152. Browser DOM measured mobile clientWidth=scrollWidth=390 and portrait width/height≈0.5625; wide grid has five 342px tracks. These are separate browser and exported-image measurements, not interchangeable dimensions. All images loaded; screenshot files are in `.impeccable/review/reels/`.
+- Browser passed cat detail navigation, horror-filter zero exact/two portrait broader suggestions, a genuine empty keyword result and one-item cursor pagination to the remaining reel. After client-side Reels navigation, Home/Movies/Search each had zero portrait grids and measured landscape ratio≈1.83. No backend/service/query mutation was introduced.
+- Fresh scoped checks: typecheck, ESLint, formatting and 23 existing discovery tests across three files pass; final production build generates 36 pages. No full unrelated SQL/Auth suite rerun or new implementation-mirroring tests were added for this reversible layout change. Detector ran once: one 16px title-size advisory and zero nonadvisory findings.
+- Independent verifier ACCEPT; fresh finish disposition ship at the narrow Reels scope, with no material fix list. Ordinary-extension documenter preserved DESIGN.md/sidecar and recorded Reels Design System Check; Reels Portrait Review owns independent evidence. Prior auth/home method, provider and public-release gates remain open and are not reclassified by this acceptance.
