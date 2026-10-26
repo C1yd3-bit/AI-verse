@@ -13,14 +13,8 @@ import { VersionArtwork } from "./version-artwork";
 import { useAppearance } from "./appearance-provider";
 import { accountChangedEvent, accountUnavailableEvent } from "@/lib/appearance";
 
-const applicationSchema = z.object({
-  id: z.uuid(),
-  status: z.string(),
-  decision_reason: z.string().nullable(),
-  created_at: z.string(),
-});
 const studioSchema = z.object({
-  roles: z.array(z.string()),
+  eligible: z.boolean(),
   videos: z.array(
     z.object({
       id: z.uuid(),
@@ -42,7 +36,6 @@ const studioSchema = z.object({
   ),
 });
 type StudioData = z.infer<typeof studioSchema>;
-type Application = z.infer<typeof applicationSchema>;
 class StudioRequestError extends Error {
   constructor(readonly status: number) {
     super("The Studio request could not be confirmed.");
@@ -50,6 +43,14 @@ class StudioRequestError extends Error {
 }
 const accessChanged = (error: unknown) =>
   error instanceof StudioRequestError && [401, 403, 409].includes(error.status);
+const accessMessage = (error: unknown) => {
+  if (!(error instanceof StudioRequestError)) return "";
+  if (error.status === 401)
+    return "Your session expired. Sign in again, then refresh the studio. Your draft input is kept for this account.";
+  if (error.status === 403)
+    return "This request was denied. Verify your email or check whether upload access is suspended, then refresh the studio.";
+  return "Your account access or revision status changed. Refresh the studio before continuing.";
+};
 
 async function requestJson(
   path: string,
@@ -73,15 +74,7 @@ async function requestJson(
 }
 
 async function readStudio(accountId: string, signal: AbortSignal) {
-  const [studio, applicationData] = await Promise.all([
-    requestJson("/api/studio", accountId, undefined, signal),
-    requestJson("/api/creator/applications", accountId, undefined, signal),
-  ]);
-  return {
-    studio: studioSchema.parse(studio),
-    applications: z.object({ applications: z.array(applicationSchema) }).parse(applicationData)
-      .applications,
-  };
+  return studioSchema.parse(await requestJson("/api/studio", accountId, undefined, signal));
 }
 
 function TaxonomyChoices({
@@ -144,11 +137,13 @@ function StudioSession({
   accountId: string | null;
 }) {
   const [data, setData] = useState<StudioData | null>(null);
-  const [applications, setApplications] = useState<Application[]>([]);
+  const [draftOpened, setDraftOpened] = useState(false);
+  const draftForm = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(configured && !!accountId);
   const [busy, setBusy] = useState(false);
   const [uploadBusy, setUploadBusy] = useState(false);
   const [available, setAvailable] = useState(false);
+  const [accessLost, setAccessLost] = useState(false);
   const availability = useRef(false);
   const confirmAvailable = (next: boolean) => {
     availability.current = next;
@@ -167,8 +162,8 @@ function StudioSession({
     !controller.signal.aborted;
   function clearPrivateAccess() {
     identityInvalidated.current = true;
+    setAccessLost(true);
     setData(null);
-    setApplications([]);
     confirmAvailable(false);
     setSuccess("");
   }
@@ -208,16 +203,17 @@ function StudioSession({
       );
       if (alive.current && active.current === controller && !controller.signal.aborted) {
         identityInvalidated.current = false;
-        setData(value.studio);
-        setApplications(value.applications);
-        confirmAvailable(true);
+        setAccessLost(false);
+        setData(value);
+        if (value.eligible) setDraftOpened(true);
+        confirmAvailable(value.eligible);
       }
     } catch (failure) {
       if (alive.current && active.current === controller && !controller.signal.aborted) {
         if (accessChanged(failure)) clearPrivateAccess();
         setError(
           accessChanged(failure)
-            ? "Your access or signed-in account changed. Refresh the studio before continuing."
+            ? accessMessage(failure)
             : "Studio could not reload. Your current input is kept. Refresh status after checking your connection and signed-in account.",
         );
       }
@@ -232,11 +228,13 @@ function StudioSession({
     alive.current = true;
     const invalidate = () => {
       identityInvalidated.current = true;
+      setAccessLost(true);
       active.current?.abort();
       active.current = null;
       transferOwner.current = null;
       setData(null);
-      setApplications([]);
+      draftForm.current?.reset();
+      setDraftOpened(false);
       confirmAvailable(false);
       setBusy(false);
       setLoading(false);
@@ -259,8 +257,6 @@ function StudioSession({
     // Private state is keyed to the configured backend and confirmed owner.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const creator = data?.roles.includes("creator") ?? false;
-  const latestApplication = applications[0];
 
   async function mutate(path: string, body: unknown, successMessage: string, onSaved?: () => void) {
     if (
@@ -285,9 +281,7 @@ function StudioSession({
         AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]),
       );
       if (!current(controller)) return;
-      if (path === "/api/studio/versions")
-        z.object({ version: z.object({ video_id: z.uuid(), version_id: z.uuid() }) }).parse(result);
-      else z.object({ applicationId: z.uuid() }).parse(result);
+      z.object({ version: z.object({ video_id: z.uuid(), version_id: z.uuid() }) }).parse(result);
       onSaved?.();
       setSuccess(successMessage);
       confirmAvailable(false);
@@ -298,16 +292,15 @@ function StudioSession({
           AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]),
         );
         if (current(controller)) {
-          setData(value.studio);
-          setApplications(value.applications);
-          confirmAvailable(true);
+          setData(value);
+          confirmAvailable(value.eligible);
         }
       } catch (failure) {
         if (current(controller)) {
           if (accessChanged(failure)) clearPrivateAccess();
           setError(
             accessChanged(failure)
-              ? "Your change was saved, but account access changed. Refresh the studio before continuing."
+              ? `Your change was saved. ${accessMessage(failure)}`
               : "Your change was saved, but Studio could not reload. Refresh status before continuing.",
           );
         }
@@ -318,7 +311,7 @@ function StudioSession({
         confirmAvailable(false);
         setError(
           accessChanged(failure)
-            ? "Your access or signed-in account changed. Refresh the studio before continuing."
+            ? accessMessage(failure)
             : "The change could not be confirmed. Your input is kept. Refresh status before submitting again; no retry was started.",
         );
       }
@@ -329,21 +322,6 @@ function StudioSession({
         setLoading(false);
       }
     }
-  }
-  async function apply(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await mutate(
-      "/api/creator/applications",
-      {
-        display_name: form.get("display_name"),
-        handle: form.get("handle"),
-        bio: form.get("bio"),
-        portfolio_url: form.get("portfolio_url"),
-        rights_attested: form.get("rights_attested") === "on",
-      },
-      "Your creator application was submitted for administrator review.",
-    );
   }
   async function saveDraft(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -389,13 +367,12 @@ function StudioSession({
     <div className="studio-panel" aria-busy={loading || busy || uploadBusy}>
       {!configured && (
         <p className="demo-callout">
-          Creator accounts are not configured yet. The application becomes available when account
-          services are connected.
+          Account services are not configured yet. Connect account services to prepare your videos.
         </p>
       )}
       {configured && !accountId && (
         <p className="field-description">
-          Sign in to manage your application and private film revisions.
+          Sign in to prepare your videos and manage private film revisions.
         </p>
       )}
       {configured && (
@@ -403,14 +380,16 @@ function StudioSession({
           <button
             type="button"
             className="button secondary"
-            disabled={loading || busy || uploadBusy}
+            disabled={!accountId || loading || busy || uploadBusy}
             onClick={() => void refresh()}
           >
             {loading ? "Loading your studio…" : "Refresh status"}
           </button>
-          <Link className="text-link" href="/login">
-            Sign in
-          </Link>
+          {(!accountId || accessLost) && (
+            <Link className="text-link" href="/login">
+              Sign in
+            </Link>
+          )}
         </div>
       )}
       {error && (
@@ -425,84 +404,29 @@ function StudioSession({
       )}
       {loading && (
         <p className="field-description" role="status">
-          Loading your application and film revisions…
+          Loading your film revisions…
         </p>
       )}
-      {!creator && (
-        <section className="studio-section" aria-labelledby="creator-application-heading">
-          <h2 id="creator-application-heading">Apply to create</h2>
-          <p className="field-description">
-            Tell us about your work. An administrator reviews applications before uploads become
-            available.
-          </p>
-          {latestApplication && (
-            <div className="studio-status">
-              <h3>Application: {label(latestApplication.status)}</h3>
-              {latestApplication.decision_reason && <p>{latestApplication.decision_reason}</p>}
-            </div>
-          )}
-          {latestApplication?.status !== "pending" && (
-            <form className="studio-form" onSubmit={apply}>
-              <fieldset
-                disabled={!configured || !available || !data || busy || loading || uploadBusy}
-              >
-                <label>
-                  Display name
-                  <input name="display_name" autoComplete="nickname" required maxLength={80} />
-                </label>
-                <label>
-                  Creator handle
-                  <input
-                    name="handle"
-                    required
-                    minLength={3}
-                    maxLength={30}
-                    pattern="[a-z0-9][a-z0-9_-]{2,29}"
-                    aria-describedby="handle-help"
-                  />
-                  <span id="handle-help" className="studio-hint">
-                    3–30 lowercase letters, numbers, underscores or hyphens.
-                  </span>
-                </label>
-                <label>
-                  About your work
-                  <textarea name="bio" required maxLength={2000} rows={4} />
-                </label>
-                <label>
-                  Portfolio link
-                  <input
-                    name="portfolio_url"
-                    type="url"
-                    required
-                    pattern="https://.*"
-                    placeholder="https://"
-                    maxLength={2000}
-                  />
-                </label>
-                <label className="studio-confirmation">
-                  <input type="checkbox" name="rights_attested" required />
-                  <span>I have the rights needed to share the work in my application.</span>
-                </label>
-                <button
-                  className="button primary"
-                  disabled={!configured || !available || !data || busy || loading || uploadBusy}
-                >
-                  {busy ? "Submitting application…" : "Submit application"}
-                </button>
-              </fieldset>
-            </form>
-          )}
-        </section>
+      {data && !data.eligible && (
+        <p className="error-message" role="alert">
+          Upload access is suspended for this account. You can still view your private revisions.
+        </p>
       )}
-      {creator && (
+      {data?.eligible && !uploadsEnabled && (
+        <p className="field-description">
+          Video transfer is unavailable because the video service is not configured. You can still
+          prepare private revisions; publication requires review.
+        </p>
+      )}
+      {(draftOpened || data) && (
         <>
-          <section className="studio-section" aria-labelledby="draft-heading">
+          <section hidden={!draftOpened} className="studio-section" aria-labelledby="draft-heading">
             <h2 id="draft-heading">Create a film revision</h2>
             <p className="field-description">
               Every revision is private until its specific file and details pass review. A published
               version keeps its approved details while a new revision is reviewed.
             </p>
-            <form className="studio-form" onSubmit={saveDraft}>
+            <form ref={draftForm} className="studio-form" onSubmit={saveDraft}>
               <fieldset disabled={!available || busy || loading || uploadBusy}>
                 <label>
                   Film

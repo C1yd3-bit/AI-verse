@@ -76,12 +76,13 @@ const version = {
     rights_declaration: "All materials are original for this isolated test.",
   },
 };
-let roles: string[];
+let eligible: boolean;
 let wrapperState: Store;
 let state: Store;
 let key: string | null;
 let fetchMock: ReturnType<typeof vi.fn>;
 let configured: boolean;
+let uploadsEnabled: boolean;
 let reset: ReturnType<typeof vi.fn>;
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -117,14 +118,10 @@ function unmount(store = state) {
   for (const effect of store.effects.values()) effect.cleanup?.();
 }
 function render() {
-  invoke(
-    StudioPanel as (props: never) => ReactNode,
-    { configured, uploadsEnabled: true },
-    wrapperState,
-  );
+  invoke(StudioPanel as (props: never) => ReactNode, { configured, uploadsEnabled }, wrapperState);
   const child = invoke(
     StudioPanel as (props: never) => ReactNode,
-    { configured, uploadsEnabled: true },
+    { configured, uploadsEnabled },
     wrapperState,
   ) as Node;
   if (key !== child.key) {
@@ -165,25 +162,12 @@ function draftEvent() {
     },
   };
 }
-function submit(kind = "draft") {
+function submit() {
   const nodes = render();
   const form = nodes.find(
     (node) => node.type === "form" && node.props.className === "studio-form",
   )!;
-  return (form.props.onSubmit as (event: unknown) => Promise<void>)(
-    kind === "draft"
-      ? draftEvent()
-      : {
-          preventDefault() {},
-          currentTarget: {
-            display_name: "Local Applicant",
-            handle: "local-applicant",
-            bio: "Original films",
-            portfolio_url: "https://example.test/portfolio",
-            rights_attested: "on",
-          },
-        },
-  );
+  return (form.props.onSubmit as (event: unknown) => Promise<void>)(draftEvent());
 }
 function transfers() {
   return render().filter((node) => node.type === "version-artwork" || node.type === "video-upload");
@@ -199,8 +183,9 @@ beforeEach(async () => {
   hooks.writes = 0;
   hooks.accountId = accountId;
   hooks.ready = true;
-  roles = ["creator"];
+  eligible = true;
   configured = true;
+  uploadsEnabled = true;
   reset = vi.fn();
   fetchMock = vi.fn(async (path: string, init: RequestInit) => {
     if (init.method === "POST")
@@ -213,7 +198,7 @@ beforeEach(async () => {
     return Response.json(
       path === "/api/studio"
         ? {
-            roles,
+            eligible,
             videos: [
               {
                 id: videoId,
@@ -273,11 +258,13 @@ describe("actual private Studio request ownership", () => {
     await settle();
     expect(transfers()).toHaveLength(2);
   });
-  it("uses the confirmed owner comparison on both private reads and shows latest draft tools", () => {
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+  it("uses one owner-compared Studio read without an application dependency and shows direct draft tools", () => {
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/studio");
     for (const [, init] of fetchMock.mock.calls)
       expect(init.headers["X-AIVerse-Account"]).toBe(accountId);
     expect(transfers()).toHaveLength(2);
+    expect(render().some((node) => node.props.href === "/login")).toBe(false);
   });
   it("does not fetch for an unconfigured or guest studio", async () => {
     configured = false;
@@ -297,12 +284,12 @@ describe("actual private Studio request ownership", () => {
     await submit();
     refresh();
     expect(postCalls()).toHaveLength(1);
-    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
     response.resolve(
       Response.json({ version: { video_id: videoId, version_id: versionId } }, { status: 201 }),
     );
     await first;
-    expect(fetchMock).toHaveBeenCalledTimes(5);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
     expect(reset).toHaveBeenCalledOnce();
     expect(render().map(text).join()).toContain("saved privately");
   });
@@ -380,7 +367,7 @@ describe("actual private Studio request ownership", () => {
     expect(uploadBusy(true)).toBe(false);
     refresh();
     await submit();
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
     uploadBusy(false);
     expect(uploadBusy(true)).toBe(false);
     artBusy(false);
@@ -390,7 +377,7 @@ describe("actual private Studio request ownership", () => {
     uploadBusy(false);
     refresh();
     await settle();
-    expect(fetchMock).toHaveBeenCalledTimes(4);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
   it("prevents a transfer claim while a draft mutation is pending", async () => {
     const busy = transfers()[0].props.onBusyChange as (busy: boolean) => boolean;
@@ -405,27 +392,60 @@ describe("actual private Studio request ownership", () => {
     const response = deferred<Response>();
     fetchMock.mockReturnValueOnce(response.promise);
     refresh();
-    const signal = fetchMock.mock.calls[2][1].signal as AbortSignal;
+    const signal = fetchMock.mock.calls[1][1].signal as AbortSignal;
     unmount();
     const writes = hooks.writes;
     expect(signal.aborted).toBe(true);
-    response.resolve(Response.json({ roles, videos: [], versions: [] }));
+    response.resolve(Response.json({ eligible, videos: [], versions: [] }));
     for (let i = 0; i < 20; i++) await Promise.resolve();
     expect(hooks.writes).toBe(writes);
   });
-  it("compares creator application submission owner and does not duplicate it", async () => {
-    roles = [];
+  it("lets an eligible viewer save directly without an application or creator role", async () => {
+    expect(render().map(text).join()).not.toContain("Apply to create");
+    await submit();
+    expect(postCalls()).toHaveLength(1);
+    expect(postCalls()[0][0]).toBe("/api/studio/versions");
+    expect(postCalls()[0][1].headers["X-AIVerse-Account"]).toBe(accountId);
+    expect(render().map(text).join()).toContain("saved privately");
+    expect(fetchMock.mock.calls.some(([path]) => path.includes("applications"))).toBe(false);
+  });
+  it("preserves owned history but disables mutations when upload access is suspended", async () => {
+    eligible = false;
     refresh();
     await settle();
-    const response = deferred<Response>();
-    fetchMock.mockReturnValueOnce(response.promise);
-    const pending = submit("application");
-    await submit("application");
-    expect(postCalls()).toHaveLength(1);
-    expect(postCalls()[0][0]).toBe("/api/creator/applications");
-    expect(postCalls()[0][1].headers["X-AIVerse-Account"]).toBe(accountId);
-    response.resolve(Response.json({ applicationId }));
-    await pending;
-    expect(render().map(text).join()).toContain("administrator review");
+    expect(render().map(text).join()).toContain("Upload access is suspended");
+    expect(render().map(text).join()).toContain("Private fixture");
+    expect(transfers().every((node) => node.props.enabled === false)).toBe(true);
+    await submit();
+    expect(postCalls()).toHaveLength(0);
   });
+  it("keeps private draft preparation available while truthfully disabling an unconfigured video transfer", async () => {
+    uploadsEnabled = false;
+    const nodes = render();
+    expect(nodes.map(text).join()).toContain("video service is not configured");
+    const upload = transfers().find((node) => node.type === "video-upload")!;
+    expect(upload.props.providerEnabled).toBe(false);
+    expect(upload.props.enabled).toBe(false);
+    await submit();
+    expect(postCalls()).toHaveLength(1);
+    expect(reset).toHaveBeenCalledOnce();
+  });
+  it.each([401, 403])(
+    "explains a known HTTP %s denial without uncertain-save messaging or clearing draft input",
+    async (status) => {
+      fetchMock.mockResolvedValueOnce(Response.json({ error: "Denied" }, { status }));
+      await submit();
+      const copy = render().map(text).join();
+      expect(copy).toContain(status === 401 ? "Your session expired" : "This request was denied");
+      expect(copy).not.toContain("change could not be confirmed");
+      expect(render().some((node) => node.props.href === "/login")).toBe(true);
+      expect(reset).not.toHaveBeenCalled();
+      expect(render().some((node) => node.type === "form")).toBe(true);
+      expect(transfers()).toHaveLength(0);
+      refresh();
+      await settle();
+      expect(transfers()).toHaveLength(2);
+      expect(render().some((node) => node.props.href === "/login")).toBe(false);
+    },
+  );
 });

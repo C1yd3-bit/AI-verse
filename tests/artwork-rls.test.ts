@@ -165,7 +165,7 @@ describe("sealed version artwork SQL boundaries", () => {
       await rollback();
     }
   });
-  it("rechecks trusted identity role ownership verification suspension and exact latest draft", async () => {
+  it("rechecks trusted identity ownership verification suspension and exact latest draft independently of creator role", async () => {
     try {
       const version = await draft();
       for (const actor of [other, mod, admin, unverified])
@@ -174,7 +174,8 @@ describe("sealed version artwork SQL boundaries", () => {
       await expect(save(version.version_id)).rejects.toMatchObject({ code: "22023" });
       await save(newer.version_id);
       await db.query("delete from public.user_roles where user_id=$1 and role='creator'", [owner]);
-      await expect(save(newer.version_id)).rejects.toMatchObject({ code: "42501" });
+      await save(newer.version_id);
+      expect(await read(newer.version_id)).toBe(image);
       await db.query("insert into public.user_roles values($1,'creator')", [owner]);
       await db.query(
         "insert into public.creator_suspensions(creator_id,reason,decided_by) values($1,'Synthetic suspension test',$2)",

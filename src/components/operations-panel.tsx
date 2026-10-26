@@ -456,8 +456,8 @@ export function OperationsPanel() {
           <section className="library-section" aria-labelledby="quota-override-title">
             <h2 id="quota-override-title">Upload allowance</h2>
             <p className="field-description">
-              Use an expiring override for an approved creator. Per-film duration remains limited to
-              three minutes for Reels and twenty minutes for Movies. These controls require an
+              Use an expiring override for an uploading account. Per-film duration remains limited
+              to three minutes for Reels and twenty minutes for Movies. These controls require an
               approved operational budget before live uploads.
             </p>
             <form className="library-form" onSubmit={quotaDecision}>

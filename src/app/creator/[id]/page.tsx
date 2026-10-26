@@ -22,8 +22,8 @@ export default async function Creator({
   return (
     <section className="page-content">
       <h1>{page.creator.display_name}</h1>
-      <p className="supporting-note">@{page.creator.handle}</p>
-      <p className="page-intro">{page.creator.bio}</p>
+      {page.creator.handle && <p className="supporting-note">@{page.creator.handle}</p>}
+      {page.creator.bio && <p className="page-intro">{page.creator.bio}</p>}
       {page.items.length ? <FilmGrid videos={page.items} /> : <p>No published films yet.</p>}
       {page.nextId && (
         <Link className="button secondary" href={`/creator/${id}?after=${page.nextId}`}>

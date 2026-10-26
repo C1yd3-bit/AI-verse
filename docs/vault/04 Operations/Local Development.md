@@ -18,13 +18,13 @@ if (-not (Test-Path .env.local)) { Copy-Item .env.example .env.local }
 npm run dev
 ```
 
-Use the printed loopback origin, normally `http://127.0.0.1:3000`. This workspace currently has an ignored account-mode local environment. The example defaults to demo; never copy over a configured local file. Restart Next.js after environment edits. Keep local auth callback URLs consistent with the origin.
+Use the printed loopback origin, normally `http://127.0.0.1:3000`. This workspace currently has an ignored local account environment; never copy over a configured local file. Runtime catalog reads always use published database records, with honest empty/unavailable states and no demo fallback. Restart Next.js after environment edits. Keep local auth callback URLs consistent with the origin.
 
 ## Isolated local Supabase
 
-Local Supabase is the user's chosen database/backend for now. Continue using project `aiverse-ana` and the active ignored `.env.local`; its API URL is exactly `http://127.0.0.1:55321`, with account mode enabled and local keys. The current local file has no publishable-key override. Demo catalog/artwork remains a separate choice from authenticated local persistence.
+Local Supabase remains the development database/backend. Continue using project `aiverse-ana` and the active ignored `.env.local`; its API URL is exactly `http://127.0.0.1:55321`, with local keys. The current local file has no publishable-key override. Deterministic catalog fixtures are test-only.
 
-The ignored `.env.hosted.local` profile is staged and inactive. It is deferred rather than a blocker to local development. Do not activate that profile, apply hosted migrations or change the hosted project during the current local work. See [[04 Operations/Hosted Environment]] and [[02 Architecture/Decisions#ADR-015 — Local Supabase for now]].
+The user separately authorized the completed hosted schema/taxonomy push; see [[03 Delivery/Hosted Supabase Migration Verification]]. The CLI is now linked to that hosted project, so use explicit `--local` for supported local migration/query commands, including `supabase migration up --local`; do not use an unqualified linked push for local work. The ignored `.env.hosted.local` profile remains staged and inactive. Hosted runtime activation and service configuration remain separate from local development. See [[04 Operations/Hosted Environment]] and [[02 Architecture/Decisions#ADR-015 — Local Supabase for now]].
 
 Requires Docker and Supabase CLI. Configuration uses project `aiverse-ana`, API `127.0.0.1:55321`, PostgreSQL 55322, shadow DB 55320 and captured-mail UI 55324. The dedicated Docker network requests a loopback default, but that option does not prove the actual host bindings. Latest inspection advertises wildcard Docker bindings; host-only exposure is not certified. First inspect whether the network exists; create it only if absent:
 
@@ -43,11 +43,11 @@ Local project credentials are stored in ignored `.env.local`. For a new machine,
 
 ## Configuration contract
 
-- `NEXT_PUBLIC_APP_MODE=demo|account`: browser-local demo preferences or authenticated persistence.
+- Account preferences use verified authenticated APIs; legacy app-mode values do not enable browser-only mock preferences.
 - `NEXT_PUBLIC_APP_URL`: exact app origin.
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`: public project configuration; the adapter also accepts `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 - `SUPABASE_SERVICE_ROLE_KEY`: server-only internal reconciliation/playback operations; never a public variable.
-- `AIVERSE_CATALOG_MODE=demo|live`: labeled fixtures or published database projection. Live can be empty; it never fabricates media.
+- Runtime discovery always uses the published database projection. Legacy `AIVERSE_CATALOG_MODE` values cannot restore fixtures; a successful empty catalog remains empty, and unavailable services show explicit recovery states.
 - `AIVERSE_ENABLE_STREAM_UPLOADS=false`: leave disabled until rights, provider and budget gates pass.
 - `AIVERSE_WORKER_SECRET`: random 32+ character server-only bearer secret for the internal media worker.
 - `AIVERSE_RETENTION_DAYS`: leave empty until retention approval; the worker accepts an integer from 30 to 365 days and otherwise leaves cleanup disabled.

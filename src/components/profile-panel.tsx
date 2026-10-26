@@ -486,7 +486,8 @@ export function ProfilePanel({ accountId }: { accountId: string }) {
         </div>
         {!snapshot.uploadsAvailable && (
           <p className="profile-description profile-provider-note">
-            Video uploads are unavailable. You can still apply or manage drafts in the studio.
+            Video uploads are unavailable. You can still prepare and manage private revisions in the
+            studio.
           </p>
         )}
         {snapshot.content.length ? (
@@ -535,7 +536,7 @@ export function ProfilePanel({ accountId }: { accountId: string }) {
         )}
         {snapshot.creator.suspended && (
           <p className="error-message profile-feedback" role="alert">
-            Creator access is suspended. Existing restrictions still apply in the studio.
+            Upload access is suspended. Existing restrictions still apply in the studio.
           </p>
         )}
         <div id="profile-studio" hidden={!studioOpen} className="profile-studio">

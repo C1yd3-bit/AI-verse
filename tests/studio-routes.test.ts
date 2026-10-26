@@ -81,9 +81,11 @@ beforeEach(() => {
   });
   mocks.rpc.mockImplementation(async (name: string) => ({
     data:
-      name === "submit_creator_application"
-        ? versionId
-        : { video_id: other, version_id: versionId },
+      name === "can_upload_media"
+        ? true
+        : name === "submit_creator_application"
+          ? versionId
+          : { video_id: other, version_id: versionId },
     error: null,
   }));
   mocks.server.mockResolvedValue({
@@ -137,15 +139,42 @@ describe("Studio verified-account comparison boundaries", () => {
     expect((await studio(request(endpoints[0], null))).status).toBe(200);
     expect((await applications(request(endpoints[1], null))).status).toBe(200);
     const tables = mocks.from.mock.calls.map(([table]) => table);
-    expect(tables).toEqual(["user_roles", "videos", "creator_applications"]);
-    expect(mocks.from.mock.results[0].value.eq).toHaveBeenCalledWith("user_id", accountId);
-    expect(mocks.from.mock.results[1].value.eq).toHaveBeenCalledWith("owner_id", accountId);
-    expect(mocks.from.mock.results[2].value.eq).toHaveBeenCalledWith("user_id", accountId);
+    expect(tables).toEqual(["videos", "creator_applications"]);
+    expect(mocks.from.mock.results[0].value.eq).toHaveBeenCalledWith("owner_id", accountId);
+    expect(mocks.from.mock.results[1].value.eq).toHaveBeenCalledWith("user_id", accountId);
+    expect(mocks.rpc).toHaveBeenCalledWith("can_upload_media");
   });
-  it("delegates draft/application ownership and creator privileges to the established user RPCs", async () => {
+  it("delegates draft and historical application ownership to established user RPCs", async () => {
     expect((await apply(request(endpoints[2]))).status).toBe(201);
     expect((await draft(request(endpoints[3]))).status).toBe(201);
     expect(mocks.rpc).toHaveBeenCalledWith("submit_creator_application", { application });
     expect(mocks.rpc).toHaveBeenCalledWith("create_video_version", { video_id: null, metadata });
+  });
+  it("exposes explicit eligible viewer access without reading roles or applications", async () => {
+    const response = await studio(request(endpoints[0]));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ eligible: true, videos: [], versions: [] });
+    expect(mocks.from.mock.calls.map(([table]) => table)).toEqual(["videos"]);
+  });
+  it("returns ineligible owner history without pretending a creator application is required", async () => {
+    mocks.rpc.mockResolvedValue({ data: false, error: null });
+    const response = await studio(request(endpoints[0]));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ eligible: false, videos: [], versions: [] });
+  });
+  it("denies unverified Studio reads before private queries", async () => {
+    mocks.getUser.mockResolvedValue({
+      data: { user: { id: accountId, email_confirmed_at: null } },
+      error: null,
+    });
+    await error(await studio(request(endpoints[0])), 403);
+    expect(mocks.from).not.toHaveBeenCalled();
+    expect(mocks.rpc).not.toHaveBeenCalled();
+  });
+  it("fails closed when eligibility is malformed or unavailable", async () => {
+    mocks.rpc.mockResolvedValueOnce({ data: null, error: null });
+    await error(await studio(request(endpoints[0])), 503);
+    mocks.rpc.mockResolvedValueOnce({ data: null, error: { code: "42501" } });
+    await error(await studio(request(endpoints[0])), 403);
   });
 });

@@ -12,7 +12,7 @@ User confirmed 2026-10-24: follow the supplied plan. Next.js App Router, TypeScr
 
 ## Users
 
-Guests and signed-in viewers discover authorized AI-created entertainment. Approved creators submit media. Moderators review videos; administrators approve creators and manage access.
+Guests and signed-in viewers discover authorized AI-created entertainment. Verified, unsuspended users can submit their own media directly. Moderators review videos; administrators manage access and suspensions.
 
 ## Product Purpose
 
@@ -24,7 +24,7 @@ Fusion combines cultural/regional content inspiration, genre and format to expos
 
 ## Operating Context
 
-Browse without login; optionally save preferences. Creator application precedes upload authorization. Processing and human review precede publication. Build through small verified slices.
+Browse without login; optionally save preferences. User-directed update2026-10-26: creator applications and administrator approval are no longer prerequisites for uploading. Verified, unsuspended signed-in users may prepare and upload their own media within the existing quotas. Processing and human review precede publication. Build through small verified slices.
 
 ## Capabilities and Constraints
 
@@ -44,7 +44,7 @@ Original product, architecture and agent source documents are preserved in docs/
 
 - Honest catalog results and visible AI disclosure.
 - Guest access before onboarding.
-- Approved creators and human moderation.
+- Direct uploads for verified users and human moderation before publication.
 - Small provider boundaries and measurable costs.
 - Accessible, understandable controls.
 

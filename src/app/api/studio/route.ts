@@ -6,8 +6,10 @@ export async function GET(request: Request) {
   const expectedAccount = request.headers.get("x-aiverse-account");
   if (expectedAccount !== null && expectedAccount !== auth.user.id)
     return apiResponse({ error: "Your signed-in account changed. Refresh the studio." }, 409);
-  const [roles, videos] = await Promise.all([
-    auth.client.from("user_roles").select("role").eq("user_id", auth.user.id),
+  if (!auth.user.email_confirmed_at)
+    return apiResponse({ error: "Verify your email before opening the studio." }, 403);
+  const [eligibility, videos] = await Promise.all([
+    auth.client.rpc("can_upload_media"),
     auth.client
       .from("videos")
       .select("id,state,latest_version_id,active_version_id,created_at")
@@ -24,10 +26,12 @@ export async function GET(request: Request) {
         .order("created_at", { ascending: false })
         .limit(100)
     : { data: [], error: null };
-  const error = roles.error || videos.error || versions.error;
+  const error = eligibility.error || videos.error || versions.error;
   if (error) return databaseFailure(error);
+  if (typeof eligibility.data !== "boolean")
+    return apiResponse({ error: "Studio access could not be checked. Try again." }, 503);
   return apiResponse({
-    roles: roles.data?.map((role) => role.role),
+    eligible: eligibility.data,
     videos: videos.data,
     versions: versions.data,
   });

@@ -13,8 +13,8 @@ export default function StudioPage() {
     <section className="page-content studio-page">
       <h1>Creator studio</h1>
       <p className="page-intro">
-        Bring your next world to the screen. Apply to create, prepare your film, and follow each
-        revision through review.
+        Bring your next world to the screen. Prepare your film and follow each revision through
+        review.
       </p>
       <StudioPanel
         configured={Boolean(getSupabaseConfig())}

@@ -4,6 +4,12 @@
 
 Implemented locally 2026-10-24. The server-only Cloudflare Stream adapter is verified with deterministic injected HTTP responses; actual credentials and live service behavior are not configured/proved. Local media integration uses real Auth/PostgREST and simulated trusted-provider facts. No Cloudflare upload, delivery, webhook subscription or deletion has been exercised.
 
+## Current upload-access policy — 2026-10-26
+
+The user removed creator applications and administrator approval as upload prerequisites. Verified, unsuspended signed-in users may prepare their own videos directly; they do not receive creator or other privileged roles automatically. Explicit upload eligibility holds at draft/version, reservation, artwork and internal provider grant/bind/processing boundaries. Existing protocol fields named creator identify the owning uploader rather than requiring a privileged creator role. The implementation is functionally accepted, migrations016/017 are applied locally and hosted with preserved data, and the gate-removal visual scope receives SHIP. Git/Vercel release is underway, not yet verified complete; earlier formal method gates remain open. See [[02 Architecture/Decisions#ADR-023 — Direct uploads for verified users]] and [[03 Delivery/Direct Upload Verification]].
+
+Removing the application gate preserves rights/AI attestations, owner isolation, suspension, immutable review, format/size/TUS limits and quotas. Publication still requires human review. Cloudflare Stream remains intentionally disabled; the current configuration cannot perform actual binary transfers. No provider activation, token, billing or live-upload acceptance follows from this policy change.
+
 ## Configuration and API contract
 
 `src/features/media/stream.ts` and `webhook.ts` use the framework's `server-only` marker. `getStreamConfig()` validates the account identifier and secret API token; absence returns null. Credentials are read only on the server. No API key, provider response body, upload URL or playback token appears in errors. The application must avoid logging returned grants as well.
