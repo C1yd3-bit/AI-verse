@@ -227,6 +227,7 @@ function StudioSession({
   useEffect(() => {
     alive.current = true;
     const invalidate = () => {
+      if (!accountId) return;
       identityInvalidated.current = true;
       setAccessLost(true);
       active.current?.abort();

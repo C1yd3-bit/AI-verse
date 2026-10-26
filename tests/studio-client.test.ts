@@ -277,6 +277,26 @@ describe("actual private Studio request ownership", () => {
     expect(fetchMock).toHaveBeenCalledTimes(calls);
     expect(transfers()).toHaveLength(0);
   });
+  it.each([accountChangedEvent, accountUnavailableEvent])(
+    "keeps a guest studio in its normal sign-in state after %s",
+    async (event) => {
+      hooks.accountId = null;
+      render();
+      await settle();
+      fetchMock.mockClear();
+      const writes = hooks.writes;
+      window.dispatchEvent(new Event(event));
+      await settle();
+      const nodes = render();
+      expect(hooks.writes).toBe(writes);
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(nodes.map(text).join()).toContain("Sign in to prepare your videos");
+      expect(nodes.map(text).join()).not.toContain("Your account changed");
+      expect(nodes.some((node) => node.props.role === "alert")).toBe(false);
+      expect(nodes.some((node) => node.props.href === "/login")).toBe(true);
+      expect(transfers()).toHaveLength(0);
+    },
+  );
   it("serializes duplicate mutation and refresh requests, then keeps the lock until reread completes", async () => {
     const response = deferred<Response>();
     fetchMock.mockReturnValueOnce(response.promise);

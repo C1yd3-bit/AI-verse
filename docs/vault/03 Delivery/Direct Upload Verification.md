@@ -2,7 +2,7 @@
 
 [[Home]] · [[03 Delivery/Roadmap|Roadmap]] · [[02 Architecture/Decisions#ADR-023 — Direct uploads for verified users|Direct-upload decision]] · [[02 Architecture/Media Provider|Media provider]] · [[02 Architecture/Trust Controls|Trust controls]]
 
-2026-10-26. The user explicitly removed the creator-application/administrator-approval prerequisite so eligible signed-in users can prepare their own videos directly. Implementation is **functionally accepted** and receives **scoped visual SHIP** for gate removal. Migrations016/017 are applied locally and hosted with data preserved. The user explicitly approved release; **Git publication and Vercel release are underway, not yet verified complete**. No real video-upload success is claimed.
+2026-10-26. The user explicitly removed the creator-application/administrator-approval prerequisite so eligible signed-in users can prepare their own videos directly. Implementation is **functionally accepted** and receives **scoped visual SHIP** for gate removal. Migrations016/017 are applied locally and hosted with data preserved. The approved first release is published as `5c321b45`, with successful CI and a READY production deployment. An anonymous-Studio banner correction is now in progress; its follow-up release verification remains pending. No real video-upload success is claimed.
 
 ## Authorized behavior
 
@@ -32,7 +32,11 @@ After explicit user release approval, the parent applied hosted016/017 in origin
 
 Independent hosted postflight returns **ACCEPT for the migration scope**:17 migration versions,31 RLS tables,59 functions, pinned definer search paths, unchanged public projection columns and service-only provider hooks. A read-only capability probe of the existing verified ordinary account returns `can_upload_media=true` while creator/admin/moderator checks are false. Observed counts are Auth1, viewer-role1, applications0, videos0 and catalog0; no business RPC write or login was performed by the verifier. The32 preservation scopes match exactly.
 
-Git source publication and Vercel release are underway, with final commit/tree/deployment verification still pending at this documentation freeze. Earlier delivery notes remain historical evidence for their original contracts and are not retroactively invalidated.
+## First release and pending follow-up
+
+The parent pushed the approved first release [5c321b45](https://github.com/C1yd3-bit/AI-verse/commit/5c321b45) to `main`. [GitHub CI run40262654487](https://github.com/C1yd3-bit/AI-verse/actions/runs/40262654487) succeeded. Vercel confirms a READY production deployment from that exact source at the [stable alias](https://ai-verse-sigma.vercel.app).
+
+A subsequent actual live-browser check found an erroneous identity-loss banner for a fresh anonymous Studio visit. The UI builder is correcting the identity guard and adding a regression test. That small follow-up is not yet recorded as verified or released here; its final source/deployment result will be recorded by the parent after deployment. The first release's CI/READY status does not prove the follow-up fix. Earlier evidence remains historical for its original scope.
 
 ## Hosted advisor evidence after application
 
