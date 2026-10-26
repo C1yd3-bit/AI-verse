@@ -11,7 +11,6 @@ const hooks = vi.hoisted(() => ({
   pending: [] as (() => void)[],
   ready: true,
   accountId: "94000000-0000-4000-8000-000000000001" as string | null,
-  load: vi.fn(),
 }));
 vi.mock("react", async (original) => ({
   ...(await original<typeof import("react")>()),
@@ -51,9 +50,8 @@ vi.mock("react", async (original) => ({
 vi.mock("../src/components/appearance-provider", () => ({
   useAppearance: () => ({ ready: hooks.ready, accountId: hooks.accountId }),
 }));
-vi.mock("../src/features/playback/stream-player", async (original) => ({
-  ...(await original<typeof import("../src/features/playback/stream-player")>()),
-  loadStreamPlayerSDK: (options: unknown) => hooks.load(options),
+vi.mock("../src/lib/env", () => ({
+  getSupabaseConfig: () => ({ url: "https://project.supabase.co", key: "public-test-key" }),
 }));
 import { FilmPlayer } from "../src/components/film-player";
 
@@ -71,6 +69,9 @@ let fetchMock: ReturnType<typeof vi.fn>;
 let player: StreamPlayer & {
   emit: (event: StreamPlayerEvent) => void;
   pause: ReturnType<typeof vi.fn<() => void>>;
+  src: string;
+  removeAttribute: ReturnType<typeof vi.fn>;
+  load: ReturnType<typeof vi.fn>;
 };
 let documentTarget: EventTarget & { visibilityState: string };
 
@@ -87,10 +88,11 @@ function render() {
   const wrapper = FilmPlayer(props);
   const session = wrapper.type as (value: Props) => ReactElement;
   nodes = elements(session(wrapper.props));
-  const frame = nodes.find((node) => node.type === "iframe");
+  const frame = nodes.find((node) => node.type === "video");
   if (frame) {
-    fakeFrame ??= { src: String(frame.props.src) };
-    (frame.props.ref as { current: unknown }).current = fakeFrame;
+    player.src = String(frame.props.src);
+    fakeFrame = player;
+    (frame.props.ref as { current: unknown }).current = player;
   }
   for (const effect of hooks.pending.splice(0)) effect();
   return nodes;
@@ -114,7 +116,7 @@ function click(label: string) {
 }
 function grant(overrides: Record<string, unknown> = {}) {
   return {
-    iframeUrl: "https://iframe.videodelivery.net/signed-test-token",
+    videoUrl: `https://project.supabase.co/storage/v1/object/sign/aiverse-videos/${accountId}/${versionId}/${sessionKey}.mp4?token=signed.test.token`,
     expiresAt: Math.floor(Date.now() / 1000) + 120,
     versionId,
     durationSeconds: 90,
@@ -152,6 +154,11 @@ beforeEach(() => {
   fakeFrame = null;
   const listeners = new Map<StreamPlayerEvent, () => void>();
   player = {
+    src: "",
+    removeAttribute: vi.fn(() => {
+      player.src = "";
+    }),
+    load: vi.fn(),
     currentTime: 0,
     duration: 90,
     paused: true,
@@ -170,8 +177,6 @@ beforeEach(() => {
       listeners.get(event)?.();
     },
   };
-  hooks.load.mockReset();
-  hooks.load.mockResolvedValue(() => player);
   fetchMock = vi.fn(async (_input, init) =>
     init?.method === "POST"
       ? Response.json({ watchedSeconds: JSON.parse(init.body).watchedSeconds, credited: false })
@@ -179,7 +184,11 @@ beforeEach(() => {
   );
   vi.stubGlobal("fetch", fetchMock);
   vi.stubGlobal("window", Object.assign(new EventTarget(), { setTimeout, clearTimeout }));
-  documentTarget = Object.assign(new EventTarget(), { visibilityState: "visible" });
+  documentTarget = Object.assign(new EventTarget(), {
+    visibilityState: "visible",
+    createElement: () => ({}),
+    head: { appendChild: vi.fn() },
+  });
   vi.stubGlobal("document", documentTarget);
 });
 afterEach(async () => {
@@ -198,23 +207,25 @@ describe("actual FilmPlayer session lifecycle", () => {
     );
     Object.assign(player, { duration: 930 });
     await start();
-    expect(nodes.some((node) => node.type === "iframe")).toBe(true);
+    expect(nodes.some((node) => node.type === "video")).toBe(true);
     vi.advanceTimersByTime(301000);
     await settle();
-    expect(nodes.some((node) => node.type === "iframe")).toBe(true);
+    expect(nodes.some((node) => node.type === "video")).toBe(true);
     vi.advanceTimersByTime(690000);
     await settle();
-    expect(nodes.some((node) => node.type === "iframe")).toBe(false);
+    expect(nodes.some((node) => node.type === "video")).toBe(false);
   });
-  it("loads nothing before explicit activation and wires actual SDK events to owner-scoped progress", async () => {
+  it("loads nothing before explicit activation and wires actual native video events to owner-scoped progress", async () => {
     render();
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(hooks.load).not.toHaveBeenCalled();
     await start();
-    expect(nodes.find((node) => node.type === "iframe")?.props.src).toBe(
-      "https://iframe.videodelivery.net/signed-test-token?autoplay=false&preload=none",
-    );
-    expect(hooks.load).toHaveBeenCalledOnce();
+    expect(nodes.find((node) => node.type === "video")?.props.src).toBe(grant().videoUrl);
+    const video = nodes.find((node) => node.type === "video")!;
+    expect(video.props.preload).toBe("none");
+    expect(video.props.controls).toBe(true);
+    expect(video.props.playsInline).toBe(true);
+    expect(video.props.autoPlay).toBeUndefined();
+    expect(player.play).not.toHaveBeenCalled();
     playing();
     Object.assign(player, { paused: true });
     player.emit("pause");
@@ -227,9 +238,9 @@ describe("actual FilmPlayer session lifecycle", () => {
   });
 
   it.each([
-    { iframeUrl: "https://evil.example/signed-token" },
-    { iframeUrl: "https://iframe.videodelivery.net/token?autoplay=true" },
-    { iframeUrl: "https://iframe.videodelivery.net/token/path" },
+    { videoUrl: "https://evil.example/signed-token" },
+    { videoUrl: `${grant().videoUrl}&autoplay=true` },
+    { videoUrl: grant().videoUrl.replace(versionId, videoId) },
     { expiresAt: 1 },
     { expiresAt: 1792886400 + 301 },
     { durationSeconds: 1201 },
@@ -237,16 +248,12 @@ describe("actual FilmPlayer session lifecycle", () => {
     { versionId: null },
     { tracking: { sessionKey, accountId: otherAccount, versionId } },
     { tracking: { sessionKey, accountId, versionId: videoId } },
-  ])(
-    "rejects unsafe or inconsistent grants before loading iframe or SDK: %j",
-    async (overrides) => {
-      fetchMock.mockResolvedValueOnce(Response.json(grant(overrides)));
-      await start();
-      expect(nodes.some((node) => node.type === "iframe")).toBe(false);
-      expect(hooks.load).not.toHaveBeenCalled();
-      expect(progressRequests()).toHaveLength(0);
-    },
-  );
+  ])("rejects unsafe or inconsistent grants before loading native media: %j", async (overrides) => {
+    fetchMock.mockResolvedValueOnce(Response.json(grant(overrides)));
+    await start();
+    expect(nodes.some((node) => node.type === "video")).toBe(false);
+    expect(progressRequests()).toHaveLength(0);
+  });
 
   it.each(["guest", "private"])(
     "never records %s activity even if response contains tracking",
@@ -266,11 +273,13 @@ describe("actual FilmPlayer session lifecycle", () => {
     await start();
     playing();
     await click("Close player");
-    expect(fakeFrame?.src).toBe("about:blank");
+    expect(fakeFrame?.src).toBe("");
     await settle();
     expect(player.pause).toHaveBeenCalledOnce();
+    expect(player.removeAttribute).toHaveBeenCalledWith("src");
+    expect(player.load).toHaveBeenCalledOnce();
     expect(progressRequests()).toHaveLength(1);
-    expect(nodes.some((node) => node.type === "iframe")).toBe(false);
+    expect(nodes.some((node) => node.type === "video")).toBe(false);
     player.emit("timeupdate");
     await settle();
     expect(progressRequests()).toHaveLength(1);
@@ -283,8 +292,8 @@ describe("actual FilmPlayer session lifecycle", () => {
       playing();
       window.dispatchEvent(new Event(event));
       await settle();
-      expect(fakeFrame?.src).toBe("about:blank");
-      expect(nodes.some((node) => node.type === "iframe")).toBe(false);
+      expect(fakeFrame?.src).toBe("");
+      expect(nodes.some((node) => node.type === "video")).toBe(false);
       expect(progressRequests()).toHaveLength(0);
     },
   );
@@ -295,38 +304,38 @@ describe("actual FilmPlayer session lifecycle", () => {
     hooks.ready = false;
     hooks.accountId = null;
     render();
-    expect(nodes.some((node) => node.type === "iframe")).toBe(true);
+    expect(nodes.some((node) => node.type === "video")).toBe(true);
     hooks.ready = true;
     hooks.accountId = otherAccount;
     await settle();
-    expect(nodes.some((node) => node.type === "iframe")).toBe(false);
+    expect(nodes.some((node) => node.type === "video")).toBe(false);
     expect(progressRequests()).toHaveLength(0);
   });
 
-  it("stops the native frame on hidden pages even while SDK is unavailable", async () => {
-    hooks.load.mockReturnValue(new Promise(() => {}));
+  it("stops native playback immediately when the document is hidden", async () => {
     await start();
     documentTarget.visibilityState = "hidden";
     document.dispatchEvent(new Event("visibilitychange"));
-    expect(fakeFrame?.src).toBe("about:blank");
+    expect(fakeFrame?.src).toBe("");
     await settle();
-    expect(nodes.some((node) => node.type === "iframe")).toBe(false);
+    expect(nodes.some((node) => node.type === "video")).toBe(false);
     expect(progressRequests()).toHaveLength(0);
   });
 
-  it("keeps native controls usable when SDK loading fails", async () => {
-    hooks.load.mockRejectedValue(new Error("SDK offline"));
+  it("offers recovery information for an actual native decode or network error", async () => {
     await start();
-    expect(nodes.some((node) => node.type === "iframe")).toBe(true);
+    player.emit("error");
+    await settle();
+    expect(nodes.some((node) => node.type === "video")).toBe(true);
     expect(
       nodes.some(
         (node) =>
           node.props.children ===
-          "Playback activity could not connect. You can still use the video controls.",
+          "The video could not be played. Check your connection and whether this MP4 uses browser-supported video and audio.",
       ),
     ).toBe(true);
     await click("Close player");
-    expect(fakeFrame?.src).toBe("about:blank");
+    expect(fakeFrame?.src).toBe("");
   });
 
   it("aborts a superseded request and ignores its late reply", async () => {
@@ -342,11 +351,10 @@ describe("actual FilmPlayer session lifecycle", () => {
     await click("Requesting playback…");
     await settle();
     expect(firstSignal.aborted).toBe(true);
-    resolve(Response.json(grant({ iframeUrl: "https://iframe.videodelivery.net/obsolete-token" })));
+    resolve(Response.json(grant({ videoUrl: `${grant().videoUrl}obsolete-token` })));
     await first;
     await settle();
-    expect(nodes.find((node) => node.type === "iframe")?.props.src).not.toContain("obsolete-token");
-    expect(hooks.load).toHaveBeenCalledOnce();
+    expect(nodes.find((node) => node.type === "video")?.props.src).not.toContain("obsolete-token");
   });
 
   it("cancels pending grants when another player activates", async () => {
@@ -364,8 +372,7 @@ describe("actual FilmPlayer session lifecycle", () => {
     await pending;
     await settle();
     expect(signal.aborted).toBe(true);
-    expect(nodes.some((node) => node.type === "iframe")).toBe(false);
-    expect(hooks.load).not.toHaveBeenCalled();
+    expect(nodes.some((node) => node.type === "video")).toBe(false);
   });
 
   it("stops and removes an expired grant without sending late progress", async () => {
@@ -376,16 +383,16 @@ describe("actual FilmPlayer session lifecycle", () => {
     playing(4);
     vi.advanceTimersByTime(1000);
     await settle();
-    expect(fakeFrame?.src).toBe("about:blank");
-    expect(nodes.some((node) => node.type === "iframe")).toBe(false);
+    expect(fakeFrame?.src).toBe("");
+    expect(nodes.some((node) => node.type === "video")).toBe(false);
     expect(progressRequests()).toHaveLength(0);
   });
 
-  it("cleans SDK observers and native frame on unmount", async () => {
+  it("cleans native observers and scrubs the signed source on unmount", async () => {
     await start();
     for (const effect of hooks.effects.values()) effect.cleanup?.();
     hooks.effects.clear();
-    expect(fakeFrame?.src).toBe("about:blank");
+    expect(fakeFrame?.src).toBe("");
     expect(player.pause).toHaveBeenCalledOnce();
     player.emit("playing");
     playing();

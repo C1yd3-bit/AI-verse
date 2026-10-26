@@ -49,7 +49,7 @@ vi.mock("../src/components/appearance-provider", () => ({
 }));
 vi.mock("../src/components/film-player", () => ({ FilmPlayer: "film-player" }));
 vi.mock("../src/components/version-artwork", () => ({ VersionArtwork: "version-artwork" }));
-vi.mock("../src/components/studio-upload-form", () => ({ StudioUploadForm: "video-upload" }));
+vi.mock("../src/components/storage-upload-form", () => ({ StorageUploadForm: "video-upload" }));
 import { StudioPanel } from "../src/components/studio-panel";
 type Node = ReactElement<Record<string, unknown> & { children?: ReactNode }>;
 const accountId = "97000000-0000-4000-8000-000000000001";

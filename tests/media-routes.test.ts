@@ -19,8 +19,9 @@ vi.mock("@/features/media/stream", () => ({
   getStreamConfig: mocks.config,
   createStreamProvider: mocks.provider,
 }));
-import { POST as upload } from "../src/app/api/studio/uploads/route";
-import { GET as playback } from "../src/app/api/playback/[id]/route";
+import { POST as upload } from "../src/features/media/legacy-stream-upload-route";
+// Retained inactive Stream boundary; Storage routes have dedicated tests.
+import { GET as playback } from "../src/features/playback/legacy-stream-route";
 
 const now = Date.parse("2026-10-24T12:00:00Z");
 const owner = "60000000-0000-4000-8000-000000000001";

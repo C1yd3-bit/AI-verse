@@ -32,10 +32,12 @@ Requires Docker and Supabase CLI. Configuration uses project `aiverse-ana`, API 
 docker network inspect aiverse-ana-local
 # Only if absent:
 docker network create --driver bridge --opt com.docker.network.bridge.host_binding_ipv4=127.0.0.1 aiverse-ana-local
-supabase start --network-id aiverse-ana-local -x realtime,storage-api,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
+supabase start --network-id aiverse-ana-local -x realtime,imgproxy,studio,postgres-meta,logflare,vector,supavisor
 ```
 
 Do not capture/print the CLI credential summary into chat, logs or this vault. Verify container port bindings locally. Apply ordered migrations without resetting data using the CLI's local migration procedure (`supabase migration up --local`). Read `supabase/README.md` before schema or role changes; do not use a database reset on existing data.
+
+The active Storage upload path requires both `storage-api` and `edge-runtime`; do not exclude them as the historical local command did. The data-preserving CLI2.122 restart and local018–020 application are complete. Actual local generated-file signed upload/private native playback passed, followed by exact synthetic cleanup with original account/content preserved. For future restarts, retain volumes/accounts rather than resetting. Serve `media-storage` with its intended local configuration and verify the Storage/Edge services before testing bytes. Hosted migrations/Edge v1 are also installed, but hosted actual-binary/authenticated browser journeys and Git/Vercel application publication remain pending. See [[03 Delivery/Storage Upload Verification]].
 
 `supabase/config.toml` keeps email confirmation enabled. Test messages are captured locally at `http://127.0.0.1:55324`; no external SMTP delivery is proved. Auth accepts the `/auth/callback` routes for localhost/127.0.0.1:3000. The local HTTP integration now exercises normal signup, captured Mailpit confirmation and PKCE callback cookie exchange through onboarding/preferences and logout, alongside isolated temporary confirmed users for other checks.
 
@@ -46,16 +48,14 @@ Local project credentials are stored in ignored `.env.local`. For a new machine,
 - Account preferences use verified authenticated APIs; legacy app-mode values do not enable browser-only mock preferences.
 - `NEXT_PUBLIC_APP_URL`: exact app origin.
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`: public project configuration; the adapter also accepts `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
-- `SUPABASE_SERVICE_ROLE_KEY`: server-only internal reconciliation/playback operations; never a public variable.
+- The active `media-storage` Edge Function uses Supabase's built-in server-only service key; never expose it to browsers or add it as a privileged Vercel variable for this path. Local function and Next.js environments are separate runtimes. [Supabase Edge variables](https://supabase.com/docs/guides/functions/secrets)
 - Runtime discovery always uses the published database projection. Legacy `AIVERSE_CATALOG_MODE` values cannot restore fixtures; a successful empty catalog remains empty, and unavailable services show explicit recovery states.
-- `AIVERSE_ENABLE_STREAM_UPLOADS=false`: leave disabled until rights, provider and budget gates pass.
-- `AIVERSE_WORKER_SECRET`: random 32+ character server-only bearer secret for the internal media worker.
-- `AIVERSE_RETENTION_DAYS`: leave empty until retention approval; the worker accepts an integer from 30 to 365 days and otherwise leaves cleanup disabled.
-- `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_STREAM_API_TOKEN`, `CLOUDFLARE_STREAM_WEBHOOK_SECRET`, `CLOUDFLARE_STREAM_SIGNING_KEY_ID`, `CLOUDFLARE_STREAM_SIGNING_PRIVATE_KEY`: server-only provider configuration. Current token issuance uses the authenticated provider API; signing-key placeholders do not imply local JWT signing exists.
+- `AIVERSE_ENABLE_STREAM_UPLOADS=false` and Cloudflare credential placeholders belong to dormant legacy adapters; they are not prerequisites for active Supabase Storage uploads.
+- `AIVERSE_WORKER_SECRET` and `AIVERSE_RETENTION_DAYS` belong to the historical internal Stream/retention worker. Do not infer a Storage cleanup schedule from their presence.
 
 Enter secrets only in the ignored local file or approved hosting secret store. `NEXT_PUBLIC_` values may be bundled for browsers. Keep external uploads disabled while running local integration tests.
 
-The user declined creation of the Cloudflare Stream token. Keep Stream unconfigured and `AIVERSE_ENABLE_STREAM_UPLOADS=false`; neither the local database nor the staged hosted profile supplies licensed media or live provider access.
+The user explicitly removed Cloudflare from the active path. Keep legacy Stream unconfigured; do not create credentials or activate billing. Active Storage accepts MP4/H.264 up to50,000,000bytes, not the dormant500MB/TUS policy. Owners still need rights/AI attestation, quotas and human publication review. Storage cleanup runs opportunistically in service-only batches up to three after the two-hour upload capability plus safety margin; no automatic cron exists. No runtime/hosted acceptance is implied by local configuration alone. [Supabase limits](https://supabase.com/docs/guides/storage/uploads/file-limits)
 
 ## Verification layers
 

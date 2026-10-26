@@ -1,6 +1,6 @@
 import "server-only";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
-import { getStreamConfig } from "@/features/media/stream";
+import { getSupabaseConfig } from "@/lib/env";
 import { privateProfileSchema, type ProfileInput, type ProfileSnapshot } from "./schema";
 
 export async function readPrivateProfile(client: SupabaseClient, user: User) {
@@ -12,8 +12,7 @@ export async function readPrivateProfile(client: SupabaseClient, user: User) {
     ...parsed.data,
     accountId: user.id,
     account: parsed.data.account ? { ...parsed.data.account, email: user.email ?? null } : null,
-    uploadsAvailable:
-      Boolean(getStreamConfig()) && process.env.AIVERSE_ENABLE_STREAM_UPLOADS === "true",
+    uploadsAvailable: Boolean(getSupabaseConfig()),
   };
   return { data: snapshot, error: null };
 }

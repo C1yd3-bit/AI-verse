@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-const m = vi.hoisted(() => ({ client: vi.fn(), getUser: vi.fn(), rpc: vi.fn(), stream: vi.fn() }));
+const m = vi.hoisted(() => ({ client: vi.fn(), getUser: vi.fn(), rpc: vi.fn(), config: vi.fn() }));
 vi.mock("server-only", () => ({}));
 vi.mock("@/lib/supabase/server", () => ({ createSupabaseServerClient: m.client }));
-vi.mock("@/features/media/stream", () => ({ getStreamConfig: m.stream }));
+vi.mock("@/lib/env", () => ({ getSupabaseConfig: m.config }));
 import { GET, POST } from "../src/app/api/me/profile/route";
 const user = {
   id: "93000000-0000-4000-8000-000000000001",
@@ -38,7 +38,7 @@ beforeEach(() => {
   m.client.mockResolvedValue({ auth: { getUser: m.getUser }, rpc: m.rpc });
   m.getUser.mockResolvedValue({ data: { user }, error: null });
   m.rpc.mockResolvedValue({ data: snapshot(), error: null });
-  m.stream.mockReturnValue(null);
+  m.config.mockReturnValue(null);
   vi.stubEnv("AIVERSE_ENABLE_STREAM_UPLOADS", "false");
 });
 afterEach(() => vi.unstubAllEnvs());
@@ -135,14 +135,16 @@ describe("verified private profile route", () => {
     expect(denied.status).toBe(403);
     expect(await denied.text()).not.toMatch(/Private database detail/);
   });
-  it("preserves missing onboarding and requires both provider configuration and upload flag", async () => {
+  it("preserves missing onboarding and enables Storage from Supabase configuration independently of Stream", async () => {
     m.rpc.mockResolvedValue({ data: { ...snapshot(), account: null }, error: null });
     expect((await (await GET()).json()).account).toBeNull();
     vi.stubEnv("AIVERSE_ENABLE_STREAM_UPLOADS", "true");
     expect((await (await GET()).json()).uploadsAvailable).toBe(false);
-    m.stream.mockReturnValue({ accountId: "redacted", apiToken: "redacted" });
+    m.config.mockReturnValue({ url: "https://project.supabase.co", key: "public-test-key" });
     expect((await (await GET()).json()).uploadsAvailable).toBe(true);
     vi.stubEnv("AIVERSE_ENABLE_STREAM_UPLOADS", "false");
+    expect((await (await GET()).json()).uploadsAvailable).toBe(true);
+    m.config.mockReturnValue(null);
     expect((await (await GET()).json()).uploadsAvailable).toBe(false);
   });
 });

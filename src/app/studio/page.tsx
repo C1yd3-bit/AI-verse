@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { StudioPanel } from "@/components/studio-panel";
 import { getSupabaseConfig } from "@/lib/env";
-import { getStreamConfig } from "@/features/media/stream";
 import "./studio.css";
 
 export const metadata: Metadata = {
@@ -18,9 +17,7 @@ export default function StudioPage() {
       </p>
       <StudioPanel
         configured={Boolean(getSupabaseConfig())}
-        uploadsEnabled={
-          Boolean(getStreamConfig()) && process.env.AIVERSE_ENABLE_STREAM_UPLOADS === "true"
-        }
+        uploadsEnabled={Boolean(getSupabaseConfig())}
       />
     </section>
   );

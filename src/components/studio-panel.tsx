@@ -8,7 +8,7 @@ import { languageSlugs } from "@/features/discovery/query";
 import { label } from "@/features/discovery/catalog";
 import { versionInput } from "@/features/media/schema";
 import { FilmPlayer } from "./film-player";
-import { StudioUploadForm } from "./studio-upload-form";
+import { StorageUploadForm } from "./storage-upload-form";
 import { VersionArtwork } from "./version-artwork";
 import { useAppearance } from "./appearance-provider";
 import { accountChangedEvent, accountUnavailableEvent } from "@/lib/appearance";
@@ -538,28 +538,31 @@ function StudioSession({
                       {version.metadata.genres.map(label).join(", ")} ·{" "}
                       {version.metadata.format === "reel" ? "Reel" : "Movie"}
                     </p>
-                    {version.state === "draft" &&
+                    {["draft", "uploading"].includes(version.state) &&
                       data.videos.find((video) => video.id === version.video_id)
                         ?.latest_version_id === version.id && (
                         <>
-                          <VersionArtwork
-                            versionId={version.id}
-                            accountId={accountId!}
-                            enabled={available && !loading && !busy && !uploadBusy}
-                            onBusyChange={(next) => transferBusy(`${version.id}:artwork`, next)}
-                          />
-                          <StudioUploadForm
+                          {version.state === "draft" && (
+                            <VersionArtwork
+                              versionId={version.id}
+                              accountId={accountId!}
+                              enabled={available && !loading && !busy && !uploadBusy}
+                              onBusyChange={(next) => transferBusy(`${version.id}:artwork`, next)}
+                            />
+                          )}
+                          <StorageUploadForm
                             key={`${accountId}:${version.id}`}
                             versionId={version.id}
                             accountId={accountId!}
                             providerEnabled={uploadsEnabled}
+                            recovering={version.state === "uploading"}
                             enabled={
                               uploadsEnabled && available && !loading && !busy && !uploadBusy
                             }
                             onBusyChange={(next) => transferBusy(`${version.id}:upload`, next)}
                             onUploaded={() =>
                               setSuccess(
-                                "File transfer confirmed. Refresh status to check processing and review.",
+                                "The uploaded file passed inspection and is waiting for human review. Refresh status to see the revision.",
                               )
                             }
                           />
@@ -567,8 +570,8 @@ function StudioSession({
                       )}
                     {["uploading", "processing"].includes(version.state) && (
                       <p className="field-description">
-                        Processing has not finished. Use Refresh status to check again; no
-                        additional upload is started automatically.
+                        Use Check uploaded file to confirm a completed transfer, or Refresh status
+                        to read the latest result. No additional upload starts automatically.
                       </p>
                     )}
                     {["pending_review", "published"].includes(version.state) && (

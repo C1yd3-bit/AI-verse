@@ -17,7 +17,8 @@ vi.mock("@/features/media/stream", () => ({
   createStreamProvider: m.provider,
 }));
 import { POST } from "../src/app/api/playback/[id]/progress/route";
-import { GET } from "../src/app/api/playback/[id]/route";
+// Contract coverage for the inactive Stream adapter. Storage routes are tested separately.
+import { GET } from "../src/features/playback/legacy-stream-route";
 const account = "82000000-0000-4000-8000-000000000001",
   video = "82000000-0000-4000-8000-000000000002",
   version = "82000000-0000-4000-8000-000000000003",

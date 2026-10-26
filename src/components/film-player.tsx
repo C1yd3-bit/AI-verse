@@ -8,17 +8,14 @@ import { accountChangedEvent, accountUnavailableEvent } from "@/lib/appearance";
 import { playbackTrackingSchema } from "@/features/playback/schema";
 import { createPlaybackActivity } from "@/features/playback/activity";
 import { MAX_MOVIE_SECONDS, MAX_PLAYBACK_TTL_SECONDS } from "@/features/media/policy";
-import {
-  loadStreamPlayerSDK,
-  observeStreamPlayer,
-  type StreamPlayer,
-} from "@/features/playback/stream-player";
+import { getSupabaseConfig } from "@/lib/env";
+import { safeStorageUrl } from "@/features/media/storage-upload-client";
 
 const activationEvent = "aiverse:player-activate";
 let activePlayer: string | null = null;
 const playbackGrantSchema = z
   .object({
-    iframeUrl: z.string().max(8300),
+    videoUrl: z.string().max(8300),
     expiresAt: z.union([z.number().int().positive(), z.iso.datetime({ offset: true })]),
     versionId: z.uuid(),
     durationSeconds: z.number().int().min(1).max(MAX_MOVIE_SECONDS),
@@ -68,7 +65,7 @@ function FilmPlayerSession({
   const identity = useRef(appearance.ready ? appearance.accountId : null);
   const identityBlocked = useRef(false);
   const generation = useRef(0);
-  const frame = useRef<HTMLIFrameElement | null>(null);
+  const frame = useRef<HTMLVideoElement | null>(null);
   const runtime = useRef<Runtime | null>(null);
   const pending = useRef<AbortController | null>(null);
   const [grant, setGrant] = useState<ActiveGrant | null>(null);
@@ -82,9 +79,12 @@ function FilmPlayerSession({
       pending.current = null;
       runtime.current?.close(flush);
       runtime.current = null;
-      // Stop native iframe playback immediately, including before SDK readiness.
-      // React removes the empty frame on the following commit.
-      if (frame.current) frame.current.src = "about:blank";
+      // Stop playback and scrub the private bearer URL before React commits.
+      if (frame.current) {
+        frame.current.pause();
+        frame.current.removeAttribute("src");
+        frame.current.load();
+      }
       if (activePlayer === instance) activePlayer = null;
       if (update) {
         setGrant(null);
@@ -144,81 +144,86 @@ function FilmPlayerSession({
   }, [grant, stop]);
 
   useEffect(() => {
-    const iframe = frame.current;
-    if (!grant || !iframe) return;
-    const controller = new AbortController();
+    const player = frame.current;
+    if (!grant || !player) return;
     let disposed = false;
-    let player: StreamPlayer | null = null;
-    let detach: (() => void) | null = null;
     let activity: ReturnType<typeof createPlaybackActivity> | null = null;
+    const events = [
+      "play",
+      "playing",
+      "pause",
+      "timeupdate",
+      "seeking",
+      "seeked",
+      "waiting",
+      "stalled",
+      "ended",
+      "error",
+      "abort",
+    ] as const;
+    const handlers = events.map((event) => ({
+      event,
+      handler: () => {
+        if (disposed) return;
+        if (identityBlocked.current || identity.current !== grant.accountId) {
+          stop(false);
+          return;
+        }
+        activity?.sample(
+          {
+            currentTime: player.currentTime,
+            paused: player.paused,
+            ended: player.ended,
+            visible: document.visibilityState === "visible",
+          },
+          event,
+        );
+        if (event === "error")
+          setMessage(
+            "The video could not be played. Check your connection and whether this MP4 uses browser-supported video and audio.",
+          );
+      },
+    }));
     const session: Runtime = {
       close(flush) {
         if (disposed) return;
         disposed = true;
-        controller.abort();
         if (activity) {
           if (flush && identity.current === grant.accountId && !identityBlocked.current) {
-            if (player)
-              activity.sample(
-                {
-                  currentTime: player.currentTime,
-                  paused: true,
-                  ended: player.ended,
-                  visible: document.visibilityState === "visible",
-                },
-                "pause",
-              );
+            activity.sample(
+              {
+                currentTime: player.currentTime,
+                paused: true,
+                ended: player.ended,
+                visible: document.visibilityState === "visible",
+              },
+              "pause",
+            );
             void activity.stop();
           } else activity.invalidate();
         }
-        detach?.();
+        for (const { event, handler } of handlers) player.removeEventListener(event, handler);
         if (runtime.current === session) runtime.current = null;
       },
     };
     runtime.current = session;
-    void loadStreamPlayerSDK({ signal: controller.signal })
-      .then((factory) => {
-        if (
-          disposed ||
-          controller.signal.aborted ||
-          generation.current !== grant.generation ||
-          activePlayer !== instance ||
-          document.visibilityState !== "visible" ||
-          identityBlocked.current ||
-          identity.current !== grant.accountId ||
-          Date.now() >= grant.expires
-        )
-          return;
-        player = factory(iframe);
-        if (!versionId && grant.tracking && grant.accountId) {
-          activity = createPlaybackActivity({
-            videoId,
-            durationSeconds: grant.durationSeconds,
-            expiresAt: grant.expires,
-            tracking: grant.tracking,
-          });
-        }
-        detach = observeStreamPlayer(player, (event) => {
-          if (disposed || !player) return;
-          if (identityBlocked.current || identity.current !== grant.accountId) {
-            stop(false);
-            return;
-          }
-          activity?.sample(
-            {
-              currentTime: player.currentTime,
-              paused: player.paused,
-              ended: player.ended,
-              visible: document.visibilityState === "visible",
-            },
-            event,
-          );
+    if (
+      generation.current === grant.generation &&
+      activePlayer === instance &&
+      document.visibilityState === "visible" &&
+      !identityBlocked.current &&
+      identity.current === grant.accountId &&
+      Date.now() < grant.expires
+    ) {
+      if (!versionId && grant.tracking && grant.accountId)
+        activity = createPlaybackActivity({
+          videoId,
+          durationSeconds: grant.durationSeconds,
+          expiresAt: grant.expires,
+          tracking: grant.tracking,
         });
-      })
-      .catch(() => {
-        if (!disposed && !controller.signal.aborted && generation.current === grant.generation)
-          setMessage("Playback activity could not connect. You can still use the video controls.");
-      });
+      for (const { event, handler } of handlers) player.addEventListener(event, handler);
+    }
     return () => session.close(true);
   }, [grant, instance, stop, versionId, videoId]);
 
@@ -252,16 +257,18 @@ function FilmPlayerSession({
       const parsed = playbackGrantSchema.safeParse(result);
       if (!parsed.success) throw new Error("Playback could not be safely opened.");
       const data = parsed.data;
-      const url = new URL(data.iframeUrl);
+      const url = new URL(data.videoUrl);
+      const configured = getSupabaseConfig();
+      const path = new RegExp(
+        `^/storage/v1/object/sign/aiverse-videos/([a-fA-F0-9-]{36})/${data.versionId}/([a-fA-F0-9-]{36})\\.mp4$`,
+      );
+      const match = path.exec(url.pathname);
       if (
-        url.protocol !== "https:" ||
-        url.hostname !== "iframe.videodelivery.net" ||
-        url.port ||
-        url.username ||
-        url.password ||
-        !/^\/[A-Za-z0-9_.-]{1,8192}$/.test(url.pathname) ||
-        url.search ||
-        url.hash
+        !configured ||
+        !match ||
+        !z.uuid().safeParse(match[1]).success ||
+        !z.uuid().safeParse(match[2]).success ||
+        !safeStorageUrl(data.videoUrl, configured.url, url.pathname)
       )
         throw new Error("Playback could not be safely opened.");
       const expiresAt =
@@ -287,8 +294,10 @@ function FilmPlayerSession({
         accountId !== identity.current
       )
         return;
-      url.searchParams.set("autoplay", "false");
-      url.searchParams.set("preload", "none");
+      const policy = document.createElement("meta");
+      policy.name = "referrer";
+      policy.content = "no-referrer";
+      document.head.appendChild(policy);
       setGrant({
         ...data,
         tracking: !versionId && accountId !== null ? data.tracking : null,
@@ -319,15 +328,15 @@ function FilmPlayerSession({
     >
       {grant ? (
         <>
-          <iframe
+          <video
             key={grant.generation}
             ref={frame}
             src={grant.source}
-            title={`${versionId ? "Private preview" : "Film"}: ${title}`}
-            allow="fullscreen; picture-in-picture"
-            allowFullScreen
-            referrerPolicy="no-referrer"
-            sandbox="allow-scripts allow-same-origin allow-presentation"
+            aria-label={`${versionId ? "Private preview" : "Film"}: ${title}`}
+            controls
+            playsInline
+            preload="none"
+            crossOrigin="anonymous"
             style={{ width: "100%", aspectRatio: "16 / 9", border: 0 }}
           />
           <button className="text-button" type="button" onClick={close}>

@@ -2,15 +2,23 @@
 
 [[Home]] · [[02 Architecture/Decisions|Decisions]] · [[02 Architecture/System Overview|System overview]] · [[04 Operations/Runbook|Runbook]]
 
-Implemented locally 2026-10-24. The server-only Cloudflare Stream adapter is verified with deterministic injected HTTP responses; actual credentials and live service behavior are not configured/proved. Local media integration uses real Auth/PostgREST and simulated trusted-provider facts. No Cloudflare upload, delivery, webhook subscription or deletion has been exercised.
+User-directed2026-10-26: Supabase Storage replaces Cloudflare in the active video path. The private `aiverse-videos` bucket and server Edge Function `media-storage` implement uploads and signed native-video delivery. Actual local upload/private playback is independently accepted; hosted018–020 and exact-source Edge v1 are active. Hosted binary/authenticated journeys and Git/Vercel application publication remain pending. Legacy Stream adapters remain isolated/dormant and their tests do not establish active Storage behavior. See [[03 Delivery/Storage Upload Verification]].
 
 ## Current upload-access policy — 2026-10-26
 
-The user removed creator applications and administrator approval as upload prerequisites. Verified, unsuspended signed-in users may prepare their own videos directly; they do not receive creator or other privileged roles automatically. Explicit upload eligibility holds at draft/version, reservation, artwork and internal provider grant/bind/processing boundaries. Existing protocol fields named creator identify the owning uploader rather than requiring a privileged creator role. The implementation is functionally accepted, migrations016/017 are applied locally and hosted with preserved data, and the gate-removal visual scope receives SHIP. Git/Vercel release is underway, not yet verified complete; earlier formal method gates remain open. See [[02 Architecture/Decisions#ADR-023 — Direct uploads for verified users]] and [[03 Delivery/Direct Upload Verification]].
+Creator applications/administrator approval remain removed as upload prerequisites. Verified, unsuspended users prepare their own media without automatic privileged roles. Rights/AI attestation, ownership, quota reservation, immutable revisions and human publication review remain. Active files are MP4/H.264 up to50,000,000bytes; Movies1200seconds, Reels180seconds and defaults3uploads/day/1800seconds/month. Earlier500MB and TUS support is dormant Stream behavior. Both unchanged supplied full-film originals exceed the active size cap. [Supabase file limits](https://supabase.com/docs/guides/storage/uploads/file-limits)
 
-Removing the application gate preserves rights/AI attestations, owner isolation, suspension, immutable review, format/size/TUS limits and quotas. Publication still requires human review. Cloudflare Stream remains intentionally disabled; the current configuration cannot perform actual binary transfers. No provider activation, token, billing or live-upload acceptance follows from this policy change.
+The Edge Function uses its built-in server-only Supabase service key after validating identity/eligibility; no privileged Vercel or Cloudflare secret is added. Browser bytes go directly by signed PUT to the exact reserved private path, with no overwrite. SQL ingress lasts15minutes; the underlying signed upload token lasts two hours. Completion downloads at most50MB for bounded MP4 container/sample-extent, duration and codec inspection, then records trusted completion for human review. This is not a full decoder, transcoder or guarantee that every media frame is valid. [Edge variables](https://supabase.com/docs/guides/functions/secrets), [signed uploads](https://supabase.com/docs/reference/javascript/storage-from-createsigneduploadurl)
 
-## Configuration and API contract
+Raw Storage SELECT is denied even to owners/moderators so callers cannot mint arbitrarily long URLs. The Edge service checks owner/private-review or active-public entitlement, signs native-video URLs and rechecks eligibility. Actual token expiry cannot exceed the initial duration-plus60seconds cutoff: at most21minutes Movie/five minutes Reel. Hiding denies new entitlement immediately; already signed URLs retain bounded validity. This is not an immediate revocation guarantee. [Private Storage serving](https://supabase.com/docs/guides/storage/serving/downloads)
+
+Failed/hidden/ineligible objects are quarantined immediately. Physical deletion uses service-only leased jobs, at most three per opportunistic pass, and waits until reservation expiry plus2hours5minutes. Deleting earlier could let a still-valid signed PUT recreate an untracked object. No automatic cron is installed; quiet projects may retain ineligible physical bytes until later service activity. Local018–020/service restart are complete with original data preserved. Actual generated-file upload/private playback passed, followed by exact synthetic cleanup. Hosted018–020 preserve32 original data digests; hosted Edge v1 has four exact source files and passing private-action JWT negatives. Gateway `verify_jwt=false` permits mixed public/private routing, while private identities are validated inside the handler. Current54 advisor instances remain open; Git/Vercel application release is pending.
+
+## Dormant Cloudflare reference — historical only
+
+The following adapter contracts describe the earlier Stream implementation, not current upload prerequisites or file limits. Cloudflare remains unconfigured and unused by the active path. No Cloudflare upload, delivery, webhook subscription, deletion or billing activation is claimed.
+
+### Configuration and API contract
 
 `src/features/media/stream.ts` and `webhook.ts` use the framework's `server-only` marker. `getStreamConfig()` validates the account identifier and secret API token; absence returns null. Credentials are read only on the server. No API key, provider response body, upload URL or playback token appears in errors. The application must avoid logging returned grants as well.
 
@@ -20,7 +28,7 @@ Direct grants require creator and persisted operation identifiers and a future e
 
 Operation metadata supports recovery and binding to the database; it is **not** provider-enforced idempotency. Reserve quota and persist an operation before requesting a grant. A timeout may occur after the provider created an asset. Never blindly create another grant after an ambiguous failure; an operator/reconciliation process must recover or delete the orphan.
 
-## Playback and removal
+### Playback and removal
 
 The token adapter verifies provider state is ready, playable and signed-only before requesting a token with downloads disabled. Migration015 derives entitlement from verified duration plus60seconds, minimum60, maximum1260 for Movies and300 for Reels. This supersedes migration008's universal five-minute ceiling so full films can finish. The route retains the original absolute expiry, validates duration and rechecks asset/version/duration after provider work. Returned JWT claims bind the same asset and cannot extend that bound; the client also enforces duration-bound expiry. The adapter inspects authenticated HTTPS response claims rather than independently verifying the provider's JWT signature. API token issuance is suitable for initial low-volume operation; revisit local signing as traffic grows. [Cloudflare signed tokens](https://developers.cloudflare.com/api/resources/stream/subresources/token/methods/create/), [secure delivery](https://developers.cloudflare.com/stream/viewing-videos/securing-your-stream/).
 
@@ -28,13 +36,13 @@ Hiding denies new application entitlements. Existing tokens can remain valid unt
 
 The authenticated `/api/internal/media` worker uses fair processing claims (ten per request, two-minute leases, least-recently-polled ordering), then reservation expiry and leased deletion retries. Migration 007 marks queued assets `deleting`, backfills existing jobs and prevents terminal callbacks from returning them to ready. Deletion retries exhaust after ten attempts. Optional `AIVERSE_RETENTION_DAYS=30..365` invokes bounded cleanup only after explicit retention approval; empty configuration leaves it disabled. No external worker schedule or live provider recovery is proved. See Runbook for quarantine, ambiguous-outcome recovery and safe secret handling.
 
-## Webhook authenticity
+### Webhook authenticity
 
 `readAndVerifyStreamWebhook(request, secret)` reads at most 64 KiB within ten seconds. `verifyStreamWebhook(rawBytes, signature, secret)` authenticates exact bytes with HMAC-SHA256 over `time + '.' + body`, compares constant-time hex signatures, rejects timestamps older than five minutes or more than thirty seconds in the future, and only then decodes/validates the payload. [Cloudflare authenticity scheme](https://developers.cloudflare.com/stream/manage-video-library/using-webhooks/).
 
 The result contains validated asset evidence, provider send time and an exact-body SHA256 `eventId`. Freshness alone does not prevent duplicate delivery within the acceptance window. The service must persist deduplication, bind asset/creator/operation to an expected reservation, validate duration and private-delivery settings, and prevent late events from resurrecting hidden or removed versions. Provider preview, playback and thumbnail URLs and arbitrary metadata are stripped from the returned evidence. No business mutation occurs in this module.
 
-## Verification
+### Historical Stream verification
 
 The 2026-10-25 local extension adds `upload-client.ts` and Studio form boundaries for measured progress, explicit cancellation and uncertainty recovery. A minimal account/version journal is persisted before requesting a grant; no bearer data is retained. Browser reload/cancellation is not evidence that the provider failed to create an asset. Use the recovery path rather than clearing the journal and blindly retrying. Processing transitions still require trusted webhook/maintenance reconciliation, not Studio Refresh alone.
 

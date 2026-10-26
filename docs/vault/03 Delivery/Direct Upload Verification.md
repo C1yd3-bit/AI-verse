@@ -2,7 +2,7 @@
 
 [[Home]] · [[03 Delivery/Roadmap|Roadmap]] · [[02 Architecture/Decisions#ADR-023 — Direct uploads for verified users|Direct-upload decision]] · [[02 Architecture/Media Provider|Media provider]] · [[02 Architecture/Trust Controls|Trust controls]]
 
-2026-10-26. The user explicitly removed the creator-application/administrator-approval prerequisite so eligible signed-in users can prepare their own videos directly. Implementation is **functionally accepted** and receives **scoped visual SHIP** for gate removal. Migrations016/017 are applied locally and hosted with data preserved. The approved first release is published as `5c321b45`, with successful CI and a READY production deployment. An anonymous-Studio banner correction is now in progress; its follow-up release verification remains pending. No real video-upload success is claimed.
+2026-10-26. The user explicitly removed the creator-application/administrator-approval prerequisite so eligible signed-in users can prepare their own videos directly. Implementation is **functionally accepted** and receives **scoped visual SHIP** for gate removal. Migrations016/017 are applied locally and hosted with data preserved. The approved first release is published as `5c321b45`, with successful CI and a READY production deployment. The anonymous-Studio banner correction is published and independently accepted in final follow-up `a180cf5a`. No real video-upload success is claimed.
 
 ## Authorized behavior
 
@@ -32,11 +32,15 @@ After explicit user release approval, the parent applied hosted016/017 in origin
 
 Independent hosted postflight returns **ACCEPT for the migration scope**:17 migration versions,31 RLS tables,59 functions, pinned definer search paths, unchanged public projection columns and service-only provider hooks. A read-only capability probe of the existing verified ordinary account returns `can_upload_media=true` while creator/admin/moderator checks are false. Observed counts are Auth1, viewer-role1, applications0, videos0 and catalog0; no business RPC write or login was performed by the verifier. The32 preservation scopes match exactly.
 
-## First release and pending follow-up
+## Historical checkpoint — First release before the follow-up
 
 The parent pushed the approved first release [5c321b45](https://github.com/C1yd3-bit/AI-verse/commit/5c321b45) to `main`. [GitHub CI run40262654487](https://github.com/C1yd3-bit/AI-verse/actions/runs/40262654487) succeeded. Vercel confirms a READY production deployment from that exact source at the [stable alias](https://ai-verse-sigma.vercel.app).
 
-A subsequent actual live-browser check found an erroneous identity-loss banner for a fresh anonymous Studio visit. The UI builder is correcting the identity guard and adding a regression test. That small follow-up is not yet recorded as verified or released here; its final source/deployment result will be recorded by the parent after deployment. The first release's CI/READY status does not prove the follow-up fix. Earlier evidence remains historical for its original scope.
+A subsequent actual live-browser check found an erroneous identity-loss banner for a fresh anonymous Studio visit. At this checkpoint, the UI builder was correcting the identity guard and adding a regression test; the follow-up had not yet been verified or released. This historical checkpoint is superseded by Final release verification below, which records its completed deployment and independent acceptance. Earlier evidence remains historical for its original scope.
+
+## Final release verification
+
+Final follow-up `a180cf5a86f308e8a291726fddf62f0039dde2e5` is published on main. Independent exact five-file manifest/all297 remote blob verification, successful CI run40263393047 and exact-source Vercel production READY (`dpl_EJ664w6Uc4yWngDgS2xDrfJVKM7e`) accept this bounded release. The stable [Studio](https://ai-verse-sigma.vercel.app/studio) was reloaded in the actual browser and shows normal guest Sign in without the erroneous identity-loss banner; a private screenshot records it. Two new guest regressions plus independent63 targeted tests pass, retaining known-owner invalidation. Local default Turbopack checks encountered a CSS worker process-start panic; the supported webpack production build passed40/40 pages, and remote standard-build CI/deployment passed. Local authenticated desktop/phone evidence and hosted read-only eligibility are distinct from a hosted authenticated browser journey, which was not performed. No actual transfer, account/role grant, provider activation, secret upload or video publication occurred. Stream remains disabled, SMTP remains separately gated and all50 hosted advisor instances/five categories remain open. Final delivery-note updates stay local; the published application source is unchanged.
 
 ## Hosted advisor evidence after application
 
